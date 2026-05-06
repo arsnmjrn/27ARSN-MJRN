@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Our Story — Arsène & Majorine</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Cinzel:wght@400;600&family=Raleway:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body { background: var(--deep-bg); }
+
+    /* ===== STORY HEADER ===== */
+    .story-header {
+      padding-top: 10rem;
+      padding-bottom: 5rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .story-header::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 70% 80% at 50% 0%, rgba(160, 40, 60, 0.12), transparent 70%);
+    }
+
+    .story-header-label {
+      font-family: var(--font-ui);
+      font-size: 0.65rem;
+      letter-spacing: 0.5em;
+      color: rgba(220, 140, 100, 0.5);
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+    }
+
+    .story-header-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.2rem, 6vw, 5rem);
+      color: var(--cream);
+      font-weight: 400;
+      letter-spacing: 0.08em;
+      line-height: 1.1;
+    }
+
+    .story-header-title em {
+      font-family: var(--font-body);
+      font-style: italic;
+      font-size: 0.7em;
+      display: block;
+      color: rgba(220, 140, 100, 0.7);
+      letter-spacing: 0.2em;
+      margin-top: 0.5rem;
+    }
+
+    .story-header-date {
+      font-family: var(--font-body);
+      font-style: italic;
+      font-size: 1.1rem;
+      color: var(--cream-muted);
+      margin-top: 1.5rem;
+    }
+
+    /* ===== TIMELINE STORY ===== */
+    .story-body {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 2rem 8rem;
+    }
+
+    .chapter {
+      display: grid;
+      grid-template-columns: 1fr 60px 1fr;
+      gap: 0;
+      margin-bottom: 0;
+      position: relative;
+    }
+
+    .chapter:nth-child(even) .chapter-text {
+      grid-column: 3;
+      grid-row: 1;
+    }
+
+    .chapter:nth-child(even) .chapter-image {
+      grid-column: 1;
+      grid-row: 1;
+    }
+
+    .chapter:nth-child(even) .chapter-spine {
+      grid-column: 2;
+      grid-row: 1;
+    }
+
+    .chapter-text {
+      padding: 4rem 2.5rem;
+      grid-column: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .chapter-spine {
+      grid-column: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+    }
+
+    .spine-line {
+      width: 1px;
+      flex: 1;
+      background: linear-gradient(to bottom, transparent, var(--border), var(--border), transparent);
+    }
+
+    .spine-node {
+      width: 10px;
+      height: 10px;
+      border: 1px solid rgba(220, 140, 100, 0.5);
+      border-radius: 50%;
+      background: rgba(160, 60, 80, 0.4);
+      flex-shrink: 0;
+      margin: 0.5rem 0;
+      position: relative;
+    }
+
+    .spine-node::after {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      border: 1px solid rgba(220, 140, 100, 0.15);
+      border-radius: 50%;
+    }
+
+    .chapter-image {
+      grid-column: 3;
+      padding: 3rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .chapter-image img {
+      width: 100%;
+      max-width: 380px;
+      height: auto;
+      display: block;
+      filter: sepia(15%) contrast(1.05);
+      transition: filter 0.5s;
+      border: 1px solid var(--border);
+    }
+
+    .chapter-image img:hover {
+      filter: sepia(0%) contrast(1.1);
+    }
+
+    .chapter-num {
+      font-family: var(--font-ui);
+      font-size: 0.6rem;
+      letter-spacing: 0.4em;
+      color: rgba(220, 140, 100, 0.4);
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    .chapter-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.1rem, 3vw, 1.6rem);
+      color: var(--cream);
+      font-weight: 400;
+      letter-spacing: 0.05em;
+      margin-bottom: 1.2rem;
+    }
+
+    .chapter-body {
+      font-family: var(--font-body);
+      font-size: clamp(1rem, 2vw, 1.15rem);
+      color: var(--cream-muted);
+      line-height: 1.9;
+    }
+
+    .chapter-body p {
+      margin-bottom: 1rem;
+    }
+
+    .chapter-quote {
+      font-family: var(--font-body);
+      font-style: italic;
+      font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+      color: rgba(220, 140, 100, 0.75);
+      border-left: 2px solid rgba(220, 140, 100, 0.3);
+      padding-left: 1.5rem;
+      margin: 2rem 0;
+      line-height: 1.6;
+    }
+
+    /* ===== CLOSING VERSE ===== */
+    .story-closing {
+      text-align: center;
+      padding: 6rem 2rem;
+      border-top: 1px solid var(--border);
+      position: relative;
+    }
+
+    .story-closing::before {
+      content: '♥';
+      font-size: 2rem;
+      color: rgba(200, 80, 80, 0.4);
+      display: block;
+      margin-bottom: 3rem;
+      animation: heartPulse 2.5s ease-in-out infinite;
+    }
+
+    @keyframes heartPulse {
+      0%, 100% { transform: scale(1); opacity: 0.4; }
+      50% { transform: scale(1.15); opacity: 0.7; }
+    }
+
+    .story-closing-text {
+      font-family: var(--font-body);
+      font-style: italic;
+      font-size: clamp(1.2rem, 3vw, 1.8rem);
+      color: var(--cream-muted);
+      max-width: 600px;
+      margin: 0 auto 3rem;
+      line-height: 1.6;
+    }
+
+    /* MOBILE */
+    @media (max-width: 768px) {
+      .chapter {
+        grid-template-columns: 1fr;
+      }
+      .chapter-spine { display: none; }
+      .chapter-text,
+      .chapter-image,
+      .chapter:nth-child(even) .chapter-text,
+      .chapter:nth-child(even) .chapter-image {
+        grid-column: 1;
+        grid-row: auto;
+        padding: 2rem 0;
+      }
+      .chapter-image img {
+        height: auto;
+        max-width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="top-nav" id="topNav">
+    <a href="index.html" class="nav-logo">A&M</a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="story.html" class="active">Our Story</a>
+      <a href="memories.html">Memories</a>
+      <a href="letter.html">Write to Me</a>
+    </div>
+    <div class="nav-hamburger" onclick="toggleNav()">
+      <span></span><span></span><span></span>
+    </div>
+  </nav>
+  <div class="mobile-nav" id="mobileNav">
+    <a href="index.html" onclick="toggleNav()">Home</a>
+    <a href="story.html" onclick="toggleNav()">Our Story</a>
+    <a href="memories.html" onclick="toggleNav()">Memories</a>
+    <a href="letter.html" onclick="toggleNav()">Write to Me</a>
+  </div>
+
+  <main>
+
+    <!-- HEADER -->
+    <header class="story-header">
+      <p class="story-header-label">Chapter One</p>
+      <h1 class="story-header-title">
+        The Tale of
+        <em>Arsène &amp; Majorine</em>
+      </h1>
+      <div class="thin-divider"></div>
+      <p class="story-header-date">A story that began long before they knew it would</p>
+    </header>
+
+    <!-- STORY CHAPTERS -->
+    <div class="story-body">
+
+      <!-- Chapter 1 -->
+      <article class="chapter">
+        <div class="chapter-text">
+          <p class="chapter-num">Chapter I</p>
+          <h2 class="chapter-title">The Arrival</h2>
+          <div class="chapter-body">
+            <p>The rains had just begun to soften the dust of the new neighborhood when Arsène arrived. The sky hung low and silver, as though it too was adjusting to unfamiliar surroundings. Everything smelled new — wet earth, fresh paint, quiet beginnings.</p>
+            <p>He was in his final year Form 6, standing on the edge of his UACE exams, his mind often crowded with equations, expectations, and the heavy silence of responsibility. Love, if it existed for him, was something distant — like a song playing faintly from another room.</p>
+            <p>Until he met Majorine.</p>
+          </div>
+        </div>
+        <div class="chapter-spine">
+          <div class="spine-line"></div>
+          <div class="spine-node"></div>
+          <div class="spine-line"></div>
+        </div>
+        <div class="chapter-image">
+          <img src="image-story6.jpg" alt="The beginning" onerror="this.style.background='linear-gradient(135deg,#1a0510,#3a1020)'; this.style.minHeight='200px'">
+        </div>
+      </article>
+
+      <!-- Chapter 2 -->
+      <article class="chapter">
+        <div class="chapter-image">
+          <img src="image-story3.jpg" alt="The encounter" onerror="this.style.background='linear-gradient(135deg,#2a1015,#150508)'; this.style.minHeight='200px'">
+        </div>
+        <div class="chapter-spine">
+          <div class="spine-line"></div>
+          <div class="spine-node"></div>
+          <div class="spine-line"></div>
+        </div>
+        <div class="chapter-text">
+          <p class="chapter-num">Chapter II</p>
+          <h2 class="chapter-title">The Spark</h2>
+          <div class="chapter-body">
+            <p>She entered his life not as a gentle melody, but as a sharp note — unexpected, disruptive. Majorine was in Senior 4, confident, stubborn, and unapologetically expressive. Her laughter could fill a street, and her silence could freeze one.</p>
+            <div class="chapter-quote">"You could move, you know," she said, arms crossed, chin lifted.<br>"I was here first," Arsène replied, equally unmoved.</div>
+            <p>Their first encounter was far from romantic — just two forces meeting on a narrow path between houses, neither willing to step aside. That was all it took.</p>
+          </div>
+        </div>
+      </article>
+
+      <!-- Chapter 3 -->
+      <article class="chapter">
+        <div class="chapter-text">
+          <p class="chapter-num">Chapter III</p>
+          <h2 class="chapter-title">The Softening</h2>
+          <div class="chapter-body">
+            <p>Time, as it always does, began to soften the sharp edges. Their paths crossed too often to ignore. At the small shops, near the water point, along the dusty roads that connected their homes — there was always that moment of recognition.</p>
+            <p>Arsène began to notice the small things. The way Majorine tucked her hair behind her ear when she was thinking. The way her eyes softened when she wasn't trying to prove a point. The quiet kindness she showed to younger children in the neighborhood.</p>
+            <p>And Majorine began to see Arsène differently too. He was patient. He listened more than he spoke. And when he smiled — rare, but genuine — it felt like sunlight breaking through clouds.</p>
+          </div>
+        </div>
+        <div class="chapter-spine">
+          <div class="spine-line"></div>
+          <div class="spine-node"></div>
+          <div class="spine-line"></div>
+        </div>
+        <div class="chapter-image">
+          <img src="image-story4.jpg" alt="Growing closer" onerror="this.style.background='linear-gradient(135deg,#1a0510,#3a1020)'; this.style.minHeight='200px'">
+        </div>
+      </article>
+
+      <!-- Chapter 4 -->
+      <article class="chapter">
+        <div class="chapter-image">
+          <img src="image-story5.jpg" alt="The distance" onerror="this.style.background='linear-gradient(135deg,#2a1015,#150508)'; this.style.minHeight='200px'">
+        </div>
+        <div class="chapter-spine">
+          <div class="spine-line"></div>
+          <div class="spine-node"></div>
+          <div class="spine-line"></div>
+        </div>
+        <div class="chapter-text">
+          <p class="chapter-num">Chapter IV</p>
+          <h2 class="chapter-title">Distance & Devotion</h2>
+          <div class="chapter-body">
+            <p>But life, as it often does, demanded change. Majorine returned to school to begin her A-Level journey. The distance was not just physical — it was emotional, temporal. Yet, even in the glow of his screen, in the quiet hum of his thoughts, there was always one constant. Her.</p>
+            <p>Every Sunday became sacred. It was the one day she could reach him — borrowing a friend's phone, stepping away from the noise of school life to hear his voice.</p>
+            <div class="chapter-quote">"Hello?" he would answer, though he already knew it was her.<br>"Hi…" she would say softly, her usual confidence melting into something tender.</div>
+            <p>Majorine's sister, Mercy, became an unexpected guardian of their love — creating opportunities for them to meet at quiet restaurants tucked away from the noise, at hidden corners where time seemed to slow.</p>
+          </div>
+        </div>
+      </article>
+
+      <!-- Chapter 5 -->
+      <article class="chapter">
+        <div class="chapter-text">
+          <p class="chapter-num">Chapter V</p>
+          <h2 class="chapter-title">A Love Like This</h2>
+          <div class="chapter-body">
+            <p>They were free with each other in a way that is rare. No masks. No pretenses. Just truth. And though the world around them continued to change — exams, responsibilities, the uncertain future — their love remained constant. Not perfect. Not effortless. But real.</p>
+            <p>They were something deeper — a partnership, a friendship, a love that felt like a promise not yet spoken but already kept.</p>
+            <div class="chapter-quote">They didn't need much. Just each other.</div>
+            <p>Because sometimes, love doesn't begin with a spark. Sometimes, it begins with resistance — with two people standing on a narrow path, unwilling to move.</p>
+            <p>Until one day, they realize they don't have to move away. They can walk forward. Together.</p>
+          </div>
+        </div>
+        <div class="chapter-spine">
+          <div class="spine-line"></div>
+          <div class="spine-node"></div>
+          <div class="spine-line"></div>
+        </div>
+        <div class="chapter-image">
+          <img src="image-story2.png" alt="Together forever" onerror="this.style.background='linear-gradient(135deg,#1a0510,#3a1020)'; this.style.minHeight='200px'">
+        </div>
+      </article>
+
+    </div>
+
+    <!-- CLOSING -->
+    <section class="story-closing">
+      <p class="story-closing-text">"And in that reality, they found something beautiful — a love that grew quietly, like roots beneath the soil: unseen, but strong."</p>
+      <div class="thin-divider"></div>
+      <div style="display:flex; gap:1.5rem; justify-content:center; flex-wrap:wrap; margin-top:2rem;">
+        <a href="memories.html" class="btn filled">View Our Memories</a>
+        <a href="letter.html" class="btn">Write to Me</a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <p>Made with ♥ for Majorine &mdash; <span>Forever Yours, Arsène</span></p>
+  </footer>
+
+  <!-- BTN STYLE -->
+  <style>
+    .btn {
+      font-family: var(--font-ui);
+      font-size: 0.7rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 1rem 2.5rem;
+      border: 1px solid rgba(220, 140, 100, 0.4);
+      color: rgba(245, 220, 200, 0.8);
+      transition: all 0.4s ease;
+      position: relative;
+      overflow: hidden;
+      display: inline-block;
+    }
+    .btn.filled {
+      background: linear-gradient(135deg, rgba(160, 50, 70, 0.8), rgba(200, 80, 60, 0.6));
+      border-color: rgba(220, 120, 100, 0.6);
+      color: #f5e8e0;
+    }
+    .btn:hover {
+      border-color: rgba(220, 140, 100, 0.8);
+      color: #f5e8e0;
+      background: rgba(160, 50, 70, 0.4);
+    }
+  </style>
+
+  <script src="main.js"></script>
+</body>
+</html>

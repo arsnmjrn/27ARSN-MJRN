@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Memories — Arsène & Majorine</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Cinzel:wght@400;600&family=Raleway:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* ===== MEMORIES PAGE ===== */
+    .memories-header {
+      padding-top: 10rem;
+      padding-bottom: 4rem;
+      text-align: center;
+      position: relative;
+    }
+
+    .memories-header::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 60% 70% at 50% 0%, rgba(140, 40, 60, 0.12), transparent 70%);
+    }
+
+    .memories-header-label {
+      font-family: var(--font-ui);
+      font-size: 0.65rem;
+      letter-spacing: 0.5em;
+      color: rgba(220, 140, 100, 0.5);
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+    }
+
+    .memories-header-title {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 6vw, 4.5rem);
+      color: var(--cream);
+      font-weight: 400;
+      letter-spacing: 0.08em;
+    }
+
+    .memories-header-sub {
+      font-family: var(--font-body);
+      font-style: italic;
+      font-size: 1.1rem;
+      color: var(--cream-muted);
+      margin-top: 1rem;
+    }
+
+    /* ===== FEATURED MEMORIES ===== */
+    .featured-memory {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 70vh;
+      border-top: 1px solid var(--border);
+    }
+
+    .featured-memory:nth-child(even) {
+      direction: rtl;
+    }
+
+    .featured-memory:nth-child(even) > * {
+      direction: ltr;
+    }
+
+    .featured-img-wrap {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .featured-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      filter: sepia(20%) contrast(1.05);
+      transition: transform 0.8s ease, filter 0.8s ease;
+    }
+
+    .featured-img-wrap:hover img {
+      transform: scale(1.04);
+      filter: sepia(0%) contrast(1.1);
+    }
+
+    .featured-img-wrap::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(10,4,7,0.3) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .featured-text {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 5rem 4rem;
+      background: var(--panel-bg);
+    }
+
+    .featured-number {
+      font-family: var(--font-display);
+      font-size: 5rem;
+      color: rgba(220, 140, 100, 0.08);
+      font-weight: 400;
+      line-height: 1;
+      margin-bottom: -1rem;
+    }
+
+    .featured-caption {
+      font-family: var(--font-body);
+      font-style: italic;
+      font-size: clamp(1.2rem, 2.5vw, 1.7rem);
+      color: var(--cream);
+      line-height: 1.5;
+      margin-bottom: 1.5rem;
+    }
+
+    .featured-sub {
+      font-family: var(--font-ui);
+      font-size: 0.65rem;
+      letter-spacing: 0.3em;
+      color: rgba(220, 140, 100, 0.5);
+      text-transform: uppercase;
+    }
+
+    /* ===== MASONRY GRID ===== */
+    .grid-section {
+      padding: 5rem 2rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .grid-heading {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .grid-heading h2 {
+      font-family: var(--font-display);
+      font-size: clamp(1.5rem, 4vw, 2.5rem);
+      color: var(--cream);
+      font-weight: 400;
+      letter-spacing: 0.08em;
+    }
+
+    .memories-grid {
+      max-width: 1200px;
+      margin: 0 auto;
+      columns: 3;
+      column-gap: 16px;
+    }
+
+    .memory-tile {
+      break-inside: avoid;
+      margin-bottom: 16px;
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      group: true;
+    }
+
+    .memory-tile img {
+      width: 100%;
+      display: block;
+      filter: sepia(15%) contrast(1.05);
+      transition: transform 0.6s ease, filter 0.6s ease;
+    }
+
+    .memory-tile:hover img {
+      transform: scale(1.06);
+      filter: sepia(0%) contrast(1.1);
+    }
+
+    .memory-tile-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(10,4,7,0.85) 0%, transparent 50%);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      display: flex;
+      align-items: flex-end;
+      padding: 1.2rem;
+    }
+
+    .memory-tile:hover .memory-tile-overlay {
+      opacity: 1;
+    }
+
+    .memory-tile-text {
+      font-family: var(--font-body);
+      font-style: italic;
+      font-size: 0.9rem;
+      color: rgba(245, 220, 200, 0.85);
+    }
+
+    /* ===== LIGHTBOX ===== */
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.95);
+      z-index: 999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s ease;
+    }
+
+    .lightbox.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .lightbox img {
+      max-width: 90vw;
+      max-height: 85vh;
+      object-fit: contain;
+      border: 1px solid var(--border);
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: 2rem;
+      right: 2rem;
+      font-family: var(--font-ui);
+      font-size: 0.7rem;
+      letter-spacing: 0.3em;
+      color: var(--cream-muted);
+      cursor: pointer;
+      padding: 0.5rem;
+      transition: color 0.3s;
+    }
+
+    .lightbox-close:hover { color: var(--cream); }
+
+    /* ===== CLOSING ===== */
+    .memories-closing {
+      text-align: center;
+      padding: 6rem 2rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .memories-closing p {
+      font-family: var(--font-body);
+      font-style: italic;
+      font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+      color: var(--cream-muted);
+      max-width: 550px;
+      margin: 0 auto 3rem;
+      line-height: 1.7;
+    }
+
+    @media (max-width: 900px) {
+      .featured-memory { grid-template-columns: 1fr; }
+      .featured-img-wrap { min-height: 300px; }
+      .featured-text { padding: 3rem 2rem; }
+      .memories-grid { columns: 2; }
+    }
+
+    @media (max-width: 500px) {
+      .memories-grid { columns: 1; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="top-nav" id="topNav">
+    <a href="index.html" class="nav-logo">A&M</a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="story.html">Our Story</a>
+      <a href="memories.html" class="active">Memories</a>
+      <a href="letter.html">Write to Me</a>
+    </div>
+    <div class="nav-hamburger" onclick="toggleNav()">
+      <span></span><span></span><span></span>
+    </div>
+  </nav>
+  <div class="mobile-nav" id="mobileNav">
+    <a href="index.html" onclick="toggleNav()">Home</a>
+    <a href="story.html" onclick="toggleNav()">Our Story</a>
+    <a href="memories.html" onclick="toggleNav()">Memories</a>
+    <a href="letter.html" onclick="toggleNav()">Write to Me</a>
+  </div>
+
+  <!-- LIGHTBOX -->
+  <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+    <span class="lightbox-close">✕ Close</span>
+    <img id="lightboxImg" src="" alt="">
+  </div>
+
+  <main>
+
+    <!-- HEADER -->
+    <header class="memories-header">
+      <p class="memories-header-label">A Treasury of Moments</p>
+      <h1 class="memories-header-title">Our Memories</h1>
+      <div class="thin-divider"></div>
+      <p class="memories-header-sub">Every photo is a page of our love story</p>
+    </header>
+
+    <!-- FEATURED MEMORIES -->
+    <div class="featured-memory">
+      <div class="featured-img-wrap">
+        <img src="image-detail1.jpg" alt="Memory" onerror="this.style.background='linear-gradient(135deg,#1a0510,#3a1020)'; this.style.minHeight='400px'">
+      </div>
+      <div class="featured-text">
+        <div class="featured-number">01</div>
+        <p class="featured-caption">"All she wants is to spend her eternity with him."</p>
+        <span class="featured-sub">A moment held forever</span>
+      </div>
+    </div>
+
+    <div class="featured-memory">
+      <div class="featured-img-wrap">
+        <img src="image-detail2.jpg" alt="Memory" onerror="this.style.background='linear-gradient(135deg,#2a1015,#150508)'; this.style.minHeight='400px'">
+      </div>
+      <div class="featured-text">
+        <div class="featured-number">02</div>
+        <p class="featured-caption">"In your presence, I find my forever."</p>
+        <span class="featured-sub">A love that transcends time</span>
+      </div>
+    </div>
+
+    <div class="featured-memory">
+      <div class="featured-img-wrap">
+        <img src="image-detail3.jpg" alt="Memory" onerror="this.style.background='linear-gradient(135deg,#1a0510,#3a1020)'; this.style.minHeight='400px'">
+      </div>
+      <div class="featured-text">
+        <div class="featured-number">03</div>
+        <p class="featured-caption">"Every glance, every smile — a chapter worth keeping."</p>
+        <span class="featured-sub">Written in light and memory</span>
+      </div>
+    </div>
+
+    <!-- MASONRY GALLERY -->
+    <section class="grid-section">
+      <div class="grid-heading">
+        <p style="font-family:var(--font-ui); font-size:0.65rem; letter-spacing:0.5em; color:rgba(220,140,100,0.5); text-transform:uppercase; margin-bottom:1rem;">Gallery</p>
+        <h2>Moments That Hit Deep</h2>
+        <div class="thin-divider"></div>
+      </div>
+      <div class="memories-grid">
+
+        <div class="memory-tile" onclick="openLightbox('image-detail4.jpg')">
+          <img src="image-detail4.jpg" alt="Memory" onerror="this.src=''; this.parentElement.style.background='linear-gradient(135deg,#1a0510,#3a1020)'; this.parentElement.style.minHeight='180px'">
+          <div class="memory-tile-overlay"><span class="memory-tile-text">All she wants is eternity with him</span></div>
+        </div>
+
+        <div class="memory-tile" onclick="openLightbox('image-detail5.jpg')">
+          <img src="image-detail5.jpg" alt="Memory" onerror="this.src=''; this.parentElement.style.background='linear-gradient(135deg,#2a1015,#150508)'; this.parentElement.style.minHeight='240px'">
+          <div class="memory-tile-overlay"><span class="memory-tile-text">Every moment, a treasure</span></div>
+        </div>
+
+        <div class="memory-tile" onclick="openLightbox('image-detail6.jpg')">
+          <img src="image-detail6.jpg" alt="Memory" onerror="this.src=''; this.parentElement.style.background='linear-gradient(135deg,#1a0510,#3a1020)'; this.parentElement.style.minHeight='200px'">
+          <div class="memory-tile-overlay"><span class="memory-tile-text">Together is our favorite place</span></div>
+        </div>
+
+        <div class="memory-tile" onclick="openLightbox('image-detail7.jpg')">
+          <img src="image-detail7.jpg" alt="Memory" onerror="this.src=''; this.parentElement.style.background='linear-gradient(135deg,#2a1015,#150508)'; this.parentElement.style.minHeight='200px'">
+          <div class="memory-tile-overlay"><span class="memory-tile-text">Written in the stars</span></div>
+        </div>
+
+        <div class="memory-tile" onclick="openLightbox('image-detail8.jpg')">
+          <img src="image-detail8.jpg" alt="Memory" onerror="this.src=''; this.parentElement.style.background='linear-gradient(135deg,#1a0510,#3a1020)'; this.parentElement.style.minHeight='220px'">
+          <div class="memory-tile-overlay"><span class="memory-tile-text">Holding on to every second</span></div>
+        </div>
+
+        <div class="memory-tile" onclick="openLightbox('image-detail9.jpg')">
+          <img src="image-detail9.jpg" alt="Memory" onerror="this.src=''; this.parentElement.style.background='linear-gradient(135deg,#2a1015,#150508)'; this.parentElement.style.minHeight='180px'">
+          <div class="memory-tile-overlay"><span class="memory-tile-text">Love in the quiet moments</span></div>
+        </div>
+
+        <div class="memory-tile" onclick="openLightbox('image-detail10.jpg')">
+          <img src="image-detail10.jpg" alt="Memory" onerror="this.src=''; this.parentElement.style.background='linear-gradient(135deg,#1a0510,#3a1020)'; this.parentElement.style.minHeight='260px'">
+          <div class="memory-tile-overlay"><span class="memory-tile-text">In your eyes, I found home</span></div>
+        </div>
+
+        <div class="memory-tile" onclick="openLightbox('image-detail11.jpg')">
+          <img src="image-detail11.jpg" alt="Memory" onerror="this.src=''; this.parentElement.style.background='linear-gradient(135deg,#2a1015,#150508)'; this.parentElement.style.minHeight='200px'">
+          <div class="memory-tile-overlay"><span class="memory-tile-text">Every day a new forever</span></div>
+        </div>
+
+        <div class="memory-tile" onclick="openLightbox('image-detail12.jpg')">
+          <img src="image-detail12.jpg" alt="Memory" onerror="this.src=''; this.parentElement.style.background='linear-gradient(135deg,#1a0510,#3a1020)'; this.parentElement.style.minHeight='220px'">
+          <div class="memory-tile-overlay"><span class="memory-tile-text">Captured in light, kept in heart</span></div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- CLOSING -->
+    <section class="memories-closing">
+      <p>"Text memories stay in the heart as hitting deep."</p>
+      <div class="thin-divider"></div>
+      <div style="display:flex; gap:1.5rem; justify-content:center; flex-wrap:wrap; margin-top:2rem;">
+        <a href="story.html" class="btn">Read Our Story</a>
+        <a href="letter.html" class="btn filled">Write to Me ♥</a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <p>Made with ♥ for Majorine &mdash; <span>Forever Yours, Arsène</span></p>
+  </footer>
+
+  <style>
+    .btn {
+      font-family: var(--font-ui);
+      font-size: 0.7rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 1rem 2.5rem;
+      border: 1px solid rgba(220, 140, 100, 0.4);
+      color: rgba(245, 220, 200, 0.8);
+      transition: all 0.4s ease;
+      display: inline-block;
+    }
+    .btn.filled {
+      background: linear-gradient(135deg, rgba(160, 50, 70, 0.8), rgba(200, 80, 60, 0.6));
+      border-color: rgba(220, 120, 100, 0.6);
+      color: #f5e8e0;
+    }
+    .btn:hover {
+      border-color: rgba(220, 140, 100, 0.8);
+      color: #f5e8e0;
+      background: rgba(160, 50, 70, 0.4);
+    }
+  </style>
+
+  <script src="main.js"></script>
+  <script>
+    function openLightbox(src) {
+      const lb = document.getElementById('lightbox');
+      const img = document.getElementById('lightboxImg');
+      img.src = src;
+      lb.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+      document.getElementById('lightbox').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') closeLightbox();
+    });
+  </script>
+</body>
+</html>
