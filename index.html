@@ -1,483 +1,513 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Arsène & Majorine — A Love Story</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Cinzel:wght@400;600&family=Raleway:wght@300;400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
-  <style>
-    /* ===== HOME PAGE ===== */
-    .hero {
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-      background: #0a0407;
-    }
+<meta charset="UTF-8">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap');
 
-    .hero::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background:
-        radial-gradient(ellipse 80% 60% at 50% 40%, rgba(180, 60, 80, 0.18) 0%, transparent 70%),
-        radial-gradient(ellipse 40% 40% at 20% 80%, rgba(120, 40, 60, 0.12) 0%, transparent 60%),
-        radial-gradient(ellipse 40% 40% at 80% 20%, rgba(200, 100, 80, 0.10) 0%, transparent 60%);
-      animation: heroGlow 8s ease-in-out infinite alternate;
-    }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    @keyframes heroGlow {
-      0% { opacity: 0.7; }
-      100% { opacity: 1; }
-    }
+  body {
+    font-family: 'Jost', sans-serif;
+    min-height: 100vh;
+    background: #0d0a0f;
+    color: #f5ede8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow-x: hidden;
+  }
 
-    .rose-petals {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      overflow: hidden;
-    }
+  .bg {
+    position: fixed; inset: 0; z-index: 0;
+    background: radial-gradient(ellipse at 20% 50%, #2a0e1a 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 20%, #1a0a2e 0%, transparent 55%),
+                radial-gradient(ellipse at 60% 80%, #1e0d0d 0%, transparent 50%),
+                #0d0a0f;
+  }
 
-    .petal {
-      position: absolute;
-      width: 8px;
-      height: 12px;
-      background: radial-gradient(ellipse at 30% 30%, rgba(220, 100, 100, 0.7), rgba(160, 40, 60, 0.3));
-      border-radius: 50% 0 50% 0;
-      animation: fall linear infinite;
-      opacity: 0;
-    }
+  .petals-container {
+    position: fixed; inset: 0; z-index: 1; pointer-events: none; overflow: hidden;
+  }
 
-    @keyframes fall {
-      0% { transform: translateY(-20px) rotate(0deg) translateX(0); opacity: 0; }
-      10% { opacity: 0.8; }
-      90% { opacity: 0.4; }
-      100% { transform: translateY(100vh) rotate(360deg) translateX(60px); opacity: 0; }
-    }
+  .petal {
+    position: absolute; top: -40px;
+    font-size: 18px;
+    opacity: 0;
+    animation: fallPetal linear infinite;
+  }
 
-    .hero-date {
-      font-family: 'Raleway', sans-serif;
-      font-size: 0.75rem;
-      letter-spacing: 0.4em;
-      color: rgba(220, 160, 140, 0.7);
-      text-transform: uppercase;
-      margin-bottom: 2rem;
-      animation: fadeUp 1.2s ease forwards;
-      opacity: 0;
-    }
+  @keyframes fallPetal {
+    0%   { transform: translateY(0) rotate(0deg) translateX(0); opacity: 0; }
+    10%  { opacity: 0.6; }
+    90%  { opacity: 0.3; }
+    100% { transform: translateY(110vh) rotate(540deg) translateX(80px); opacity: 0; }
+  }
 
-    .hero-names {
-      font-family: 'Cinzel', serif;
-      font-size: clamp(2.8rem, 8vw, 7rem);
-      font-weight: 400;
-      color: #f5e8e0;
-      line-height: 1;
-      letter-spacing: 0.05em;
-      animation: fadeUp 1.2s ease 0.3s forwards;
-      opacity: 0;
-      position: relative;
-    }
+  .wrap {
+    position: relative; z-index: 10;
+    width: 100%; max-width: 520px;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+  }
 
-    .hero-names .ampersand {
-      font-family: 'Cormorant Garamond', serif;
-      font-style: italic;
-      font-size: 0.8em;
-      color: rgba(220, 120, 100, 0.9);
-      display: block;
-      line-height: 1.2;
-    }
+  /* SCREENS */
+  .screen { width: 100%; display: none; flex-direction: column; align-items: center; gap: 0; }
+  .screen.active { display: flex; }
 
-    .hero-tagline {
-      font-family: 'Cormorant Garamond', serif;
-      font-style: italic;
-      font-size: clamp(1.1rem, 3vw, 1.6rem);
-      color: rgba(245, 220, 200, 0.7);
-      margin-top: 1.5rem;
-      animation: fadeUp 1.2s ease 0.6s forwards;
-      opacity: 0;
-    }
+  /* LOGIN CARD */
+  .card {
+    width: 100%;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,200,190,0.15);
+    border-radius: 24px;
+    padding: 3rem 2.5rem 2.5rem;
+    backdrop-filter: blur(20px);
+    position: relative;
+    overflow: hidden;
+  }
 
-    .hero-divider {
-      width: 80px;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(220, 140, 100, 0.8), transparent);
-      margin: 2rem auto;
-      animation: fadeUp 1.2s ease 0.9s forwards;
-      opacity: 0;
-    }
+  .card::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(255,150,130,0.06) 0%, transparent 50%, rgba(180,100,200,0.04) 100%);
+    pointer-events: none;
+  }
 
-    .hero-nav {
-      display: flex;
-      gap: clamp(1.5rem, 4vw, 3.5rem);
-      animation: fadeUp 1.2s ease 1.2s forwards;
-      opacity: 0;
-      flex-wrap: wrap;
-      justify-content: center;
-      padding: 0 1rem;
-    }
+  .logo {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
 
-    .hero-nav a {
-      font-family: 'Raleway', sans-serif;
-      font-size: 0.7rem;
-      letter-spacing: 0.35em;
-      text-transform: uppercase;
-      color: rgba(245, 220, 200, 0.6);
-      text-decoration: none;
-      transition: color 0.3s, opacity 0.3s;
-      padding: 0.5rem 0;
-      position: relative;
-    }
+  .logo-heart {
+    font-size: 2.8rem;
+    display: block;
+    margin-bottom: 0.5rem;
+    animation: heartbeat 2s ease-in-out infinite;
+  }
 
-    .hero-nav a::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 0;
-      height: 1px;
-      background: rgba(220, 120, 100, 0.8);
-      transition: width 0.4s ease;
-    }
+  @keyframes heartbeat {
+    0%, 100% { transform: scale(1); }
+    14% { transform: scale(1.15); }
+    28% { transform: scale(1); }
+    42% { transform: scale(1.1); }
+    56% { transform: scale(1); }
+  }
 
-    .hero-nav a:hover { color: rgba(245, 220, 200, 1); }
-    .hero-nav a:hover::after { width: 100%; }
+  .logo-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.2rem;
+    font-weight: 300;
+    letter-spacing: 0.12em;
+    color: #f5d5c8;
+  }
 
-    .scroll-hint {
-      position: absolute;
-      bottom: 2rem;
-      left: 50%;
-      transform: translateX(-50%);
-      animation: fadeUp 1.2s ease 1.8s forwards, bounce 2s ease 3s infinite;
-      opacity: 0;
-      color: rgba(245, 220, 200, 0.4);
-      font-family: 'Raleway', sans-serif;
-      font-size: 0.65rem;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.5rem;
-    }
+  .logo-sub {
+    font-size: 0.72rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: rgba(245,200,185,0.5);
+    margin-top: 0.3rem;
+  }
 
-    .scroll-arrow {
-      width: 1px;
-      height: 40px;
-      background: linear-gradient(to bottom, rgba(220, 140, 100, 0.7), transparent);
-      animation: scrollPulse 2s ease-in-out infinite;
-    }
+  /* PROGRESS */
+  .progress-bar {
+    width: 100%;
+    height: 2px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 2px;
+    margin-bottom: 2rem;
+    overflow: hidden;
+  }
 
-    @keyframes scrollPulse {
-      0%, 100% { transform: scaleY(1); opacity: 0.7; }
-      50% { transform: scaleY(1.3); opacity: 1; }
-    }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #c4637a, #e8a87c);
+    border-radius: 2px;
+    transition: width 0.5s cubic-bezier(.4,0,.2,1);
+  }
 
-    @keyframes bounce {
-      0%, 100% { transform: translateX(-50%) translateY(0); }
-      50% { transform: translateX(-50%) translateY(8px); }
-    }
+  .step-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: rgba(245,200,185,0.45);
+    margin-bottom: 0.6rem;
+  }
 
-    .portraits-section {
-      padding: 8rem 2rem;
-      background: #0c0508;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 4rem;
-    }
+  .question-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.6rem;
+    font-weight: 300;
+    font-style: italic;
+    color: #f5d5c8;
+    margin-bottom: 1.6rem;
+    line-height: 1.4;
+    min-height: 2.8rem;
+  }
 
-    .section-label {
-      font-family: 'Raleway', sans-serif;
-      font-size: 0.65rem;
-      letter-spacing: 0.5em;
-      color: rgba(220, 140, 100, 0.6);
-      text-transform: uppercase;
-    }
+  .input-wrap {
+    position: relative;
+    margin-bottom: 1.2rem;
+  }
 
-    .portraits-grid {
-      display: grid;
-      grid-template-columns: 1fr 80px 1fr 80px 1fr;
-      align-items: center;
-      gap: 0;
-      max-width: 900px;
-      width: 100%;
-    }
+  .input-wrap input {
+    width: 100%;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,180,160,0.2);
+    border-radius: 12px;
+    padding: 0.9rem 1.2rem;
+    font-family: 'Jost', sans-serif;
+    font-size: 1rem;
+    color: #f5ede8;
+    letter-spacing: 0.05em;
+    outline: none;
+    transition: border-color 0.3s, background 0.3s;
+  }
 
-    .portrait-card {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 1.2rem;
-      position: relative;
-    }
+  .input-wrap input::placeholder { color: rgba(245,220,210,0.3); }
+  .input-wrap input:focus {
+    border-color: rgba(196,99,122,0.6);
+    background: rgba(255,255,255,0.09);
+  }
 
-    .portrait-frame {
-      width: clamp(140px, 20vw, 220px);
-      height: clamp(170px, 25vw, 270px);
-      position: relative;
-      overflow: hidden;
-      border-radius: 2px;
-    }
+  .input-wrap input.error { border-color: rgba(220,80,80,0.7); animation: shake 0.35s ease; }
+  .input-wrap input.success { border-color: rgba(100,210,140,0.7); }
 
-    .portrait-frame::before {
-      content: '';
-      position: absolute;
-      inset: -2px;
-      background: linear-gradient(135deg, rgba(220, 120, 100, 0.5), transparent 50%, rgba(160, 80, 120, 0.3));
-      z-index: 1;
-      pointer-events: none;
-    }
+  @keyframes shake {
+    0%,100% { transform: translateX(0); }
+    20% { transform: translateX(-8px); }
+    40% { transform: translateX(8px); }
+    60% { transform: translateX(-5px); }
+    80% { transform: translateX(5px); }
+  }
 
-    .portrait-frame img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      filter: sepia(20%) contrast(1.05);
-      transition: transform 0.6s ease, filter 0.6s ease;
-    }
+  .err-msg {
+    font-size: 0.78rem;
+    color: #e87070;
+    margin-top: 0.4rem;
+    min-height: 1.1rem;
+    letter-spacing: 0.04em;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
 
-    .portrait-card:hover .portrait-frame img {
-      transform: scale(1.05);
-      filter: sepia(0%) contrast(1.1);
-    }
+  .btn {
+    width: 100%;
+    padding: 0.9rem;
+    border: none;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #c4637a 0%, #b85575 50%, #9e4a8a 100%);
+    color: #fff;
+    font-family: 'Jost', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    cursor: pointer;
+    margin-top: 0.5rem;
+    transition: opacity 0.2s, transform 0.15s;
+    position: relative;
+    overflow: hidden;
+  }
 
-    .portrait-name {
-      font-family: 'Cinzel', serif;
-      font-size: 0.75rem;
-      letter-spacing: 0.3em;
-      color: rgba(245, 220, 200, 0.6);
-      text-transform: uppercase;
-    }
+  .btn:hover { opacity: 0.9; transform: translateY(-1px); }
+  .btn:active { transform: scale(0.98); }
 
-    .portrait-divider {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.5rem;
-      color: rgba(220, 140, 100, 0.4);
-    }
+  .btn::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.1), transparent);
+    pointer-events: none;
+  }
 
-    .portrait-divider .line {
-      width: 1px;
-      height: 50px;
-      background: linear-gradient(to bottom, transparent, rgba(220, 140, 100, 0.4), transparent);
-    }
+  /* DOTS */
+  .dots {
+    display: flex; gap: 8px; justify-content: center; margin-top: 1.8rem;
+  }
 
-    .portrait-divider .heart {
-      font-size: 1rem;
-      color: rgba(220, 100, 100, 0.7);
-      animation: heartPulse 2s ease-in-out infinite;
-    }
+  .dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: rgba(255,180,160,0.2);
+    transition: background 0.3s, transform 0.3s;
+  }
 
-    @keyframes heartPulse {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.2); }
-    }
+  .dot.done { background: rgba(196,99,122,0.8); transform: scale(1.2); }
+  .dot.current { background: rgba(245,200,185,0.9); transform: scale(1.3); }
 
-    .cta-section {
-      padding: 6rem 2rem;
-      background: #0a0407;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 3rem;
-      text-align: center;
-    }
+  /* HOME SCREEN */
+  .home-card {
+    width: 100%;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,200,190,0.15);
+    border-radius: 24px;
+    padding: 3rem 2.5rem;
+    backdrop-filter: blur(20px);
+    text-align: center;
+  }
 
-    .cta-heading {
-      font-family: 'Cormorant Garamond', serif;
-      font-style: italic;
-      font-size: clamp(1.8rem, 5vw, 3.5rem);
-      color: rgba(245, 220, 200, 0.85);
-      max-width: 600px;
-      line-height: 1.3;
-    }
+  .home-welcome {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.8rem;
+    font-weight: 300;
+    font-style: italic;
+    color: #f5d5c8;
+    margin-bottom: 0.5rem;
+  }
 
-    .cta-buttons {
-      display: flex;
-      gap: 1.5rem;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
+  .home-sub {
+    font-size: 0.78rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: rgba(245,200,185,0.4);
+    margin-bottom: 2.5rem;
+  }
 
-    .btn {
-      font-family: 'Raleway', sans-serif;
-      font-size: 0.7rem;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      text-decoration: none;
-      padding: 1rem 2.5rem;
-      border: 1px solid rgba(220, 140, 100, 0.4);
-      color: rgba(245, 220, 200, 0.8);
-      transition: all 0.4s ease;
-      position: relative;
-      overflow: hidden;
-    }
+  .nav-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
 
-    .btn::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(135deg, rgba(180, 60, 80, 0.3), rgba(220, 100, 60, 0.2));
-      transform: translateX(-100%);
-      transition: transform 0.4s ease;
-    }
+  .nav-item {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,180,160,0.15);
+    border-radius: 16px;
+    padding: 1.4rem 1rem;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s, transform 0.2s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.6rem;
+  }
 
-    .btn:hover::before { transform: translateX(0); }
-    .btn:hover { border-color: rgba(220, 140, 100, 0.8); color: #f5e8e0; }
+  .nav-item:hover {
+    background: rgba(196,99,122,0.15);
+    border-color: rgba(196,99,122,0.4);
+    transform: translateY(-2px);
+  }
 
-    .btn.filled {
-      background: linear-gradient(135deg, rgba(160, 50, 70, 0.8), rgba(200, 80, 60, 0.6));
-      border-color: rgba(220, 120, 100, 0.6);
-      color: #f5e8e0;
-    }
+  .nav-icon { font-size: 1.8rem; }
 
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(30px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+  .nav-label {
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(245,200,185,0.7);
+  }
 
-    @media (max-width: 600px) {
-      .portraits-grid {
-        grid-template-columns: 1fr;
-        gap: 3rem;
-      }
-      .portrait-divider { display: none; }
-    }
-  </style>
+  .logout-btn {
+    background: transparent;
+    border: 1px solid rgba(255,180,160,0.2);
+    border-radius: 10px;
+    padding: 0.6rem 1.6rem;
+    color: rgba(245,200,185,0.45);
+    font-family: 'Jost', sans-serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .logout-btn:hover { border-color: rgba(196,99,122,0.4); color: #f5d5c8; }
+
+  /* DECORATIVE LINE */
+  .deco-line {
+    width: 60px; height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(196,99,122,0.5), transparent);
+    margin: 1.5rem auto;
+  }
+</style>
 </head>
 <body>
 
-  <!-- NAV -->
-  <nav class="top-nav" id="topNav">
-    <a href="index.html" class="nav-logo">A&M</a>
-    <div class="nav-links">
-      <a href="index.html" class="active">Home</a>
-      <a href="story.html">Our Story</a>
-      <a href="memories.html">Memories</a>
-      <a href="letter.html">Write to Me</a>
-    </div>
-    <div class="nav-hamburger" onclick="toggleNav()">
-      <span></span><span></span><span></span>
-    </div>
-  </nav>
+<div class="bg"></div>
+<div class="petals-container" id="petals"></div>
 
-  <!-- MOBILE NAV -->
-  <div class="mobile-nav" id="mobileNav">
-    <a href="index.html" onclick="toggleNav()">Home</a>
-    <a href="story.html" onclick="toggleNav()">Our Story</a>
-    <a href="memories.html" onclick="toggleNav()">Memories</a>
-    <a href="letter.html" onclick="toggleNav()">Write to Me</a>
+<div class="wrap">
+
+  <!-- LOGIN SCREEN -->
+  <div class="screen active" id="screen-login">
+    <div class="card">
+      <div class="logo">
+        <span class="logo-heart">🌹</span>
+        <div class="logo-title">Our Secret Place</div>
+        <div class="logo-sub">Only you know the way in</div>
+      </div>
+
+      <div class="progress-bar">
+        <div class="progress-fill" id="progress" style="width: 0%"></div>
+      </div>
+
+      <div class="step-label" id="step-label">Question 1 of 5</div>
+      <div class="question-text" id="question-text">What is the number?</div>
+
+      <div class="input-wrap">
+        <input type="text" id="answer-input" placeholder="Your answer..." autocomplete="off" />
+        <div class="err-msg" id="err-msg"></div>
+      </div>
+
+      <button class="btn" id="next-btn" onclick="checkAnswer()">Continue →</button>
+
+      <div class="dots" id="dots"></div>
+    </div>
   </div>
 
-  <main>
-    <!-- HERO -->
-    <section class="hero">
-      <div class="rose-petals" id="petals"></div>
+  <!-- HOME SCREEN -->
+  <div class="screen" id="screen-home">
+    <div class="home-card">
+      <div style="font-size:3rem; margin-bottom:0.8rem;">💕</div>
+      <div class="home-welcome">Welcome, My Love</div>
+      <div class="home-sub">You knew every answer</div>
+      <div class="deco-line"></div>
 
-      <p class="hero-date">Since 27th September 2025</p>
-
-      <h1 class="hero-names">
-        Arsène
-        <span class="ampersand">&amp;</span>
-        Majorine
-      </h1>
-
-      <p class="hero-tagline">Love, Life & Memories</p>
-      <div class="hero-divider"></div>
-
-      <nav class="hero-nav">
-        <a href="story.html">Our Story</a>
-        <a href="memories.html">Memories</a>
-        <a href="letter.html">Write to Me</a>
-      </nav>
-
-      <div class="scroll-hint">
-        <div class="scroll-arrow"></div>
-        Explore
-      </div>
-    </section>
-
-    <!-- PORTRAITS -->
-    <section class="portraits-section">
-      <p class="section-label">The Two of Us</p>
-
-      <div class="portraits-grid">
-        <div class="portrait-card">
-          <div class="portrait-frame">
-            <img src="majorine3.jpg" alt="Majorine" onerror="this.style.background='linear-gradient(135deg, #3a1020, #1a0510)'; this.style.display='block'; this.style.minHeight='200px'">
-          </div>
-          <span class="portrait-name">Majorine</span>
+      <div class="nav-grid">
+        <div class="nav-item">
+          <span class="nav-icon">📖</span>
+          <span class="nav-label">Our Story</span>
         </div>
-
-        <div class="portrait-divider">
-          <div class="line"></div>
-          <span class="heart">♥</span>
-          <div class="line"></div>
+        <div class="nav-item">
+          <span class="nav-icon">📸</span>
+          <span class="nav-label">Memories</span>
         </div>
-
-        <div class="portrait-card">
-          <div class="portrait-frame">
-            <img src="image-story2.png" alt="Together" onerror="this.style.background='linear-gradient(135deg, #2a1015, #150508)'; this.style.display='block'; this.style.minHeight='200px'">
-          </div>
-          <span class="portrait-name">Together</span>
+        <div class="nav-item">
+          <span class="nav-icon">💌</span>
+          <span class="nav-label">Love Notes</span>
         </div>
-
-        <div class="portrait-divider">
-          <div class="line"></div>
-          <span class="heart">♥</span>
-          <div class="line"></div>
-        </div>
-
-        <div class="portrait-card">
-          <div class="portrait-frame">
-            <img src="arsene cropped1.jpg" alt="Arsène" onerror="this.style.background='linear-gradient(135deg, #1a0510, #3a1020)'; this.style.display='block'; this.style.minHeight='200px'">
-          </div>
-          <span class="portrait-name">Arsène</span>
+        <div class="nav-item">
+          <span class="nav-icon">🌟</span>
+          <span class="nav-label">Our Dreams</span>
         </div>
       </div>
-    </section>
 
-    <!-- CTA -->
-    <section class="cta-section">
-      <div class="section-label">Begin the Journey</div>
-      <h2 class="cta-heading">"Sometimes love doesn't begin with a spark — it begins with two people standing on a narrow path, unwilling to move."</h2>
-      <div class="cta-buttons">
-        <a href="story.html" class="btn filled">Read Our Story</a>
-        <a href="memories.html" class="btn">View Memories</a>
-        <a href="letter.html" class="btn">Write to Me</a>
-      </div>
-    </section>
-  </main>
+      <div class="deco-line"></div>
+      <button class="logout-btn" onclick="logout()">Sign Out</button>
+    </div>
+  </div>
 
-  <footer class="site-footer">
-    <p>Made with ♥ for Majorine &mdash; <span>Forever Yours, Arsène</span></p>
-  </footer>
+</div>
 
-  <script src="main.js"></script>
-  <script>
-    // Rose petals
-    const petalContainer = document.getElementById('petals');
-    for (let i = 0; i < 25; i++) {
-      const petal = document.createElement('div');
-      petal.className = 'petal';
-      petal.style.cssText = `
-        left: ${Math.random() * 100}%;
-        animation-delay: ${Math.random() * 12}s;
-        animation-duration: ${8 + Math.random() * 8}s;
-        width: ${6 + Math.random() * 8}px;
-        height: ${9 + Math.random() * 8}px;
-        opacity: 0;
-        border-radius: ${Math.random() > 0.5 ? '50% 0 50% 0' : '0 50% 0 50%'};
-      `;
-      petalContainer.appendChild(petal);
+<script>
+  const QUESTIONS = [
+    { q: "What is the number?",             key: "27",                          hint: "Think carefully, my love..." },
+    { q: "What is the love code?",           key: "WFWTWF",                      hint: "Only we know this one..." },
+    { q: "How many kids?",                   key: "5",                           hint: "Our little family..." },
+    { q: "Behind the necklace?",             key: "no matter what i will love you always", hint: "Those special words..." },
+    { q: "What do we rely on?",              key: "FAITHFULLNESS",              hint: "Our foundation..." }
+  ];
+
+  let step = 0;
+  let attempts = 0;
+
+  function normalize(s){ return s.trim().toLowerCase().replace(/\s+/g,' '); }
+
+  function renderStep(){
+    const q = QUESTIONS[step];
+    document.getElementById('question-text').textContent = q.q;
+    document.getElementById('step-label').textContent = `Question ${step+1} of ${QUESTIONS.length}`;
+    document.getElementById('progress').style.width = (step / QUESTIONS.length * 100) + '%';
+    document.getElementById('answer-input').value = '';
+    document.getElementById('answer-input').className = '';
+    document.getElementById('err-msg').textContent = '';
+    renderDots();
+    document.getElementById('answer-input').focus();
+    attempts = 0;
+  }
+
+  function renderDots(){
+    const c = document.getElementById('dots');
+    c.innerHTML = '';
+    for(let i=0;i<QUESTIONS.length;i++){
+      const d = document.createElement('div');
+      d.className = 'dot' + (i < step ? ' done' : i === step ? ' current' : '');
+      c.appendChild(d);
     }
-  </script>
+  }
+
+  function checkAnswer(){
+    const inp = document.getElementById('answer-input');
+    const val = normalize(inp.value);
+    const correct = normalize(QUESTIONS[step].key);
+    const err = document.getElementById('err-msg');
+
+    if(!val){ err.textContent = '✦ Please enter your answer'; return; }
+
+    if(val === correct){
+      inp.className = 'success';
+      err.textContent = '';
+      step++;
+      if(step >= QUESTIONS.length){
+        document.getElementById('progress').style.width = '100%';
+        setTimeout(showHome, 600);
+      } else {
+        setTimeout(renderStep, 450);
+      }
+    } else {
+      attempts++;
+      inp.className = 'error';
+      setTimeout(()=>inp.classList.remove('error'),400);
+      if(attempts >= 2){
+        err.textContent = '✦ ' + QUESTIONS[step].hint;
+      } else {
+        err.textContent = '✦ That\'s not quite right, try again';
+      }
+    }
+  }
+
+function showHome(){
+  localStorage.setItem("authenticated", "true");
+
+  setTimeout(() => {
+    window.location.href = "home-page.html";
+  }, 1200);
+}
+
+
+
+  function logout(){
+    step = 0;
+    document.getElementById('screen-home').classList.remove('active');
+    document.getElementById('screen-login').classList.add('active');
+    renderStep();
+  }
+
+  document.getElementById('answer-input').addEventListener('keydown', e => {
+    if(e.key === 'Enter') checkAnswer();
+  });
+
+  // PETALS
+  const PETAL_CHARS = ['🌸','🌺','🌹','💮','🏵','✿','❀'];
+  function spawnPetal(){
+    const p = document.createElement('div');
+    p.className = 'petal';
+    p.textContent = PETAL_CHARS[Math.floor(Math.random()*PETAL_CHARS.length)];
+    p.style.left = Math.random()*100 + 'vw';
+    p.style.fontSize = (12 + Math.random()*14) + 'px';
+    p.style.animationDuration = (8 + Math.random()*10) + 's';
+    p.style.animationDelay = (Math.random()*6) + 's';
+    document.getElementById('petals').appendChild(p);
+    setTimeout(()=>p.remove(), 20000);
+  }
+
+  function createBurst(){
+    for(let i=0;i<12;i++) setTimeout(spawnPetal, i*80);
+  }
+
+  setInterval(spawnPetal, 1800);
+  for(let i=0;i<5;i++) setTimeout(spawnPetal, i*400);
+
+  renderStep();
+
+
+
+
+</script>
 </body>
 </html>
