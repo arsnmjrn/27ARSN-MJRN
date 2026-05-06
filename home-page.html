@@ -356,9 +356,9 @@
 
   <!-- NAV -->
   <nav class="top-nav" id="topNav">
-    <a href="index.html" class="nav-logo">A&M</a>
+    <a href="home-page.html" class="nav-logo">A&M</a>
     <div class="nav-links">
-      <a href="index.html" class="active">Home</a>
+      <a href="home-page.html" class="active">Home</a>
       <a href="story.html">Our Story</a>
       <a href="memories.html">Memories</a>
       <a href="letter.html">Write to Me</a>
@@ -370,7 +370,7 @@
 
   <!-- MOBILE NAV -->
   <div class="mobile-nav" id="mobileNav">
-    <a href="index.html" onclick="toggleNav()">Home</a>
+    <a href="home-page.html" onclick="toggleNav()">Home</a>
     <a href="story.html" onclick="toggleNav()">Our Story</a>
     <a href="memories.html" onclick="toggleNav()">Memories</a>
     <a href="letter.html" onclick="toggleNav()">Write to Me</a>
@@ -478,10 +478,6 @@
       `;
       petalContainer.appendChild(petal);
     }
-
-if(localStorage.getItem("authenticated") !== "true"){
-   window.location.href = "index.html";
-}
 
   </script>
 </body>
