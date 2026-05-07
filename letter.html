@@ -1,531 +1,764 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Write to Me — Arsène & Majorine</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Cinzel:wght@400;600&family=Raleway:wght@300;400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
-  <style>
-    /* ===== LETTER PAGE ===== */
-    .letter-header {
-      padding-top: 10rem;
-      padding-bottom: 4rem;
-      text-align: center;
-      position: relative;
-    }
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Our Secret Garden 🌹</title>
 
-    .letter-header::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(ellipse 60% 70% at 50% 0%, rgba(180, 40, 80, 0.12), transparent 70%);
-    }
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
 
-    .letter-header-label {
-      font-family: var(--font-ui);
-      font-size: 0.65rem;
-      letter-spacing: 0.5em;
-      color: rgba(220, 140, 100, 0.5);
-      text-transform: uppercase;
-      margin-bottom: 1.5rem;
-    }
+<style>
+/* ══ TOKENS ══════════════════════════════════════════════════════ */
+:root {
+  --night:      #0a0608;
+  --void:       #0e0a0c;
+  --deep:       #140d10;
+  --card:       #1c1218;
+  --surface:    #231820;
+  --rim:        #2e1e26;
+  --rim2:       #3d2535;
+  --garnet:     #8b1a2f;
+  --crimson:    #b5243e;
+  --rose:       #d4405a;
+  --blush:      #e8718a;
+  --petal:      #f0a0b0;
+  --gold:       #c9a84c;
+  --gold-dim:   #7a5e28;
+  --text:       #e8dce0;
+  --text-dim:   #9a8088;
+  --text-mute:  #5a4048;
+  --me-bg:      linear-gradient(135deg, #8b1a2f 0%, #b5243e 100%);
+  --her-bg:     #1c1218;
+  --her-border: #3d2535;
+  --shadow:     0 8px 40px rgba(0,0,0,.7);
+  --glow:       0 0 30px rgba(139,26,47,.25);
+  --r:          18px;
+}
 
-    .letter-header-title {
-      font-family: var(--font-display);
-      font-size: clamp(2rem, 6vw, 4.5rem);
-      color: var(--cream);
-      font-weight: 400;
-      letter-spacing: 0.08em;
-    }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; }
 
-    .letter-header-sub {
-      font-family: var(--font-body);
-      font-style: italic;
-      font-size: 1.1rem;
-      color: var(--cream-muted);
-      margin-top: 1rem;
-      max-width: 500px;
-      margin-left: auto;
-      margin-right: auto;
-      line-height: 1.6;
-    }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--night);
+  height: 100dvh;
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
+  cursor: default;
+    touch-action: manipulation;
+}
 
-    /* ===== LETTER FORM AREA ===== */
-    .letter-section {
-      max-width: 780px;
-      margin: 0 auto;
-      padding: 2rem 2rem 8rem;
-    }
+body::before {
+  content: "";
+  position: fixed; inset: 0; z-index: 0;
+  background:
+    radial-gradient(ellipse 90% 70% at 10%  0%,  rgba(139,26,47,.18) 0%, transparent 55%),
+    radial-gradient(ellipse 70% 60% at 95% 100%, rgba(80,10,25,.25)  0%, transparent 55%),
+    radial-gradient(ellipse 50% 40% at 50%  50%, rgba(20,8,12,.8)    0%, transparent 70%);
+  pointer-events: none;
+}
 
-    .love-letter-card {
-      background: linear-gradient(160deg, rgba(20, 8, 14, 0.9), rgba(14, 6, 9, 0.95));
-      border: 1px solid var(--border);
-      padding: 4rem;
-      position: relative;
-      overflow: hidden;
-    }
+.petal-layer {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden;
+}
+.petal {
+  position: absolute; top: -30px;
+  font-size: 1rem; opacity: 0;
+  animation: petalFall linear infinite;
+}
+@keyframes petalFall {
+  0%   { opacity: 0; transform: translateY(-30px) rotate(0deg); }
+  10%  { opacity: .4; }
+  90%  { opacity: .15; }
+  100% { opacity: 0; transform: translateY(110dvh) rotate(360deg); }
+}
 
-    .love-letter-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 2px;
-      background: linear-gradient(90deg, transparent, rgba(200, 100, 80, 0.6), rgba(180, 60, 80, 0.4), transparent);
-    }
+/* ══ IDENTITY SCREEN ══════════════════════════════════════════════ */
+#identity-screen {
+  position: fixed; inset: 0; z-index: 200;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  animation: fadeUp .7s ease;
+}
 
-    .love-letter-card::after {
-      content: '♥';
-      position: absolute;
-      top: -30px;
-      right: -30px;
-      font-size: 160px;
-      color: rgba(180, 60, 80, 0.03);
-      pointer-events: none;
-      line-height: 1;
-    }
+.id-card {
+  background: var(--card);
+  border: 1px solid var(--rim2);
+  border-radius: 28px;
+  box-shadow: var(--shadow), var(--glow);
+  padding: 3rem 2.6rem 2.4rem;
+  width: min(380px, 94vw);
+  display: flex; flex-direction: column;
+  align-items: center; gap: 1.4rem;
+  position: relative; overflow: hidden;
+}
 
-    .letter-opening {
-      font-family: var(--font-body);
-      font-style: italic;
-      font-size: clamp(1.3rem, 3vw, 1.8rem);
-      color: var(--cream-muted);
-      margin-bottom: 2.5rem;
-      line-height: 1.5;
-    }
+.id-card::before {
+  content: "";
+  position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, transparent, var(--crimson), var(--gold), var(--crimson), transparent);
+}
 
-    .letter-opening strong {
-      font-style: normal;
-      color: rgba(230, 150, 120, 0.85);
-      font-weight: 400;
-    }
+.id-rose {
+  font-size: 3.4rem; line-height: 1;
+  filter: drop-shadow(0 0 16px rgba(180,36,62,.6));
+  animation: roseBreath 3s ease-in-out infinite;
+}
+@keyframes roseBreath {
+  0%,100%{ transform: scale(1);    filter: drop-shadow(0 0 16px rgba(180,36,62,.6)); }
+  50%    { transform: scale(1.06); filter: drop-shadow(0 0 26px rgba(212,64,90,.9)); }
+}
 
-    .letter-desc {
-      font-family: var(--font-body);
-      font-size: 1rem;
-      color: rgba(245, 220, 200, 0.5);
-      margin-bottom: 2.5rem;
-      line-height: 1.8;
-    }
+.id-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2rem; font-weight: 400; font-style: italic;
+  color: var(--text); text-align: center; line-height: 1.2;
+  letter-spacing: .02em;
+}
+.id-sub {
+  font-size: .8rem; color: var(--text-mute);
+  text-align: center; letter-spacing: .08em; text-transform: uppercase;
+}
 
-    /* FORM ELEMENTS */
-    .form-group {
-      margin-bottom: 2rem;
-    }
+.who-row { display: flex; gap: .8rem; width: 100%; }
+.who-btn {
+  flex: 1; padding: .8rem .5rem;
+  border-radius: 14px; border: 1px solid var(--rim2);
+  background: var(--surface); cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  font-size: .85rem; color: var(--text-dim);
+  transition: all .2s; display: flex; flex-direction: column;
+  align-items: center; gap: .3rem;
+}
+.who-btn span:first-child { font-size: 1.6rem; }
+.who-btn.active {
+  background: var(--deep); border-color: var(--garnet);
+  color: var(--petal);
+  box-shadow: 0 0 18px rgba(139,26,47,.35);
+}
 
-    .form-label {
-      display: block;
-      font-family: var(--font-ui);
-      font-size: 0.6rem;
-      letter-spacing: 0.4em;
-      color: rgba(220, 140, 100, 0.5);
-      text-transform: uppercase;
-      margin-bottom: 0.8rem;
-    }
+.btn-enter {
+  width: 100%; padding: .9rem;
+  background: linear-gradient(135deg, var(--garnet), var(--crimson));
+  color: #fff; border: none; border-radius: 14px;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 500; font-size: 1rem; cursor: pointer;
+  letter-spacing: .04em;
+  transition: opacity .2s, transform .12s, box-shadow .2s;
+  box-shadow: 0 4px 20px rgba(139,26,47,.5);
+}
+.btn-enter:hover  { opacity: .92; transform: translateY(-2px); box-shadow: 0 6px 28px rgba(180,36,62,.6); }
+.btn-enter:active { transform: translateY(0); }
+.btn-enter:disabled { opacity: .5; cursor: not-allowed; transform: none; }
 
-    .form-input,
-    .form-textarea {
-      width: 100%;
-      background: rgba(255, 255, 255, 0.03);
-      border: none;
-      border-bottom: 1px solid var(--border);
-      color: var(--cream);
-      font-family: var(--font-body);
-      font-size: 1.1rem;
-      padding: 0.8rem 0;
-      outline: none;
-      transition: border-color 0.3s;
-      resize: none;
-    }
+/* ══ CHAT SHELL ═══════════════════════════════════════════════════ */
+#chat-shell {
+  display: none; flex-direction: column;
+  width: min(500px, 100vw); height: 100dvh;
+  background: var(--void);
+  position: relative; z-index: 1; overflow: hidden;
+  border-left: 1px solid var(--rim); border-right: 1px solid var(--rim);
+}
 
-    .form-input::placeholder,
-    .form-textarea::placeholder {
-      color: rgba(245, 220, 200, 0.2);
-      font-style: italic;
-    }
+.chat-header {
+  background: var(--deep);
+  border-bottom: 1px solid var(--rim);
+  padding: 1rem 1.2rem;
+  display: flex; align-items: center; gap: 1rem;
+  flex-shrink: 0;
+  position: relative; overflow: hidden;
+}
+.chat-header::after {
+  content: "";
+  position: absolute; bottom: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--garnet), transparent);
+}
 
-    .form-input:focus,
-    .form-textarea:focus {
-      border-bottom-color: rgba(200, 100, 80, 0.6);
-    }
+.hdr-avatar {
+  width: 46px; height: 46px; border-radius: 50%;
+  background: var(--surface);
+  border: 1.5px solid var(--garnet);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.4rem; flex-shrink: 0;
+  box-shadow: 0 0 14px rgba(139,26,47,.4);
+}
 
-    .form-textarea {
-      min-height: 200px;
-      padding: 0.8rem 0;
-    }
+.hdr-info { flex: 1; }
+.hdr-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.15rem; font-weight: 600;
+  color: var(--text); letter-spacing: .03em;
+}
+.hdr-status { font-size: .7rem; color: var(--text-mute); margin-top: .15rem; letter-spacing: .06em; }
 
-    /* Mood selector */
-    .mood-selector {
-      display: flex;
-      gap: 1rem;
-      flex-wrap: wrap;
-      margin-top: 0.5rem;
-    }
+.hdr-right { display: flex; align-items: center; gap: .4rem; }
+.hdr-who {
+  font-size: .7rem; color: var(--text-mute);
+  padding: .25rem .6rem; border-radius: 20px;
+  border: 1px solid var(--rim2); background: var(--surface);
+  letter-spacing: .05em;
+}
+.icon-btn {
+  background: none; border: none;
+  color: var(--text-mute); font-size: 1.1rem;
+  cursor: pointer; padding: .4rem; border-radius: 8px;
+  transition: color .2s, background .2s; line-height: 1;
+}
+.icon-btn:hover { color: var(--rose); background: var(--surface); }
 
-    .mood-btn {
-      font-family: var(--font-body);
-      font-style: italic;
-      font-size: 0.9rem;
-      color: rgba(245, 220, 200, 0.4);
-      border: 1px solid var(--border);
-      padding: 0.5rem 1.2rem;
-      cursor: pointer;
-      transition: all 0.3s;
-      background: transparent;
-      user-select: none;
-    }
+#messages {
+  flex: 1; overflow-y: auto;
+  padding: 1.1rem 1rem .6rem;
+  display: flex; flex-direction: column; gap: .4rem;
+  scroll-behavior: smooth;
+}
+#messages::-webkit-scrollbar { width: 3px; }
+#messages::-webkit-scrollbar-thumb { background: var(--rim2); border-radius: 3px; }
 
-    .mood-btn:hover,
-    .mood-btn.selected {
-      color: rgba(230, 160, 130, 0.9);
-      border-color: rgba(200, 100, 80, 0.5);
-      background: rgba(180, 60, 80, 0.1);
-    }
+.date-divider {
+  text-align: center; font-size: .65rem;
+  color: var(--text-mute); margin: .7rem 0;
+  display: flex; align-items: center; gap: .6rem;
+  letter-spacing: .1em; text-transform: uppercase;
+}
+.date-divider::before, .date-divider::after {
+  content: ""; flex: 1; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--rim2), transparent);
+}
 
-    /* CHARACTER COUNT */
-    .char-count {
-      font-family: var(--font-ui);
-      font-size: 0.6rem;
-      letter-spacing: 0.2em;
-      color: rgba(245, 220, 200, 0.2);
-      text-align: right;
-      margin-top: 0.5rem;
-      transition: color 0.3s;
-    }
+.msg-row {
+  display: flex; flex-direction: column;
+  max-width: 76%; animation: bubbleIn .2s ease;
+}
+@keyframes bubbleIn {
+  from { opacity: 0; transform: translateY(10px) scale(.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
 
-    /* SUBMIT BUTTON */
-    .send-btn {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 1rem;
-      width: 100%;
-      padding: 1.4rem 2rem;
-      background: linear-gradient(135deg, rgba(20, 80, 40, 0.85), rgba(30, 120, 60, 0.7));
-      border: 1px solid rgba(80, 180, 100, 0.3);
-      color: rgba(220, 255, 230, 0.9);
-      font-family: var(--font-ui);
-      font-size: 0.7rem;
-      letter-spacing: 0.35em;
-      text-transform: uppercase;
-      cursor: pointer;
-      transition: all 0.4s ease;
-      margin-top: 2.5rem;
-      text-decoration: none;
-      position: relative;
-      overflow: hidden;
-    }
+.msg-row.me  { align-self: flex-end;   align-items: flex-end; }
+.msg-row.her { align-self: flex-start; align-items: flex-start; }
 
-    .send-btn::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(135deg, rgba(37, 211, 102, 0.15), rgba(18, 140, 60, 0.1));
-      transform: translateX(-100%);
-      transition: transform 0.5s ease;
-    }
+.bubble {
+  padding: .62rem 1rem; border-radius: var(--r);
+  font-size: .9rem; line-height: 1.55;
+  word-break: break-word; white-space: pre-wrap;
+  position: relative;
+}
+.msg-row.me .bubble {
+  background: var(--me-bg);
+  color: #fff;
+  border-bottom-right-radius: 4px;
+  box-shadow: 0 2px 16px rgba(139,26,47,.45);
+}
+.msg-row.her .bubble {
+  background: var(--her-bg);
+  color: var(--text);
+  border-bottom-left-radius: 4px;
+  border: 1px solid var(--her-border);
+  box-shadow: 0 2px 10px rgba(0,0,0,.4);
+}
 
-    .send-btn:hover::before { transform: translateX(0); }
+.bubble.e-big {
+  background: transparent !important;
+  box-shadow: none !important; border: none !important;
+  font-size: 2.8rem; padding: .1rem .3rem; line-height: 1.15;
+  filter: drop-shadow(0 2px 8px rgba(139,26,47,.4));
+}
 
-    .send-btn:hover {
-      border-color: rgba(80, 200, 120, 0.6);
-      color: rgba(220, 255, 230, 1);
-      box-shadow: 0 0 30px rgba(37, 211, 102, 0.1);
-    }
+.msg-time {
+  font-size: .6rem; color: var(--text-mute);
+  margin-top: .2rem; padding: 0 .3rem;
+  letter-spacing: .04em;
+}
 
-    .whatsapp-icon {
-      font-size: 1.2rem;
-    }
+.typing-wrap { align-self: flex-start; display: none; }
+.typing-wrap.show { display: flex; }
+.typing-bubble {
+  background: var(--her-bg); border: 1px solid var(--her-border);
+  border-radius: var(--r); border-bottom-left-radius: 4px;
+  padding: .7rem 1rem; display: flex; gap: .35rem; align-items: center;
+  box-shadow: 0 2px 10px rgba(0,0,0,.4);
+}
+.tdot {
+  width: 6px; height: 6px; background: var(--garnet); border-radius: 50%;
+  animation: tdot 1.3s infinite;
+}
+.tdot:nth-child(2){ animation-delay: .2s; }
+.tdot:nth-child(3){ animation-delay: .4s; }
+@keyframes tdot {
+  0%,80%,100%{ transform: scale(1); opacity: .3; }
+  40%{ transform: scale(1.3); opacity: 1; }
+}
 
-    .send-btn-text {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 2px;
-    }
+#emoji-panel {
+  display: none; flex-direction: column;
+  background: var(--card); border-top: 1px solid var(--rim);
+  padding: .7rem .8rem .6rem; flex-shrink: 0; max-height: 240px;
+}
+#emoji-panel.open { display: flex; }
 
-    .send-btn-main {
-      font-size: 0.7rem;
-      letter-spacing: 0.35em;
-    }
+.etabs {
+  display: flex; gap: .3rem;
+  overflow-x: auto; padding-bottom: .45rem; scrollbar-width: none;
+}
+.etabs::-webkit-scrollbar { display: none; }
+.etab {
+  background: none; border: none;
+  font-size: 1.1rem; cursor: pointer;
+  padding: .28rem .45rem; border-radius: 8px;
+  transition: background .15s; flex-shrink: 0; color: var(--text-dim);
+}
+.etab:hover, .etab.active { background: var(--rim); }
 
-    .send-btn-sub {
-      font-size: 0.55rem;
-      letter-spacing: 0.2em;
-      opacity: 0.6;
-      text-transform: none;
-      font-family: var(--font-body);
-      font-style: italic;
-      letter-spacing: normal;
-    }
+.egrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(40px, 1fr));
+  gap: .2rem; overflow-y: auto; flex: 1; padding-top: .35rem;
+}
+.egrid::-webkit-scrollbar { width: 2px; }
+.egrid::-webkit-scrollbar-thumb { background: var(--rim2); }
+.ecell {
+  font-size: 1.5rem; cursor: pointer;
+  text-align: center; padding: .22rem; border-radius: 9px;
+  transition: background .12s, transform .1s; user-select: none;
+}
+.ecell:hover { background: var(--rim); transform: scale(1.2); }
 
-    /* CLOSING NOTE */
-    .letter-closing {
-      text-align: center;
-      margin-top: 4rem;
-      padding-top: 4rem;
-      border-top: 1px solid var(--border);
-    }
+.input-bar {
+  display: flex; align-items: flex-end; gap: .5rem;
+  padding: .7rem .9rem; background: var(--deep);
+  border-top: 1px solid var(--rim); flex-shrink: 0;
+  position: relative;
+}
+.input-bar::before {
+  content: "";
+  position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--rim2), transparent);
+}
 
-    .letter-closing p {
-      font-family: var(--font-body);
-      font-style: italic;
-      font-size: 1.1rem;
-      color: rgba(245, 220, 200, 0.35);
-      line-height: 1.8;
-    }
+#msg-input {
+  flex: 1;
+  background: var(--surface); border: 1px solid var(--rim);
+  border-radius: 22px; padding: .68rem 1.1rem;
+  font-family: 'DM Sans', sans-serif; font-size: .9rem;
+  color: var(--text); outline: none; resize: none;
+  max-height: 110px; line-height: 1.5;
+  transition: border-color .2s; overflow-y: auto;
+  caret-color: var(--rose);
+}
+#msg-input:focus { border-color: var(--garnet); box-shadow: 0 0 0 3px rgba(139,26,47,.15); }
+#msg-input::placeholder { color: var(--text-mute); }
+#msg-input::-webkit-scrollbar { width: 0; }
 
-    .letter-closing .heart-row {
-      font-size: 1.2rem;
-      color: rgba(200, 80, 80, 0.3);
-      letter-spacing: 0.5rem;
-      margin: 1.5rem 0;
-      animation: heartFade 3s ease-in-out infinite;
-    }
+.emoji-toggle {
+  background: none; border: none;
+  font-size: 1.3rem; cursor: pointer;
+  padding: .38rem; border-radius: 50%;
+  transition: background .15s; line-height: 1;
+  flex-shrink: 0; align-self: flex-end;
+  color: var(--text-mute);
+}
+.emoji-toggle:hover { background: var(--rim); color: var(--rose); }
 
-    @keyframes heartFade {
-      0%, 100% { opacity: 0.3; }
-      50% { opacity: 0.7; }
-    }
+.send-btn {
+  width: 44px; height: 44px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--garnet), var(--crimson));
+  color: #fff; border: none;
+  display: flex; align-items: center; justify-content: center;
+  font-size: .95rem; cursor: pointer;
+  flex-shrink: 0; align-self: flex-end;
+  transition: transform .15s, box-shadow .2s;
+  box-shadow: 0 3px 14px rgba(139,26,47,.5);
+}
+.send-btn:hover  { transform: scale(1.08); box-shadow: 0 4px 20px rgba(180,36,62,.65); }
+.send-btn:active { transform: scale(.95); }
+.send-btn svg { width: 18px; height: 18px; fill: #fff; }
 
-    /* SUCCESS STATE */
-    .success-overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.85);
-      z-index: 999;
-      align-items: center;
-      justify-content: center;
-    }
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
 
-    .success-overlay.show {
-      display: flex;
-    }
+#toast {
+  position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%);
+  background: var(--card); border: 1px solid var(--rim2);
+  color: var(--text-dim); font-size: .78rem;
+  padding: .5rem 1.1rem; border-radius: 20px;
+  opacity: 0; transition: opacity .3s; pointer-events: none;
+  z-index: 999; letter-spacing: .04em;
+}
+#toast.show { opacity: 1; }
 
-    .success-card {
-      background: rgba(14, 6, 9, 0.98);
-      border: 1px solid rgba(80, 180, 100, 0.3);
-      padding: 4rem 3rem;
-      text-align: center;
-      max-width: 420px;
-      width: 90%;
-      animation: popIn 0.4s ease;
-    }
-
-    @keyframes popIn {
-      from { transform: scale(0.9); opacity: 0; }
-      to { transform: scale(1); opacity: 1; }
-    }
-
-    .success-icon {
-      font-size: 3rem;
-      margin-bottom: 1.5rem;
-      animation: heartPop 0.6s ease 0.2s both;
-    }
-
-    @keyframes heartPop {
-      0% { transform: scale(0); }
-      70% { transform: scale(1.3); }
-      100% { transform: scale(1); }
-    }
-
-    .success-title {
-      font-family: var(--font-display);
-      font-size: 1.6rem;
-      color: var(--cream);
-      margin-bottom: 1rem;
-      letter-spacing: 0.05em;
-    }
-
-    .success-sub {
-      font-family: var(--font-body);
-      font-style: italic;
-      color: var(--cream-muted);
-      font-size: 1rem;
-      line-height: 1.7;
-      margin-bottom: 2rem;
-    }
-
-    .success-close {
-      font-family: var(--font-ui);
-      font-size: 0.65rem;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      color: var(--cream-muted);
-      border: 1px solid var(--border);
-      padding: 0.8rem 2rem;
-      cursor: pointer;
-      transition: all 0.3s;
-      background: transparent;
-    }
-
-    .success-close:hover {
-      border-color: var(--border-hover);
-      color: var(--cream);
-    }
-
-    @media (max-width: 600px) {
-      .love-letter-card { padding: 2rem 1.5rem; }
-    }
-  </style>
+/* Loading state */
+#loading-status {
+  font-size: .75rem; color: var(--text-mute);
+  text-align: center; letter-spacing: .05em;
+}
+</style>
 </head>
 <body>
 
-  <nav class="top-nav" id="topNav">
-    <a href="home-page.html" class="nav-logo">A&M</a>
-    <div class="nav-links">
-      <a href="home-page.html">Home</a>
-      <a href="story.html">Our Story</a>
-      <a href="memories.html">Memories</a>
-      <a href="letter.html" class="active">Write to Me</a>
+<div class="petal-layer" id="petals"></div>
+
+<!-- ═════════ IDENTITY SCREEN ═════════ -->
+<div id="identity-screen">
+  <div class="id-card">
+    <div class="id-rose">🌹</div>
+    <div class="id-title">Our Secret Garden</div>
+    <div class="id-sub">A private space for two hearts</div>
+
+    <div class="who-row">
+      <button class="who-btn active" id="who-h" onclick="selectWho('husband')">
+        <span>🤵</span><span>ARSENE(HUSBAND)</span>
+      </button>
+      <button class="who-btn" id="who-w" onclick="selectWho('wife')">
+        <span>👰</span><span>MAJORINE(WIFE)</span>
+      </button>
     </div>
-    <div class="nav-hamburger" onclick="toggleNav()">
-      <span></span><span></span><span></span>
+
+    <div id="loading-status">Connecting to our garden… 🌹</div>
+
+    <button class="btn-enter" id="enter-btn" onclick="enterChat()" disabled>
+      Enter Our Garden &nbsp;🌹
+    </button>
+  </div>
+</div>
+
+<!-- ═════════ CHAT SHELL ═════════ -->
+<div id="chat-shell">
+
+  <div class="chat-header">
+    <div class="hdr-avatar" id="hdr-avatar">🌹</div>
+    <div class="hdr-info">
+      <div class="hdr-name" id="hdr-name">My Love</div>
+      <div class="hdr-status">✦ &nbsp;our secret garden &nbsp;✦</div>
     </div>
-  </nav>
-  <div class="mobile-nav" id="mobileNav">
-    <a href="home-page.html" onclick="toggleNav()">Home</a>
-    <a href="story.html" onclick="toggleNav()">Our Story</a>
-    <a href="memories.html" onclick="toggleNav()">Memories</a>
-    <a href="letter.html" onclick="toggleNav()">Write to Me</a>
+    <div class="hdr-right">
+      <span class="hdr-who" id="hdr-who">—</span>
+      <button class="icon-btn" title="Leave" onclick="leaveChat()">✕</button>
+    </div>
   </div>
 
-  <!-- SUCCESS OVERLAY -->
-  <div class="success-overlay" id="successOverlay">
-    <div class="success-card">
-      <div class="success-icon">💌</div>
-      <h2 class="success-title">Message Sent</h2>
-      <p class="success-sub">Your love letter is on its way to Arsène's heart — delivered via WhatsApp, directly to him. Every word you wrote matters deeply.</p>
-      <button class="success-close" onclick="document.getElementById('successOverlay').classList.remove('show')">Close ✕</button>
+  <div id="messages">
+    <div class="date-divider">✦ &nbsp;the beginning of forever &nbsp;✦</div>
+    <div class="typing-wrap" id="typing-wrap">
+      <div class="typing-bubble">
+        <div class="tdot"></div><div class="tdot"></div><div class="tdot"></div>
+      </div>
     </div>
   </div>
 
-  <main>
+  <div id="emoji-panel">
+    <div class="etabs" id="etabs"></div>
+    <div class="egrid" id="egrid"></div>
+  </div>
 
-    <!-- HEADER -->
-    <header class="letter-header">
-      <p class="letter-header-label">From Your Heart</p>
-      <h1 class="letter-header-title">Write to Me</h1>
-      <div class="thin-divider"></div>
-      <p class="letter-header-sub">Leave a message for Arsène. Every word you write will arrive directly to him — heart first.</p>
-    </header>
+  <div class="input-bar">
+    <button class="emoji-toggle" onclick="toggleEmoji(event)">🌸</button>
+    <textarea id="msg-input" rows="1"
+              placeholder="Whisper something sweet…"
+              oninput="autoResize(this)"
+              onkeydown="handleKey(event)"></textarea>
+    <button class="send-btn" onclick="sendMessage()" title="Send">
+      <svg viewBox="0 0 24 24"><path d="M2 21l21-9L2 3v7l15 2-15 2z"/></svg>
+    </button>
+  </div>
+</div>
 
-    <!-- LETTER FORM -->
-    <section class="letter-section">
-      <div class="love-letter-card">
+<div id="toast"></div>
 
-        <p class="letter-opening">
-          My dearest <strong>Majorine</strong>,this is your space to write something from the heart as it will always belong to me .
-        </p>
+<!-- ═════════ SCRIPT ═════════ -->
+<!-- 
+  ✅ FIX 1: Supabase is loaded as a plain <script src> tag with NO inner content.
+     Your original code had JS code *inside* a <script src="..."> tag — browsers
+     ignore inner content when src is present. That's why supabase never loaded.
+-->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.7/dist/umd/supabase.min.js"></script>
 
-        <p class="letter-desc">
-          Type your message below. When you press send, it will go directly to Arsène on WhatsApp. No filters. No delays. Just your words, his heart.
-        </p>
+<script>
+// ══════════════════════════════════════════════════════════════════
+//  🌹 SUPABASE CONFIG
+// ══════════════════════════════════════════════════════════════════
+const SUPABASE_URL  = 'https://axjosvimpmxxqzyffllt.supabase.co';
+const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImF4am9zdmltcG14eHF6eWZmbGx0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgwOTUwMTIsImV4cCI6MjA5MzY3MTAxMn0.CWn3UttVv2f-5SMQRjsHbzvI2kNIKlnZEcM2XLasukU';
 
-        <!-- Mood -->
-        <div class="form-group">
-          <label class="form-label">The mood of your message</label>
-          <div class="mood-selector">
-            <span class="mood-btn" onclick="selectMood(this)">Romantic 🌹</span>
-            <span class="mood-btn" onclick="selectMood(this)">Playful 😊</span>
-            <span class="mood-btn" onclick="selectMood(this)">Missing You 💫</span>
-            <span class="mood-btn" onclick="selectMood(this)">Grateful 🙏</span>
-            <span class="mood-btn" onclick="selectMood(this)">Just Love ♥</span>
-          </div>
-        </div>
+// ── Emoji library ─────────────────────────────────────────────────
+const EMOJIS = {
+  "❤️": ["❤️","🌹","💕","💖","💗","💓","💞","💝","💘","🥰","😍","😘","💋","💑","👫","💏","💐","🎀","🎁","✨","🌟","⭐","🌙","🕯️","🍷","🥂","🍾","🫀","🩷","🧡","💛","💜","🖤","🤍","💌","🎶","🌸","🦋","🌺","🌷"],
+  "😊": ["😊","😄","😂","🤣","😅","😁","😆","😋","😛","😜","😝","🤩","🥳","😎","🤗","🤭","🤫","🤔","🥹","😇","😍","🥰","😘","😙","🙂","🤑","🤠","😐","🙄","😏","😒","😞","😔","😟","😕","🙁","😣","😖","😫","😩","🥺","😢","😭","😤","😠","😡","🤯","😳","😵","🤪"],
+  "👋": ["👋","🤚","✋","🖐","👌","🤌","🤏","✌️","🤞","🤟","🤘","🤙","👈","👉","👆","👇","☝️","👍","👎","✊","👊","🤛","🤜","🙌","👐","🤲","🙏","✍️","💅","🫶","🤝","👏","💪","🫁","🫂","🫰","🤙"],
+  "🌿": ["🐶","🐱","🐰","🦊","🐻","🐼","🐨","🦋","🌸","🌺","🌻","🌼","🌹","🍀","🌿","🌱","🍃","🍂","🍁","🍄","🐚","🌊","💧","🔥","🌈","⭐","🌙","☀️","❄️","⛄","🌲","🌳","🦄","🐠","🦩","🦚","🦜","🌍","🌏"],
+  "🍕": ["🍕","🍔","🍟","🌭","🍿","🥚","🍳","🧇","🥞","🍞","🥐","🧀","🥗","🌮","🌯","🍲","🍜","🍝","🍣","🍱","🍙","🍚","🧁","🍰","🎂","🍮","🍭","🍬","🍫","🍩","🍪","🥤","🧃","🍵","☕","🥂","🍾","🍷","🧋","🫖","🍹","🧊"],
+  "🎉": ["🎉","🎊","🎈","🎀","🎁","🏆","🥇","🏅","🎗️","⚽","🏀","🎾","🎱","🏓","🎯","🎮","🎲","🎳","🎸","🎹","🎷","🎺","🎻","🥁","🎤","🎧","🎬","🎭","🎡","🎢","🎠","🎆","🎇","🧨","🎑","🎃","🎄","🎋","🎍","🎎","🎐"],
+  "✈️": ["✈️","🚀","🛸","🚂","🚢","🚗","🏠","🏰","🗼","🗽","⛱️","🏖️","🏝️","🏔️","🌋","🌅","🌄","🌉","🌃","🌆","🌇","🌌","🌠","🌍","🌏","🌐","🗺️","🏕️","🛤️","🌁","🏙️"],
+};
 
-        <!-- Name -->
-        <div class="form-group">
-          <label class="form-label">First say <strong>our love code</strong></label>
-          <input type="text" class="form-input" id="senderName" placeholder="ate ogeza nobeela nga tojimanyi, hee owedde">
-        </div>
+// ── State ─────────────────────────────────────────────────────────
+let currentWho = 'husband', currentSender;
+let supabaseClient = null;
+let channel, messages = [];
+let lastRender = null;
 
-        <!-- Message -->
-        <div class="form-group">
-          <label class="form-label">Your message to Arsène</label>
-          <textarea class="form-textarea" id="messageText" placeholder="Write from the heart. Every word finds its way..." oninput="updateCount(this)"></textarea>
-          <div class="char-count" id="charCount">0 characters</div>
-        </div>
+// ── Spawn petals ──────────────────────────────────────────────────
+(function spawnPetals() {
+  const layer = document.getElementById('petals');
+  const symbols = ['🌹','🌸','🌺','✨','💕','🌷'];
+  for (let i = 0; i < 18; i++) {
+    const p = document.createElement('div');
+    p.className = 'petal';
+    p.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+    p.style.left      = Math.random() * 100 + 'vw';
+    p.style.fontSize  = (.6 + Math.random() * .8) + 'rem';
+    p.style.animationDuration  = (12 + Math.random() * 20) + 's';
+    p.style.animationDelay     = (Math.random() * 18) + 's';
+    layer.appendChild(p);
+  }
+})();
 
-        <!-- SEND BUTTON -->
-        <a id="sendBtn" class="send-btn" onclick="sendToWhatsApp(event)">
-          <span class="whatsapp-icon">💬</span>
-          <span class="send-btn-text">
-            <span class="send-btn-main">Send via WhatsApp</span>
-            <span class="send-btn-sub">Opens WhatsApp — your message goes directly to Arsène</span>
-          </span>
-        </a>
+// ── Boot ──────────────────────────────────────────────────────────
+// ✅ FIX 2: Wait for the Supabase script to fully load before init.
+//    Using DOMContentLoaded is too early if the script loads async.
+//    We use window.onload which fires after all scripts are parsed.
+window.addEventListener('load', () => {
+  buildEmojiPicker();
+  initSupabase();
+});
 
-      </div>
-
-      <!-- CLOSING -->
-      <div class="letter-closing">
-        <div class="heart-row">♥ ♥ ♥</div>
-        <p>
-          "Every Sunday became sacred. It was the one day she could reach him —<br>
-          stepping away from the noise to hear his voice."
-        </p>
-        <div class="heart-row">♥ ♥ ♥</div>
-      </div>
-    </section>
-
-  </main>
-
-  <footer class="site-footer">
-    <p>Made with ♥ for Majorine &mdash; <span>Forever Yours, Arsène</span></p>
-  </footer>
-
-  <script src="main.js"></script>
-  <script>
-    let selectedMood = '';
-
-    function selectMood(el) {
-      document.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('selected'));
-      el.classList.add('selected');
-      selectedMood = el.textContent;
+function initSupabase() {
+  try {
+    // ✅ FIX 3: The global from the UMD build is window.supabase (lowercase),
+    //    and createClient lives on it. We store the client in supabaseClient
+    //    to avoid name collision with the global 'supabase' namespace object.
+    if (!window.supabase || !window.supabase.createClient) {
+      throw new Error('Supabase library not found on window');
     }
 
-    function updateCount(el) {
-      const count = el.value.length;
-      const display = document.getElementById('charCount');
-      display.textContent = count + ' character' + (count !== 1 ? 's' : '');
-      display.style.color = count > 0 ? 'rgba(220,140,100,0.4)' : 'rgba(245,220,200,0.2)';
-    }
+    supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
 
-    function sendToWhatsApp(e) {
-      e.preventDefault();
+    // Enable the enter button and update status
+    document.getElementById('enter-btn').disabled = false;
+    document.getElementById('loading-status').textContent = 'Ready to enter 🌹';
+    document.getElementById('loading-status').style.color = 'var(--blush)';
 
-      const name = document.getElementById('senderName').value.trim();
-      const message = document.getElementById('messageText').value.trim();
+  } catch (err) {
+    console.error('Supabase init error:', err);
+    document.getElementById('loading-status').textContent = 'Connection failed ❌ Check console.';
+    document.getElementById('loading-status').style.color = 'var(--rose)';
+  }
+}
 
-      if (!message) {
-        document.getElementById('messageText').style.borderBottomColor = 'rgba(200,80,80,0.7)';
-        document.getElementById('messageText').placeholder = 'Please write something first, love…';
-        return;
+// ── Who selector ──────────────────────────────────────────────────
+function selectWho(who) {
+  currentWho = who;
+  document.getElementById('who-h').classList.toggle('active', who === 'husband');
+  document.getElementById('who-w').classList.toggle('active', who === 'wife');
+}
+
+// ── Enter chat ────────────────────────────────────────────────────
+function enterChat() {
+  if (!supabaseClient) {
+    toast('Still connecting… please wait 🌹');
+    return;
+  }
+
+  currentSender = currentWho;
+  const isHusband = currentWho === 'husband';
+
+  document.getElementById('hdr-name').textContent   = isHusband ? 'MAJORINE-WIFE 👰' : 'ARSENE-HUSBAND 🤵';
+  document.getElementById('hdr-avatar').textContent = isHusband ? '👰' : '🤵';
+  document.getElementById('hdr-who').textContent    = isHusband ? '🤵 Husband' : '👰 Wife';
+
+  document.getElementById('identity-screen').style.display = 'none';
+  document.getElementById('chat-shell').style.display = 'flex';
+
+  loadHistory();
+  subscribeRealtime();
+  document.getElementById('msg-input').focus();
+}
+
+function leaveChat() {
+  if (channel) supabaseClient.removeChannel(channel);
+  document.getElementById('identity-screen').style.display = 'flex';
+  document.getElementById('chat-shell').style.display      = 'none';
+  messages = [];
+  lastRender = null;
+}
+
+// ── Load history ──────────────────────────────────────────────────
+async function loadHistory() {
+  const { data, error } = await supabaseClient
+    .from('messages')
+    .select('*')
+    .order('created_at', { ascending: true })
+    .limit(300);
+
+  if (error) { console.error('History error:', error); return; }
+  messages = data || [];
+  renderAll();
+}
+
+// ── Realtime subscription ─────────────────────────────────────────
+function subscribeRealtime() {
+  channel = supabaseClient
+    .channel('public:messages')
+    .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages' },
+      payload => {
+        if (!messages.find(m => m.id === payload.new.id)) {
+          messages.push(payload.new);
+          renderOne(payload.new);
+          scrollBottom();
+        }
       }
+    )
+    .subscribe();
+}
 
-      // Build WhatsApp message
-      let fullMsg = '💌 *A message from the love website*\n\n';
-      if (name) fullMsg += `*From:* ${name}\n`;
-      if (selectedMood) fullMsg += `*Mood:* ${selectedMood}\n`;
-      fullMsg += '\n' + message;
-      fullMsg += '\n\n— *Sent from arsene-majorine.love* ♥';
+// ── Render all ────────────────────────────────────────────────────
+function renderAll() {
+  const box    = document.getElementById('messages');
+  const typing = document.getElementById('typing-wrap');
+  box.querySelectorAll('.msg-row, .date-divider:not(:first-child)').forEach(el => el.remove());
+  lastRender = null;
+  messages.forEach(m => renderOne(m, false));
+  scrollBottom();
+}
 
-      // WhatsApp number (Arsène's)
-      const phone = '256792096974'; 
-      const encoded = encodeURIComponent(fullMsg);
-      const url = `https://wa.me/${phone}?text=${encoded}`;
+function renderOne(msg, animate = true) {
+  const box    = document.getElementById('messages');
+  const typing = document.getElementById('typing-wrap');
 
-      // Open WhatsApp
-      window.open(url, '_blank');
+  const ts      = new Date(msg.created_at);
+  const dateStr = ts.toLocaleDateString([], { weekday:'long', month:'long', day:'numeric' });
 
-      // Show success
-      setTimeout(() => {
-        document.getElementById('successOverlay').classList.add('show');
-      }, 500);
-    }
-  </script>
+  if (dateStr !== lastRender) {
+    const divEl = document.createElement('div');
+    divEl.className   = 'date-divider';
+    divEl.textContent = dateStr;
+    box.insertBefore(divEl, typing);
+    lastRender = dateStr;
+  }
+
+  const isMe = msg.sender === currentSender;
+  const row  = document.createElement('div');
+  row.className = `msg-row ${isMe ? 'me' : 'her'}`;
+  if (!animate) row.style.animation = 'none';
+
+  const bub = document.createElement('div');
+  bub.className = 'bubble';
+  const txt = (msg.text || '').trim();
+
+  const pure = txt.replace(/\s/g,'');
+  const emojiOnly = pure.length > 0 && pure.length <= 8 &&
+    [...txt].every(c => c.codePointAt(0) > 127 || c === ' ');
+  if (emojiOnly) bub.classList.add('e-big');
+
+  bub.textContent = txt;
+
+  const timeEl = document.createElement('div');
+  timeEl.className   = 'msg-time';
+  timeEl.textContent = ts.toLocaleTimeString([], { hour:'2-digit', minute:'2-digit' });
+
+  row.appendChild(bub); row.appendChild(timeEl);
+  box.insertBefore(row, typing);
+}
+
+// ── Send ──────────────────────────────────────────────────────────
+async function sendMessage() {
+  const inp = document.getElementById('msg-input');
+  const txt = inp.value.trim();
+  if (!txt) return;
+
+  inp.value = ''; autoResize(inp);
+
+  const optimistic = {
+    id: 'opt_' + Date.now(),
+    text: txt,
+    sender: currentSender,
+    created_at: new Date().toISOString()
+  };
+  messages.push(optimistic);
+  renderOne(optimistic);
+  scrollBottom();
+
+  const { error } = await supabaseClient
+    .from('messages')
+    .insert([{ text: txt, sender: currentSender }]);
+
+  if (error) {
+    console.error('Send failed:', error);
+    toast('Message failed to send 😢');
+  }
+}
+
+// ── Emoji picker ──────────────────────────────────────────────────
+function buildEmojiPicker() {
+  const tabs = document.getElementById('etabs');
+  let first  = true;
+  for (const [lbl, list] of Object.entries(EMOJIS)) {
+    const btn = document.createElement('button');
+    btn.className   = 'etab' + (first ? ' active' : '');
+    btn.textContent = lbl.split(' ')[0];
+    btn.title       = lbl;
+    btn.onclick     = () => {
+      document.querySelectorAll('.etab').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      fillGrid(list);
+    };
+    tabs.appendChild(btn);
+    if (first) fillGrid(list);
+    first = false;
+  }
+}
+
+function fillGrid(list) {
+  const grid = document.getElementById('egrid');
+  grid.innerHTML = '';
+  list.forEach(e => {
+    const cell = document.createElement('span');
+    cell.className   = 'ecell';
+    cell.textContent = e;
+    cell.onclick     = () => insertEmoji(e);
+    grid.appendChild(cell);
+  });
+}
+
+function insertEmoji(e) {
+  const inp = document.getElementById('msg-input');
+  const pos = inp.selectionStart ?? inp.value.length;
+  inp.value = inp.value.slice(0, pos) + e + inp.value.slice(pos);
+  inp.focus();
+  inp.selectionStart = inp.selectionEnd = pos + [...e].length;
+  autoResize(inp);
+}
+
+function toggleEmoji(ev) {
+  ev.stopPropagation();
+  document.getElementById('emoji-panel').classList.toggle('open');
+}
+
+document.addEventListener('click', ev => {
+  const p = document.getElementById('emoji-panel');
+  if (!p.contains(ev.target)) p.classList.remove('open');
+});
+
+// ── Helpers ───────────────────────────────────────────────────────
+function autoResize(el) {
+  el.style.height = 'auto';
+  el.style.height = Math.min(el.scrollHeight, 110) + 'px';
+}
+function handleKey(e) {
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
+}
+function scrollBottom() {
+  const m = document.getElementById('messages');
+  m.scrollTop = m.scrollHeight;
+}
+function toast(msg, dur = 3000) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), dur);
+}
+</script>
 </body>
 </html>
