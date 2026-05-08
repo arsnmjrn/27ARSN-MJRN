@@ -1011,16 +1011,7 @@ async function sendMessage(){
   const replyId = replyingTo?.id||null;
   cancelReply();
 
-  const optimistic={
-    id:'opt_'+Date.now(),text:txt,
-    sender:currentSender,
-    created_at:new Date().toISOString(),
-    read_at:null,
-    reply_to_id:replyId
-  };
-  messages.push(optimistic);
-  renderOne(optimistic);
-  scrollBottom();
+
 
   const payload={text:txt,sender:currentSender};
   if(replyId) payload.reply_to_id=replyId;
@@ -1028,6 +1019,9 @@ async function sendMessage(){
   const {error}=await supabaseClient.from('messages').insert([payload]);
   if(error){ console.error('Send failed:',error); toast('Message failed 😢'); }
 }
+
+
+
 
 /* ══ EMOJI PICKER ══ */
 function buildEmojiPicker(){
