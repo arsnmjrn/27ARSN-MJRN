@@ -42,7 +42,7 @@ body{
 /* ─── BG IMAGE ─────────────────────────────────────────────────── */
 .bg-layer{
   position:fixed;inset:0;z-index:0;
-  background:url('majorine3.jpg') center/cover no-repeat;
+  background:url('backgroundphoto.jpg') center/cover no-repeat;
 }
 .bg-overlay{
   position:fixed;inset:0;z-index:1;
@@ -122,7 +122,7 @@ body{
 .who-btn img,.who-btn .av{
   width:48px;height:48px;border-radius:50%;
   object-fit:cover;border:2px solid transparent;
-  background:#3d1020 url('majorine3.jpg') center/cover no-repeat;
+  background:#3d1020 url('backgroundphoto.jpg') center/cover no-repeat;
 }
 .who-btn span:not(.av){font-size:.75rem;font-weight:600;letter-spacing:.05em;}
 .who-btn.active{
@@ -582,7 +582,7 @@ async function loadHistory(){
 /* ══ REALTIME MESSAGES ══ */
 function subscribeRealtime(){
   msgChannel = supabaseClient
-    .channel('realtime:public:messages')
+    .channel('room:messages')
     .on('postgres_changes',{event:'INSERT',schema:'public',table:'messages'},
       payload=>{
         if(!messages.find(m=>m.id===payload.new.id)){
@@ -754,27 +754,27 @@ function renderOne(msg, animate=true){
 
 /* ══ SEND ══ */
 async function sendMessage(){
-  const inp = document.getElementById('msg-input');
-  const txt = inp.value.trim();
-  if (!txt) return;
-  inp.value = ''; autoResize(inp);
+  const inp=document.getElementById('msg-input');
+  const txt=inp.value.trim();
+  if(!txt) return;
+  inp.value=''; autoResize(inp);
   clearTimeout(typingTimer);
-  isTypingActive = false;
+  isTypingActive=false;
   sendTypingStatus(false);
 
-  // Insert into Supabase — let Realtime handle the rendering
-  // NO optimistic message added here
-  const { error } = await supabaseClient
-    .from('messages')
-    .insert([{ text: txt, sender: currentSender }]);
+  const optimistic={
+    id:'opt_'+Date.now(),text:txt,
+    sender:currentSender,
+    created_at:new Date().toISOString(),
+    read_at:null
+  };
+  messages.push(optimistic);
+  renderOne(optimistic);
+  scrollBottom();
 
-  if (error) {
-    console.error('Send failed:', error);
-    toast('Message failed 😢');
-    // Only show manually if realtime fails
-    inp.value = txt;
-    autoResize(inp);
-  }
+  const {error}=await supabaseClient
+    .from('messages').insert([{text:txt,sender:currentSender}]);
+  if(error){ console.error('Send failed:',error); toast('Message failed 😢'); }
 }
 
 /* ══ EMOJI PICKER ══ */
