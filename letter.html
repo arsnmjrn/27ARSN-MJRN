@@ -1148,20 +1148,27 @@ function scrollToMsg(id){
 
 /* ══ SEND ══ */
 async function sendMessage(){
-  const inp=document.getElementById('msg-input');
-  const txt=inp.value.trim();
-  if(!txt) return;
-  inp.value=''; autoResize(inp);
-  clearTimeout(typingTimer); isTypingActive=false; sendTypingStatus(false);
+  const inp = document.getElementById('msg-input');
+  const txt = inp.value.trim();
+  if (!txt) return;
+  inp.value = ''; autoResize(inp);
+  clearTimeout(typingTimer);
+  isTypingActive = false;
+  sendTypingStatus(false);
 
-  const replyId = replyingTo?.id||null;
-  cancelReply();
+  // Insert into Supabase — let Realtime handle the rendering
+  // NO optimistic message added here
+  const { error } = await supabaseClient
+    .from('messages')
+    .insert([{ text: txt, sender: currentSender }]);
 
-  const payload={text:txt,sender:currentSender};
-  if(replyId) payload.reply_to_id=replyId;
-
-  const {error}=await supabaseClient.from('messages').insert([payload]);
-  if(error){ console.error('Send failed:',error); toast('Message failed 😢'); }
+  if (error) {
+    console.error('Send failed:', error);
+    toast('Message failed 😢');
+    // Only show manually if realtime fails
+    inp.value = txt;
+    autoResize(inp);
+  }
 }
 
 /* ══ EMOJI PICKER ══ */
