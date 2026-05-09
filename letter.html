@@ -81,13 +81,32 @@ body {
   backdrop-filter: blur(0px);
 }
 
+/* ─── FALLING NAMES LAYER ────────────────────────────────────────── */
+.names-layer { position:fixed; inset:0; z-index:2; pointer-events:none; overflow:hidden; }
+.falling-name {
+  position:absolute; top:-80px;
+  font-family:'Playfair Display',serif;
+  font-style:italic;
+  font-weight:400;
+  opacity:0;
+  animation: nameFall linear infinite;
+  white-space:nowrap;
+  user-select:none;
+}
+@keyframes nameFall {
+  0%   { opacity:0; transform:translateY(-80px); }
+  8%   { opacity:1; }
+  88%  { opacity:0.6; }
+  100% { opacity:0; transform:translateY(110dvh); }
+}
+
 /* ─── PETALS ─────────────────────────────────────────────────────── */
 .petal-layer { position:fixed; inset:0; z-index:2; pointer-events:none; overflow:hidden; }
 .petal { position:absolute; top:-30px; opacity:0; animation:petalFall linear infinite; }
 @keyframes petalFall {
   0%   { opacity:0; transform:translateY(-30px) rotate(0deg); }
-  10%  { opacity:.25; }
-  90%  { opacity:.08; }
+  10%  { opacity:.2; }
+  90%  { opacity:.06; }
   100% { opacity:0; transform:translateY(110dvh) rotate(400deg); }
 }
 
@@ -288,26 +307,44 @@ body {
   font-size:.88rem; line-height:1.55;
   word-break:break-word; white-space:pre-wrap; position:relative;
   cursor:pointer; user-select:text;
-  /* Prevent overflow from long lines */
   overflow-wrap:break-word;
   min-width:0;
 }
+
+/* ME — frosted rose mirror glass */
 .msg-row.me .bubble {
-  background: var(--me-bg); color:#fff;
-  border-bottom-right-radius:4px;
-  box-shadow: 0 2px 16px rgba(181,68,90,0.30);
-}
-.msg-row.her .bubble {
-  background: rgba(255,255,255,0.82);
-  backdrop-filter: blur(16px) saturate(1.6);
-  -webkit-backdrop-filter: blur(16px) saturate(1.6);
-  color: var(--text);
-  border-bottom-left-radius:4px;
-  border: 1px solid rgba(255,255,255,0.95);
+  background: rgba(181, 68, 90, 0.22);
+  backdrop-filter: blur(22px) saturate(2) brightness(1.08);
+  -webkit-backdrop-filter: blur(22px) saturate(2) brightness(1.08);
+  color: #2c0f18;
+  border-bottom-right-radius: 4px;
+  border: 1px solid rgba(255, 200, 210, 0.55);
+  border-top: 1px solid rgba(255,255,255,0.65);
+  border-left: 1px solid rgba(255,255,255,0.5);
   box-shadow:
-    0 2px 12px rgba(90,60,110,0.10),
-    0 1px 0 rgba(255,255,255,0.9) inset;
+    0 2px 0 rgba(255,255,255,0.45) inset,
+    0 -1px 0 rgba(181,68,90,0.15) inset,
+    0 4px 24px rgba(181,68,90,0.22),
+    0 1px 8px rgba(255,180,195,0.18);
 }
+
+/* HER — frosted violet-blue mirror glass */
+.msg-row.her .bubble {
+  background: rgba(110, 80, 170, 0.18);
+  backdrop-filter: blur(22px) saturate(2) brightness(1.1);
+  -webkit-backdrop-filter: blur(22px) saturate(2) brightness(1.1);
+  color: #1a1030;
+  border-bottom-left-radius: 4px;
+  border: 1px solid rgba(200, 185, 255, 0.5);
+  border-top: 1px solid rgba(255,255,255,0.72);
+  border-right: 1px solid rgba(255,255,255,0.55);
+  box-shadow:
+    0 2px 0 rgba(255,255,255,0.5) inset,
+    0 -1px 0 rgba(110,80,170,0.12) inset,
+    0 4px 24px rgba(110,80,170,0.18),
+    0 1px 8px rgba(200,185,255,0.15);
+}
+
 .bubble.e-big {
   background:transparent!important; box-shadow:none!important; border:none!important;
   font-size:2.8rem; padding:.1rem .2rem; line-height:1.15;
@@ -315,31 +352,31 @@ body {
 
 /* ─── REPLY PREVIEW inside bubble ───────────────────────────────── */
 .reply-preview {
-  background: rgba(0,0,0,0.06);
-  border-left: 3px solid var(--gold);
+  background: rgba(255,255,255,0.22);
+  border-left: 3px solid rgba(181,68,90,0.6);
   border-radius: 8px;
   padding: .35rem .6rem;
   margin-bottom: .45rem;
   font-size: .75rem;
-  color: var(--text-dim);
+  color: rgba(44,15,24,0.75);
   cursor: pointer;
-  /* FIX: prevent overflow, allow wrapping */
   max-width: 100%;
   overflow: hidden;
-  white-space: normal;       /* ← was nowrap, causing long line */
+  white-space: normal;
   word-break: break-word;
   overflow-wrap: break-word;
   display: block;
 }
 .msg-row.her .bubble .reply-preview {
-  background: rgba(181,68,90,0.07);
-  border-left-color: var(--rose);
+  background: rgba(255,255,255,0.25);
+  border-left-color: rgba(110,80,170,0.55);
+  color: rgba(26,16,48,0.75);
 }
 .reply-preview .rp-name {
   font-weight:700; font-size:.68rem;
-  color:var(--gold); display:block; margin-bottom:.1rem; letter-spacing:.04em;
+  color:var(--garnet); display:block; margin-bottom:.1rem; letter-spacing:.04em;
 }
-.msg-row.her .bubble .reply-preview .rp-name { color:var(--garnet); }
+.msg-row.her .bubble .reply-preview .rp-name { color: rgba(110,80,170,0.9); }
 
 /* ─── REACTIONS ──────────────────────────────────────────────────── */
 .reactions-row { display:flex; flex-wrap:wrap; gap:.3rem; margin-top:.25rem; }
@@ -413,8 +450,8 @@ body {
 }
 .msg-row.me .msg-meta { justify-content:flex-end; }
 .read-ticks { font-size:.72rem; line-height:1; }
-.read-ticks.sent { color:rgba(44,31,46,.3); }
-.read-ticks.read { color:var(--gold); }
+.read-ticks.sent { color:rgba(44,15,24,.35); }
+.read-ticks.read { color:var(--garnet); }
 
 /* ─── REPLY BANNER (input area) ──────────────────────────────────── */
 #reply-banner {
@@ -557,6 +594,7 @@ body {
 
 <div class="bg-layer"></div>
 <div class="bg-overlay"></div>
+<div class="names-layer" id="names-layer"></div>
 <div class="petal-layer" id="petals"></div>
 
 <!-- ═════ IDENTITY SCREEN ═════ -->
@@ -676,11 +714,43 @@ let typingTimer = null, isTypingActive = false;
 let replyingTo = null;
 let activeActionsId = null;
 
+/* ══ FALLING NAMES ══ */
+(function(){
+  const layer = document.getElementById('names-layer');
+  const names = ['Arsene','Majorias','Majorine','Zoe','Arsene','Majorine'];
+  // Color pairs: [text color, glow]
+  const styles = [
+    { color:'rgba(181,68,90,0.55)',  size:'1.1rem',  blur:'0 0 8px rgba(181,68,90,0.3)'  },
+    { color:'rgba(110,80,170,0.50)', size:'0.95rem', blur:'0 0 8px rgba(110,80,170,0.28)'},
+    { color:'rgba(196,154,60,0.45)', size:'1.0rem',  blur:'0 0 8px rgba(196,154,60,0.25)'},
+    { color:'rgba(181,68,90,0.38)',  size:'0.75rem', blur:'none' },
+    { color:'rgba(110,80,170,0.40)', size:'1.3rem',  blur:'0 0 12px rgba(110,80,170,0.2)'},
+    { color:'rgba(196,154,60,0.35)', size:'0.85rem', blur:'none' },
+  ];
+  const count = 28;
+  for(let i = 0; i < count; i++){
+    const el = document.createElement('div');
+    el.className = 'falling-name';
+    const name = names[Math.floor(Math.random()*names.length)];
+    const st   = styles[Math.floor(Math.random()*styles.length)];
+    el.textContent = name;
+    el.style.left     = (Math.random()*105 - 2) + 'vw';
+    el.style.fontSize = st.size;
+    el.style.color    = st.color;
+    el.style.textShadow = st.blur;
+    el.style.letterSpacing = '0.06em';
+    const dur = 18 + Math.random()*22;
+    el.style.animationDuration  = dur + 's';
+    el.style.animationDelay     = -(Math.random()*dur) + 's'; // stagger so some start mid-fall
+    layer.appendChild(el);
+  }
+})();
+
 /* ══ PETALS ══ */
 (function(){
   const layer = document.getElementById('petals');
   const sym = ['🌹','🌸','🌺','✨','💕','🌷','❤️'];
-  for(let i=0;i<16;i++){
+  for(let i=0;i<12;i++){
     const p=document.createElement('div');
     p.className='petal';
     p.textContent=sym[Math.floor(Math.random()*sym.length)];
