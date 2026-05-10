@@ -1147,28 +1147,56 @@ function scrollToMsg(id){
 }
 
 /* ══ SEND ══ */
-async function sendMessage(){
+async function sendMessage() {
+
   const inp = document.getElementById('msg-input');
   const txt = inp.value.trim();
+
   if (!txt) return;
-  inp.value = ''; autoResize(inp);
+
+  inp.value = '';
+  autoResize(inp);
+
   clearTimeout(typingTimer);
   isTypingActive = false;
   sendTypingStatus(false);
 
-  // Insert into Supabase — let Realtime handle the rendering
-  // NO optimistic message added here
-  const { error } = await supabaseClient
+  const messageData = {
+    text: txt,
+    sender: currentSender,
+    reply_to_id: replyingTo ? replyingTo.id : null
+  };
+
+  const { data, error } = await supabaseClient
     .from('messages')
-    .insert([{ text: txt, sender: currentSender }]);
+    .insert([messageData])
+    .select()
+    .single();
 
   if (error) {
-    console.error('Send failed:', error);
-    toast('Message failed 😢');
-    // Only show manually if realtime fails
+    console.error('FULL INSERT ERROR:', error);
+
+    alert(
+      'Message failed:\n' +
+      error.message
+    );
+
     inp.value = txt;
     autoResize(inp);
+    return;
   }
+
+  console.log('MESSAGE SAVED:', data);
+
+  // IMPORTANT:
+  // Add locally immediately
+  if (!messages.find(m => m.id === data.id)) {
+    messages.push(data);
+    renderOne(data);
+    scrollBottom();
+  }
+
+  cancelReply();
 }
 
 /* ══ EMOJI PICKER ══ */
