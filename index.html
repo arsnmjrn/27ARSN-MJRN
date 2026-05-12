@@ -73,77 +73,72 @@
 </div>
 
 <script>
-// ─────────────────────────────────────────────────────────────────
-
-// ─────────────────────────────────────────────────────────────────
 
 (function () {
   'use strict';
 
-  // ── LOCKOUT CONFIG ──────────────────────────────────────────────
-  // Max wrong attempts across the whole session before a cooldown
+
   const MAX_FAILS = 8;
-  const LOCKOUT_MS = 2 * 60 * 1000; // 2 minutes cooldown
+  const LOCKOUT_MS = 2 * 60 * 1000; 
 
 
   const Q = [
     {
       q: "What is the number?",
-      // "27"
+    
       h: "670671cd97404156226e507973f2ab8330d3022ca96e0c93bdbdb320c41adcaf",
       hint: "Think carefully, my love..."
     },
     {
       q: "What is the love code?",
-      //  "love birds"
+  
       h: "2f707f7bd62d62b1a431a81583f0ae2f08795cadfa259ef5e96372ba3918beb4",
       hint: "Only we know this one..."
     },
     {
       q: "How many kids?",
-      // "5"
-      h: "37bd40c9dd9bb3a391b357eb42431071873fb6b55fbb50ab6fbc484776bbcccb",
+      
+      h: "ef2d127de37b942baad06145e54b0c619a1f22327b2ebbcfbec78f5564afe39d",
       hint: "Our little family..."
     },
     {
       q: "Behind the necklace?",
-      // "no matter what i will love you always"
-      h: "034405dcf0b33df7d76d2a002914e341ac8bfdffbdc953024190f223ae7ee9d1",
+    
+      h: "3da65d57b6f2b2e6ec8d7c86b12447b147f67561ca98a195e14a50ee6eb95bd0",
       hint: "Those special words..."
     },
     {
       q: "What do we rely on?",
-      //"faithfullness"
-      h: "4ea7c508a7b9e04431cac6b67fd8610e31d2a372283652ad256512b13a21f1d6",
+
+      h: "5ba7b791a030488e0537f685fd269c0e372ac7a9c6a5ab13fd116d5f6e233f45",
       hint: "Our foundation..."
     },
     {
-      q: "What did Jedieh say?",
-      //"faithfullness"
-      h: "4c6c3b493e175a63386df29ed8c08c0ab3b9c0d3ea50ce96698bc3e26465c28f",
+      q: "What is Majorias's major responsibility?",
+  
+      h: "cdc7470a311c3b22683447604d167f4d19ec5f584fd4da1c270b99984862bb98",
       hint: "Our foundation..."
     }
   ];
 
-  // ── STATE ───────────────────────────────────────────────────────
+
   let step = 0;
   let wrongCount = 0;
   let attemptsThisStep = 0;
   let locked = false;
 
-  // ── SHA-256 via Web Crypto API (built into every modern browser) ─
+  
   async function sha256(message) {
     const enc = new TextEncoder();
     const buf = await crypto.subtle.digest('SHA-256', enc.encode(message));
     return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
   }
 
-  // ── NORMALISE INPUT ─────────────────────────────────────────────
+
   function norm(s) {
     return s.trim().toLowerCase().replace(/\s+/g, ' ');
   }
 
-  // ── LOCKOUT ─────────────────────────────────────────────────────
   function triggerLockout() {
     locked = true;
     const btn = document.getElementById('next-btn');
@@ -170,7 +165,6 @@
     }, 1000);
   }
 
-  // ── CHECK ANSWER ────────────────────────────────────────────────
   async function checkAnswer() {
     if (locked) return;
 
@@ -180,7 +174,7 @@
 
     if (!val) { err.textContent = '✦ Please enter your answer'; return; }
 
-    // Hash what the user typed and compare to stored hash
+
     const userHash = await sha256(val);
     const correct = userHash === Q[step].h;
 
