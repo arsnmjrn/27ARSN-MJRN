@@ -1,0 +1,1548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no"/>
+<title>Arsene & Majorine 🎮</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Nunito:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+html,body{overflow-x:hidden;width:100%;-webkit-text-size-adjust:100%;touch-action:pan-y;}
+
+:root{
+  --bg:#0d0b12;
+  --mirror:#1a1625;
+  --mirror2:#221d30;
+  --glass:rgba(255,255,255,0.04);
+  --rim:rgba(255,255,255,0.08);
+  --rim2:rgba(255,255,255,0.13);
+  --garnet:#b5445a;
+  --rose:#e08098;
+  --blush:#f2bcc8;
+  --violet:#8a5ac8;
+  --violet2:#a070e0;
+  --gold:#c49a3c;
+  --teal:#3dbfa0;
+  --text:#f0ecf8;
+  --text-dim:rgba(240,236,248,0.65);
+  --text-mute:rgba(240,236,248,0.35);
+  --r:18px;
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;}
+
+body{
+  font-family:'Nunito',sans-serif;
+  background:var(--bg);
+  min-height:100dvh;
+  overflow-x:hidden;
+}
+
+/* ─── BG ─── */
+.bg-layer{position:fixed;inset:0;z-index:0;background:url('backgroundphoto.jpg') center/cover no-repeat;filter:brightness(0.15) saturate(0.5);}
+.bg-overlay{
+  position:fixed;inset:0;z-index:1;
+  background:
+    radial-gradient(ellipse 70% 50% at 15% 15%,rgba(181,68,90,0.14) 0%,transparent 60%),
+    radial-gradient(ellipse 60% 45% at 85% 85%,rgba(130,90,200,0.13) 0%,transparent 60%),
+    radial-gradient(ellipse 40% 30% at 50% 50%,rgba(196,154,60,0.04) 0%,transparent 70%);
+}
+.bg-grid{
+  position:fixed;inset:0;z-index:1;pointer-events:none;
+  background-image:linear-gradient(rgba(255,255,255,0.02) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.02) 1px,transparent 1px);
+  background-size:60px 60px;
+}
+
+/* ─── FALLING NAMES ─── */
+.names-layer{position:fixed;inset:0;z-index:2;pointer-events:none;overflow:hidden;}
+.falling-name{position:absolute;top:-80px;font-family:'Playfair Display',serif;font-style:italic;opacity:0;animation:nameFall linear infinite;white-space:nowrap;user-select:none;}
+@keyframes nameFall{0%{opacity:0;transform:translateY(-80px);}8%{opacity:1;}88%{opacity:0.35;}100%{opacity:0;transform:translateY(110dvh);}}
+
+/* ─── IDENTITY SCREEN ─── */
+#identity-screen{
+  position:fixed;inset:0;z-index:200;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+}
+.id-card{
+  background:rgba(26,22,37,0.9);
+  backdrop-filter:blur(40px) saturate(1.4);
+  -webkit-backdrop-filter:blur(40px) saturate(1.4);
+  border:1px solid rgba(255,255,255,0.09);
+  border-top:1px solid rgba(255,255,255,0.18);
+  border-radius:30px;
+  box-shadow:0 0 0 1px rgba(181,68,90,0.12),0 32px 80px rgba(0,0,0,0.8);
+  padding:2.4rem 2.2rem 2rem;
+  width:min(340px,92vw);
+  display:flex;flex-direction:column;align-items:center;gap:1.2rem;
+  position:relative;overflow:hidden;
+}
+.id-card::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--rose),var(--violet2),transparent);opacity:.7;}
+.id-card::after{content:"";position:absolute;inset:0;border-radius:30px;background:linear-gradient(135deg,rgba(255,255,255,0.04) 0%,transparent 60%);pointer-events:none;}
+.id-icon{font-size:3rem;line-height:1;animation:iconPulse 2s ease-in-out infinite;}
+@keyframes iconPulse{0%,100%{transform:scale(1);}50%{transform:scale(1.08);}}
+.id-title{font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:400;font-style:italic;color:var(--text);text-align:center;line-height:1.2;}
+.id-sub{font-size:.72rem;color:var(--gold);letter-spacing:.18em;text-transform:uppercase;text-align:center;}
+.who-row{display:flex;gap:.6rem;width:100%;}
+.who-btn{
+  flex:1;padding:.7rem .4rem;border-radius:14px;
+  border:1px solid rgba(255,255,255,0.07);
+  background:rgba(255,255,255,0.04);
+  cursor:pointer;font-family:'Nunito',sans-serif;font-size:.78rem;color:var(--text-mute);
+  transition:all .2s;display:flex;flex-direction:column;align-items:center;gap:.22rem;
+}
+.who-btn .av{width:46px;height:46px;border-radius:50%;background:#1a1020 center/cover no-repeat;border:2px solid rgba(255,255,255,0.07);box-shadow:0 4px 12px rgba(0,0,0,0.5);}
+#who-h .av{background-image:url('arsene-image1.jpg');}
+#who-w .av{background-image:url('majorine3.jpg');}
+.who-btn span:not(.av){font-size:.72rem;font-weight:600;letter-spacing:.05em;}
+.who-btn.active{background:rgba(181,68,90,0.14);border-color:rgba(181,68,90,0.45);color:var(--rose);}
+.who-btn.active .av{border-color:rgba(181,68,90,0.5);}
+.btn-enter{
+  width:100%;padding:.82rem;
+  background:linear-gradient(135deg,#6e1828,#b5445a);
+  color:#f0ecf8;border:none;border-radius:14px;
+  font-family:'Nunito',sans-serif;font-weight:600;font-size:.92rem;cursor:pointer;letter-spacing:.06em;
+  transition:opacity .2s,transform .12s;
+  box-shadow:0 4px 24px rgba(181,68,90,0.4);position:relative;overflow:hidden;
+}
+.btn-enter::after{content:"";position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,0.1) 0%,transparent 60%);pointer-events:none;}
+.btn-enter:hover{opacity:.92;transform:translateY(-2px);}
+.btn-enter:disabled{opacity:.3;cursor:not-allowed;transform:none;}
+#load-status{font-size:.7rem;color:var(--text-mute);letter-spacing:.06em;text-align:center;}
+
+/* ─── MAIN SHELL ─── */
+#main{display:none;flex-direction:column;min-height:100dvh;position:relative;z-index:3;}
+
+/* ─── TOP BAR ─── */
+.topbar{
+  background:rgba(18,14,28,0.88);
+  backdrop-filter:blur(28px);-webkit-backdrop-filter:blur(28px);
+  border-bottom:1px solid rgba(255,255,255,0.07);
+  box-shadow:0 1px 0 rgba(181,68,90,0.15);
+  padding:.9rem 1.1rem;
+  display:flex;align-items:center;gap:.85rem;
+  position:sticky;top:0;z-index:10;flex-shrink:0;
+}
+.topbar::after{content:"";position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(181,68,90,0.5),rgba(138,90,200,0.4),transparent);}
+.topbar-avatar{width:42px;height:42px;border-radius:50%;background:#1a1020 center/cover no-repeat;border:1px solid rgba(255,255,255,0.09);box-shadow:0 0 0 2px rgba(181,68,90,0.28);}
+.topbar-info{flex:1;}
+.topbar-title{font-family:'Playfair Display',serif;font-size:1rem;font-weight:600;color:var(--text);letter-spacing:.02em;}
+.topbar-sub{font-size:.65rem;color:var(--text-mute);margin-top:.08rem;letter-spacing:.05em;}
+.topbar-who{font-size:.65rem;color:var(--text-mute);padding:.2rem .5rem;border-radius:20px;border:1px solid rgba(255,255,255,0.07);background:rgba(255,255,255,0.03);}
+.topbar-leave{background:none;border:none;color:var(--text-mute);font-size:1rem;cursor:pointer;padding:.3rem;border-radius:8px;transition:color .2s;}
+.topbar-leave:hover{color:var(--rose);}
+
+/* ─── SCORE BAR ─── */
+.score-bar{
+  background:rgba(255,255,255,0.03);
+  border-bottom:1px solid rgba(255,255,255,0.06);
+  padding:.55rem 1.1rem;
+  display:flex;align-items:center;justify-content:center;gap:1.5rem;
+  flex-shrink:0;
+}
+.score-item{display:flex;flex-direction:column;align-items:center;gap:.1rem;}
+.score-val{font-size:1.1rem;font-weight:600;color:var(--text);font-family:'Playfair Display',serif;}
+.score-lbl{font-size:.6rem;color:var(--text-mute);letter-spacing:.08em;text-transform:uppercase;}
+.score-sep{width:1px;height:28px;background:rgba(255,255,255,0.08);}
+.score-item.win .score-val{color:var(--teal);}
+.score-item.loss .score-val{color:var(--rose);}
+
+/* ─── GAME HUB GRID ─── */
+#game-hub{padding:1.1rem 1rem 2rem;display:grid;grid-template-columns:1fr 1fr;gap:.75rem;}
+.hub-card{
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(255,255,255,0.07);
+  border-top:1px solid rgba(255,255,255,0.12);
+  border-radius:20px;padding:1.1rem .9rem 1rem;
+  cursor:pointer;transition:all .22s;text-align:center;position:relative;overflow:hidden;
+}
+.hub-card::after{content:"";position:absolute;inset:0;border-radius:20px;background:linear-gradient(135deg,rgba(255,255,255,0.04) 0%,transparent 55%);pointer-events:none;}
+.hub-card:hover{transform:translateY(-3px);}
+.hub-card.rose:hover{background:rgba(181,68,90,0.14);border-color:rgba(181,68,90,0.4);box-shadow:0 8px 28px rgba(181,68,90,0.2);}
+.hub-card.violet:hover{background:rgba(138,90,200,0.14);border-color:rgba(138,90,200,0.4);box-shadow:0 8px 28px rgba(138,90,200,0.2);}
+.hub-card.gold:hover{background:rgba(196,154,60,0.12);border-color:rgba(196,154,60,0.38);box-shadow:0 8px 28px rgba(196,154,60,0.18);}
+.hub-card.teal:hover{background:rgba(61,191,160,0.12);border-color:rgba(61,191,160,0.38);box-shadow:0 8px 28px rgba(61,191,160,0.18);}
+.hub-icon{font-size:2rem;margin-bottom:.55rem;line-height:1;}
+.hub-name{font-size:.82rem;font-weight:600;color:var(--text);margin-bottom:.22rem;letter-spacing:.02em;}
+.hub-desc{font-size:.67rem;color:var(--text-mute);line-height:1.45;}
+.hub-badge{
+  position:absolute;top:.55rem;right:.55rem;
+  font-size:.55rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+  padding:.15rem .42rem;border-radius:20px;
+}
+.hub-badge.live{background:rgba(61,191,160,0.2);color:var(--teal);border:1px solid rgba(61,191,160,0.3);}
+.hub-badge.solo{background:rgba(196,154,60,0.18);color:var(--gold);border:1px solid rgba(196,154,60,0.28);}
+
+/* ─── GAME SCREEN ─── */
+#game-screen{display:none;flex-direction:column;flex:1;padding:1rem;position:relative;}
+.gs-back{
+  display:inline-flex;align-items:center;gap:.4rem;
+  background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);
+  color:var(--text-mute);font-family:'Nunito',sans-serif;font-size:.78rem;
+  cursor:pointer;padding:.45rem .9rem;border-radius:20px;margin-bottom:1rem;
+  transition:background .15s,color .15s;letter-spacing:.04em;align-self:flex-start;
+}
+.gs-back:hover{background:rgba(181,68,90,0.12);color:var(--rose);}
+.gs-title{font-family:'Playfair Display',serif;font-style:italic;font-size:1.3rem;color:var(--text);text-align:center;margin-bottom:.35rem;}
+.gs-sub{font-size:.75rem;color:var(--text-mute);text-align:center;margin-bottom:1.2rem;letter-spacing:.04em;}
+
+/* ─── SHARED COMPONENTS ─── */
+.mirror-card{
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(255,255,255,0.07);border-top:1px solid rgba(255,255,255,0.14);
+  border-radius:20px;padding:1.4rem 1.2rem;
+  position:relative;overflow:hidden;
+  box-shadow:0 4px 32px rgba(0,0,0,0.4);
+}
+.mirror-card::after{content:"";position:absolute;inset:0;border-radius:20px;background:linear-gradient(135deg,rgba(255,255,255,0.04) 0%,transparent 55%);pointer-events:none;}
+.btn-primary{
+  width:100%;padding:.78rem;
+  background:linear-gradient(135deg,#6e1828,#b5445a);
+  color:#f0ecf8;border:none;border-radius:14px;
+  font-family:'Nunito',sans-serif;font-weight:600;font-size:.88rem;cursor:pointer;letter-spacing:.05em;
+  transition:opacity .2s,transform .15s;
+  box-shadow:0 4px 20px rgba(181,68,90,0.35);position:relative;overflow:hidden;
+}
+.btn-primary::after{content:"";position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,0.1) 0%,transparent 60%);pointer-events:none;}
+.btn-primary:hover{opacity:.9;transform:translateY(-2px);}
+.btn-primary:disabled{opacity:.3;cursor:not-allowed;transform:none;}
+.btn-secondary{
+  width:100%;padding:.72rem;
+  background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);
+  color:var(--text-dim);border-radius:14px;
+  font-family:'Nunito',sans-serif;font-size:.85rem;cursor:pointer;letter-spacing:.04em;
+  transition:background .15s,color .15s;
+}
+.btn-secondary:hover{background:rgba(138,90,200,0.15);border-color:rgba(138,90,200,0.4);color:var(--violet2);}
+.status-line{font-size:.78rem;color:var(--text-mute);text-align:center;letter-spacing:.05em;min-height:1.2em;margin:.6rem 0;}
+
+/* ── TOAST ── */
+#toast{
+  position:fixed;bottom:24px;left:50%;transform:translateX(-50%);
+  background:rgba(22,18,35,0.97);backdrop-filter:blur(20px);
+  border:1px solid rgba(255,255,255,0.1);color:var(--text-dim);font-size:.75rem;
+  padding:.48rem 1.1rem;border-radius:20px;
+  opacity:0;transition:opacity .3s;pointer-events:none;z-index:999;
+  letter-spacing:.04em;box-shadow:0 8px 32px rgba(0,0,0,0.6);white-space:nowrap;
+}
+#toast.show{opacity:1;}
+
+/* ══════════════════════════════
+   ROCK PAPER SCISSORS
+══════════════════════════════ */
+.rps-arena{display:flex;align-items:center;justify-content:center;gap:1rem;margin:1rem 0;}
+.rps-side{display:flex;flex-direction:column;align-items:center;gap:.4rem;flex:1;}
+.rps-lbl{font-size:.68rem;color:var(--text-mute);letter-spacing:.08em;text-transform:uppercase;}
+.rps-choice{
+  font-size:3rem;line-height:1;
+  background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.09);
+  border-radius:20px;padding:.6rem .9rem;min-width:72px;text-align:center;
+  transition:all .3s;
+}
+.rps-choice.picked{background:rgba(181,68,90,0.16);border-color:rgba(181,68,90,0.42);box-shadow:0 0 24px rgba(181,68,90,0.28);}
+.rps-vs{font-family:'Playfair Display',serif;font-style:italic;font-size:1.1rem;color:var(--text-mute);}
+.rps-moves{display:flex;gap:.6rem;justify-content:center;margin:.8rem 0;}
+.rps-btn{
+  display:flex;flex-direction:column;align-items:center;gap:.3rem;
+  background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.09);
+  border-radius:16px;padding:.7rem .85rem;cursor:pointer;transition:all .18s;
+  font-family:'Nunito',sans-serif;
+}
+.rps-btn .em{font-size:2rem;line-height:1;}
+.rps-btn .lb{font-size:.65rem;color:var(--text-mute);letter-spacing:.04em;}
+.rps-btn:hover{background:rgba(181,68,90,0.16);border-color:rgba(181,68,90,0.42);transform:scale(1.08);}
+.rps-btn:disabled{opacity:.3;cursor:not-allowed;transform:none;}
+.rps-result{text-align:center;padding:.8rem 0;}
+.rps-result-text{font-family:'Playfair Display',serif;font-style:italic;font-size:1.5rem;color:var(--text);margin-bottom:.8rem;}
+.rps-score{font-size:.7rem;color:var(--text-mute);text-align:center;letter-spacing:.08em;margin-top:.5rem;}
+
+/* ══════════════════════════════
+   TRUTH OR DARE
+══════════════════════════════ */
+.td-tabs{display:flex;gap:.5rem;margin-bottom:1rem;}
+.td-tab{
+  flex:1;padding:.55rem;border-radius:14px;
+  background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);
+  color:var(--text-mute);font-family:'Nunito',sans-serif;font-size:.82rem;font-weight:600;
+  cursor:pointer;letter-spacing:.04em;transition:all .2s;
+}
+.td-tab.active{background:rgba(181,68,90,0.18);border-color:rgba(181,68,90,0.45);color:var(--rose);box-shadow:0 0 16px rgba(181,68,90,0.18);}
+.td-card-text{
+  font-family:'Playfair Display',serif;font-style:italic;
+  font-size:1.05rem;color:var(--text);text-align:center;line-height:1.65;
+  min-height:80px;display:flex;align-items:center;justify-content:center;
+  transition:opacity .25s,transform .25s;
+}
+
+/* ══════════════════════════════
+   WOULD YOU RATHER
+══════════════════════════════ */
+.wyr-question{
+  font-family:'Playfair Display',serif;font-style:italic;
+  font-size:1rem;color:var(--text-mute);text-align:center;margin-bottom:.8rem;letter-spacing:.04em;
+}
+.wyr-options{display:flex;flex-direction:column;gap:.65rem;margin:.5rem 0;}
+.wyr-opt{
+  background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.09);
+  border-radius:16px;padding:.85rem 1.1rem;cursor:pointer;transition:all .2s;
+  font-family:'Playfair Display',serif;font-style:italic;
+  font-size:.95rem;color:var(--text-dim);text-align:center;line-height:1.45;
+  position:relative;overflow:hidden;
+}
+.wyr-opt::after{content:"";position:absolute;inset:0;border-radius:16px;background:linear-gradient(135deg,rgba(255,255,255,0.03) 0%,transparent 60%);pointer-events:none;}
+.wyr-opt:hover{background:rgba(181,68,90,0.14);border-color:rgba(181,68,90,0.4);color:var(--text);}
+.wyr-opt.chosen-a{background:rgba(181,68,90,0.2);border-color:rgba(181,68,90,0.5);color:var(--text);}
+.wyr-opt.chosen-b{background:rgba(138,90,200,0.2);border-color:rgba(138,90,200,0.5);color:var(--text);}
+.wyr-or{text-align:center;font-size:.72rem;color:var(--gold);letter-spacing:.1em;text-transform:uppercase;margin:.25rem 0;}
+.wyr-bar-wrap{display:flex;gap:.4rem;align-items:center;margin-top:.5rem;}
+.wyr-bar{height:8px;border-radius:4px;flex:1;background:rgba(255,255,255,0.07);overflow:hidden;}
+.wyr-bar-fill{height:100%;border-radius:4px;transition:width .5s ease;}
+.wyr-bar-a .wyr-bar-fill{background:linear-gradient(90deg,var(--garnet),var(--rose));}
+.wyr-bar-b .wyr-bar-fill{background:linear-gradient(90deg,var(--violet),var(--violet2));}
+.wyr-bar-lbl{font-size:.62rem;color:var(--text-mute);min-width:26px;text-align:center;}
+
+/* ══════════════════════════════
+   NEVER HAVE I EVER
+══════════════════════════════ */
+.nhie-card-text{
+  font-family:'Playfair Display',serif;font-style:italic;
+  font-size:1.05rem;color:var(--text);text-align:center;line-height:1.65;
+  min-height:80px;display:flex;align-items:center;justify-content:center;
+  transition:opacity .25s,transform .25s;
+}
+.nhie-actions{display:flex;gap:.6rem;margin-top:.9rem;}
+.nhie-btn{
+  flex:1;padding:.72rem;border-radius:14px;
+  font-family:'Nunito',sans-serif;font-weight:600;font-size:.85rem;
+  cursor:pointer;letter-spacing:.05em;transition:all .2s;border:1px solid transparent;
+}
+.nhie-btn.have{background:rgba(181,68,90,0.2);border-color:rgba(181,68,90,0.45);color:var(--rose);}
+.nhie-btn.have:hover{background:rgba(181,68,90,0.3);box-shadow:0 4px 16px rgba(181,68,90,0.3);}
+.nhie-btn.never{background:rgba(255,255,255,0.05);border-color:rgba(255,255,255,0.1);color:var(--text-dim);}
+.nhie-btn.never:hover{background:rgba(255,255,255,0.08);}
+.nhie-resp{margin-top:.8rem;font-size:.78rem;color:var(--text-mute);text-align:center;min-height:1.2em;}
+
+/* ══════════════════════════════
+   WORD CHAIN
+══════════════════════════════ */
+.wc-word-display{
+  font-family:'Playfair Display',serif;font-style:italic;
+  font-size:2.2rem;color:var(--text);text-align:center;letter-spacing:.04em;
+  padding:.6rem;margin:.6rem 0;
+}
+.wc-hint{font-size:.72rem;color:var(--gold);text-align:center;letter-spacing:.06em;margin-bottom:.8rem;}
+.wc-history{
+  max-height:120px;overflow-y:auto;margin:.6rem 0;
+  display:flex;flex-wrap:wrap;gap:.35rem;
+  padding:.4rem;
+}
+.wc-history::-webkit-scrollbar{width:2px;}
+.wc-history::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.1);}
+.wc-chip{
+  background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.09);
+  border-radius:20px;padding:.2rem .6rem;font-size:.75rem;color:var(--text-dim);
+}
+.wc-chip.me-word{background:rgba(181,68,90,0.12);border-color:rgba(181,68,90,0.3);color:var(--rose);}
+.wc-chip.her-word{background:rgba(138,90,200,0.12);border-color:rgba(138,90,200,0.3);color:var(--violet2);}
+.wc-input-row{display:flex;gap:.5rem;margin-top:.5rem;}
+.wc-input{
+  flex:1;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.09);
+  border-radius:14px;padding:.65rem 1rem;font-family:'Nunito',sans-serif;
+  font-size:.9rem;color:var(--text);outline:none;caret-color:var(--rose);
+  transition:border-color .2s;
+}
+.wc-input:focus{border-color:rgba(181,68,90,0.42);box-shadow:0 0 0 3px rgba(181,68,90,0.1);}
+.wc-input::placeholder{color:var(--text-mute);}
+.wc-send{
+  background:linear-gradient(135deg,#6e1828,#b5445a);color:#f0ecf8;
+  border:none;border-radius:14px;padding:.65rem 1rem;
+  cursor:pointer;font-size:.85rem;font-weight:600;font-family:'Nunito',sans-serif;
+  transition:opacity .2s,transform .15s;box-shadow:0 4px 16px rgba(181,68,90,0.3);
+}
+.wc-send:hover{opacity:.9;transform:scale(1.04);}
+.wc-timer{font-size:.7rem;color:var(--text-mute);text-align:center;margin-top:.5rem;letter-spacing:.06em;}
+
+/* ══════════════════════════════
+   EMOJI PUZZLE
+══════════════════════════════ */
+.ep-puzzle{
+  font-size:2.4rem;text-align:center;letter-spacing:.15rem;
+  padding:.8rem;margin:.6rem 0;line-height:1.4;
+}
+.ep-category{font-size:.68rem;color:var(--gold);text-align:center;letter-spacing:.12em;text-transform:uppercase;margin-bottom:.6rem;}
+.ep-input-row{display:flex;gap:.5rem;margin:.8rem 0;}
+.ep-input{
+  flex:1;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.09);
+  border-radius:14px;padding:.65rem 1rem;font-family:'Nunito',sans-serif;
+  font-size:.9rem;color:var(--text);outline:none;caret-color:var(--rose);
+  transition:border-color .2s;text-transform:capitalize;
+}
+.ep-input:focus{border-color:rgba(181,68,90,0.42);box-shadow:0 0 0 3px rgba(181,68,90,0.1);}
+.ep-input::placeholder{color:var(--text-mute);}
+.ep-hint-btn{
+  background:rgba(196,154,60,0.12);border:1px solid rgba(196,154,60,0.3);
+  color:var(--gold);border-radius:14px;padding:.65rem .9rem;cursor:pointer;
+  font-size:.78rem;font-weight:600;font-family:'Nunito',sans-serif;
+  transition:background .15s;letter-spacing:.04em;
+}
+.ep-hint-btn:hover{background:rgba(196,154,60,0.22);}
+.ep-answer{
+  font-family:'Playfair Display',serif;font-style:italic;
+  font-size:1.1rem;color:var(--teal);text-align:center;min-height:1.5em;margin:.4rem 0;
+}
+.ep-score{font-size:.7rem;color:var(--text-mute);text-align:center;letter-spacing:.08em;}
+
+/* ══════════════════════════════
+   LOVE LETTER
+══════════════════════════════ */
+.ll-compose{display:flex;flex-direction:column;gap:.75rem;}
+.ll-textarea{
+  background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.09);
+  border-radius:16px;padding:1rem;font-family:'Playfair Display',serif;
+  font-style:italic;font-size:.92rem;color:var(--text);outline:none;
+  caret-color:var(--rose);resize:none;line-height:1.7;min-height:130px;
+  transition:border-color .2s;
+}
+.ll-textarea:focus{border-color:rgba(181,68,90,0.42);box-shadow:0 0 0 3px rgba(181,68,90,0.1);}
+.ll-textarea::placeholder{color:var(--text-mute);}
+.ll-inbox{margin-top:1rem;display:flex;flex-direction:column;gap:.6rem;}
+.ll-letter{
+  background:rgba(181,68,90,0.1);border:1px solid rgba(181,68,90,0.25);
+  border-radius:16px;padding:1rem;position:relative;overflow:hidden;
+}
+.ll-letter::after{content:"";position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,0.03) 0%,transparent 60%);pointer-events:none;}
+.ll-letter-from{font-size:.65rem;color:var(--rose);letter-spacing:.08em;text-transform:uppercase;margin-bottom:.4rem;font-weight:700;}
+.ll-letter-text{font-family:'Playfair Display',serif;font-style:italic;font-size:.92rem;color:var(--text-dim);line-height:1.65;}
+.ll-letter-time{font-size:.6rem;color:var(--text-mute);text-align:right;margin-top:.4rem;}
+.ll-empty{text-align:center;color:var(--text-mute);font-size:.8rem;padding:1.2rem 0;font-style:italic;}
+
+/* ══════════════════════════════
+   COUPLES QUIZ
+══════════════════════════════ */
+.cq-question{
+  font-family:'Playfair Display',serif;font-style:italic;
+  font-size:1.05rem;color:var(--text);text-align:center;line-height:1.6;margin:.4rem 0 1rem;
+}
+.cq-opts{display:flex;flex-direction:column;gap:.55rem;}
+.cq-opt{
+  background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.09);
+  border-radius:14px;padding:.7rem 1rem;cursor:pointer;transition:all .2s;
+  font-family:'Nunito',sans-serif;font-size:.85rem;color:var(--text-dim);
+}
+.cq-opt:hover{background:rgba(181,68,90,0.12);border-color:rgba(181,68,90,0.38);}
+.cq-opt.correct{background:rgba(61,191,160,0.18);border-color:rgba(61,191,160,0.45);color:var(--teal);}
+.cq-opt.wrong{background:rgba(181,68,90,0.18);border-color:rgba(181,68,90,0.45);color:var(--rose);}
+.cq-opt:disabled{cursor:not-allowed;}
+.cq-progress{display:flex;gap:.4rem;margin-bottom:1rem;justify-content:center;flex-wrap:wrap;}
+.cq-pip{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.08);}
+.cq-pip.done-correct{background:var(--teal);}
+.cq-pip.done-wrong{background:var(--rose);}
+.cq-pip.current{background:var(--gold);box-shadow:0 0 8px var(--gold);}
+
+/* ══════════════════════════════
+   SPIN THE WHEEL
+══════════════════════════════ */
+.stw-wheel-wrap{display:flex;justify-content:center;align-items:center;margin:.6rem 0;position:relative;}
+#stw-canvas{border-radius:50%;border:2px solid rgba(255,255,255,0.12);box-shadow:0 0 32px rgba(181,68,90,0.25);cursor:pointer;}
+.stw-pointer{
+  position:absolute;top:-14px;left:50%;transform:translateX(-50%);
+  width:0;height:0;
+  border-left:10px solid transparent;border-right:10px solid transparent;
+  border-top:22px solid var(--rose);
+  filter:drop-shadow(0 2px 6px rgba(181,68,90,0.6));
+}
+.stw-result{
+  font-family:'Playfair Display',serif;font-style:italic;
+  font-size:1.2rem;color:var(--text);text-align:center;margin:.7rem 0;min-height:1.8em;
+}
+
+/* ══════════════════════════════
+   MOST LIKELY TO
+══════════════════════════════ */
+.mlt-card-text{
+  font-family:'Playfair Display',serif;font-style:italic;
+  font-size:1.05rem;color:var(--text);text-align:center;line-height:1.65;
+  min-height:80px;display:flex;align-items:center;justify-content:center;
+  transition:opacity .25s,transform .25s;
+}
+.mlt-vote-row{display:flex;gap:.6rem;margin-top:.9rem;}
+.mlt-vote-btn{
+  flex:1;padding:.7rem;border-radius:14px;
+  font-family:'Nunito',sans-serif;font-weight:600;font-size:.82rem;
+  cursor:pointer;transition:all .2s;border:1px solid rgba(255,255,255,0.09);
+  background:rgba(255,255,255,0.04);color:var(--text-dim);letter-spacing:.04em;
+}
+.mlt-vote-btn:hover{background:rgba(181,68,90,0.15);border-color:rgba(181,68,90,0.42);color:var(--rose);}
+.mlt-vote-btn.voted{background:rgba(181,68,90,0.2);border-color:rgba(181,68,90,0.5);color:var(--rose);}
+.mlt-tally{font-size:.75rem;color:var(--text-mute);text-align:center;margin-top:.6rem;min-height:1.2em;}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
+@keyframes spin360{to{transform:rotate(360deg);}}
+</style>
+</head>
+<body>
+
+<div class="bg-layer"></div>
+<div class="bg-overlay"></div>
+<div class="bg-grid"></div>
+<div class="names-layer" id="names-layer"></div>
+
+<!-- ═══ IDENTITY SCREEN ═══ -->
+<div id="identity-screen">
+  <div class="id-card">
+    <div class="id-icon">🎮</div>
+    <div class="id-title">Arsene &amp; Majorine</div>
+    <div class="id-sub">✦ &nbsp;Game Garden &nbsp;✦</div>
+    <div class="who-row">
+      <button class="who-btn active" id="who-h" onclick="selectWho('husband')">
+        <div class="av"></div><span>ARSENE</span>
+      </button>
+      <button class="who-btn" id="who-w" onclick="selectWho('wife')">
+        <div class="av"></div><span>MAJORINE</span>
+      </button>
+    </div>
+    <div id="load-status">Connecting… 🌹</div>
+    <button class="btn-enter" id="enter-btn" onclick="enterGames()" disabled>
+      Enter Game Garden &nbsp;🎮
+    </button>
+  </div>
+</div>
+
+<!-- ═══ MAIN SHELL ═══ -->
+<div id="main">
+  <!-- Top bar -->
+  <div class="topbar">
+    <div class="topbar-avatar" id="tb-avatar"></div>
+    <div class="topbar-info">
+      <div class="topbar-title">Game Garden 🎮</div>
+      <div class="topbar-sub" id="tb-sub">Playing as —</div>
+    </div>
+    <span class="topbar-who" id="tb-who">—</span>
+    <button class="topbar-leave" onclick="leaveGames()">✕</button>
+  </div>
+
+  <!-- Score bar -->
+  <div class="score-bar">
+    <div class="score-item win">
+      <div class="score-val" id="score-wins">0</div>
+      <div class="score-lbl">Wins</div>
+    </div>
+    <div class="score-sep"></div>
+    <div class="score-item loss">
+      <div class="score-val" id="score-losses">0</div>
+      <div class="score-lbl">Losses</div>
+    </div>
+    <div class="score-sep"></div>
+    <div class="score-item">
+      <div class="score-val" id="score-draws">0</div>
+      <div class="score-lbl">Draws</div>
+    </div>
+  </div>
+
+  <!-- Game hub -->
+  <div id="game-hub">
+    <div class="hub-card rose" onclick="openGame('rps')">
+      <span class="hub-badge live">Live</span>
+      <div class="hub-icon">✊📄✂️</div>
+      <div class="hub-name">Rock Paper Scissors</div>
+      <div class="hub-desc">Pick your move, battle live</div>
+    </div>
+    <div class="hub-card violet" onclick="openGame('td')">
+      <span class="hub-badge solo">Solo</span>
+      <div class="hub-icon">🌹🔥</div>
+      <div class="hub-name">Truth or Dare</div>
+      <div class="hub-desc">Romantic questions &amp; dares</div>
+    </div>
+    <div class="hub-card gold" onclick="openGame('wyr')">
+      <span class="hub-badge live">Live</span>
+      <div class="hub-icon">🤔💭</div>
+      <div class="hub-name">Would You Rather</div>
+      <div class="hub-desc">See each other's choices live</div>
+    </div>
+    <div class="hub-card teal" onclick="openGame('nhie')">
+      <span class="hub-badge live">Live</span>
+      <div class="hub-icon">🙈💕</div>
+      <div class="hub-name">Never Have I Ever</div>
+      <div class="hub-desc">Reveal your firsts together</div>
+    </div>
+    <div class="hub-card rose" onclick="openGame('wc')">
+      <span class="hub-badge live">Live</span>
+      <div class="hub-icon">💬🔗</div>
+      <div class="hub-name">Word Chain</div>
+      <div class="hub-desc">Last letter starts next word</div>
+    </div>
+    <div class="hub-card violet" onclick="openGame('ep')">
+      <span class="hub-badge solo">Solo</span>
+      <div class="hub-icon">🤩🔍</div>
+      <div class="hub-name">Emoji Puzzle</div>
+      <div class="hub-desc">Guess the phrase from emojis</div>
+    </div>
+    <div class="hub-card gold" onclick="openGame('ll')">
+      <span class="hub-badge live">Live</span>
+      <div class="hub-icon">💌✍️</div>
+      <div class="hub-name">Love Letters</div>
+      <div class="hub-desc">Send secret notes to each other</div>
+    </div>
+    <div class="hub-card teal" onclick="openGame('cq')">
+      <span class="hub-badge solo">Solo</span>
+      <div class="hub-icon">💑🧠</div>
+      <div class="hub-name">Couples Quiz</div>
+      <div class="hub-desc">How well do you know each other?</div>
+    </div>
+    <div class="hub-card rose" onclick="openGame('stw')">
+      <span class="hub-badge solo">Solo</span>
+      <div class="hub-icon">🎡✨</div>
+      <div class="hub-name">Spin the Wheel</div>
+      <div class="hub-desc">Romantic dares by wheel of fate</div>
+    </div>
+    <div class="hub-card violet" onclick="openGame('mlt')">
+      <span class="hub-badge live">Live</span>
+      <div class="hub-icon">🏆😂</div>
+      <div class="hub-name">Most Likely To</div>
+      <div class="hub-desc">Vote on who fits each scenario</div>
+    </div>
+  </div>
+
+  <!-- Game screen container -->
+  <div id="game-screen">
+    <button class="gs-back" onclick="closeGame()">← Back to Games</button>
+    <div id="game-content"></div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.7/dist/umd/supabase.min.js"></script>
+<script>
+
+/* ════ PREVENT ZOOM ════ */
+document.addEventListener('touchstart',e=>{if(e.touches.length>1)e.preventDefault();},{passive:false});
+let _lte=0;
+document.addEventListener('touchend',e=>{const n=Date.now();if(n-_lte<300)e.preventDefault();_lte=n;},{passive:false});
+
+/* ════ CONFIG ════ */
+const SUPABASE_URL  = 'https://axjosvimpmxxqzyffllt.supabase.co';
+const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImF4am9zdmltcG14eHF6eWZmbGx0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgwOTUwMTIsImV4cCI6MjA5MzY3MTAxMn0.CWn3UttVv2f-5SMQRjsHbzvI2kNIKlnZEcM2XLasukU';
+
+/* ════ STATE ════ */
+let sb=null, currentWho='husband', currentSender;
+let gameChannel=null;
+let globalScore={wins:0,losses:0,draws:0};
+
+/* ════ BOOT ════ */
+window.addEventListener('load',()=>{
+  spawnNames();
+  try{
+    if(!window.supabase?.createClient) throw 0;
+    sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON);
+    setStatus('Ready 🌹','var(--rose)');
+    document.getElementById('enter-btn').disabled=false;
+  }catch{
+    setStatus('Offline mode — some games limited','var(--gold)');
+    document.getElementById('enter-btn').disabled=false;
+  }
+});
+
+function setStatus(t,c){
+  const el=document.getElementById('load-status');
+  el.textContent=t; if(c) el.style.color=c;
+}
+
+/* ════ FALLING NAMES ════ */
+function spawnNames(){
+  const layer=document.getElementById('names-layer');
+  const names=['Arsene','Majorine','Zoe','Arsene','Majorine'];
+  const colors=['rgba(181,68,90,0.4)','rgba(138,90,200,0.38)','rgba(196,154,60,0.32)'];
+  for(let i=0;i<22;i++){
+    const el=document.createElement('div'); el.className='falling-name';
+    el.textContent=names[Math.floor(Math.random()*names.length)];
+    el.style.left=(Math.random()*105-2)+'vw';
+    el.style.fontSize=(0.7+Math.random()*0.7)+'rem';
+    el.style.color=colors[Math.floor(Math.random()*colors.length)];
+    el.style.letterSpacing='0.06em';
+    const dur=18+Math.random()*22;
+    el.style.animationDuration=dur+'s';
+    el.style.animationDelay=-(Math.random()*dur)+'s';
+    layer.appendChild(el);
+  }
+}
+
+/* ════ WHO / ENTER / LEAVE ════ */
+function selectWho(who){
+  currentWho=who;
+  document.getElementById('who-h').classList.toggle('active',who==='husband');
+  document.getElementById('who-w').classList.toggle('active',who==='wife');
+}
+
+function enterGames(){
+  currentSender=currentWho;
+  const isH=currentSender==='husband';
+  document.getElementById('tb-avatar').style.backgroundImage=isH?"url('arsene-image1.jpg')":"url('majorine3.jpg')";
+  document.getElementById('tb-sub').textContent='Playing as '+(isH?'Arsene':'Majorine');
+  document.getElementById('tb-who').textContent=isH?'🤵 Arsene':'👰 Majorine';
+  document.getElementById('identity-screen').style.display='none';
+  document.getElementById('main').style.display='flex';
+  updateScoreBar();
+}
+
+function leaveGames(){
+  killChannel();
+  document.getElementById('identity-screen').style.display='flex';
+  document.getElementById('main').style.display='none';
+  document.getElementById('game-hub').style.display='grid';
+  document.getElementById('game-screen').style.display='none';
+}
+
+/* ════ CHANNEL HELPERS ════ */
+function killChannel(){
+  if(gameChannel&&sb){sb.removeChannel(gameChannel);gameChannel=null;}
+}
+function makeChannel(name, handlers){
+  killChannel();
+  if(!sb) return null;
+  let ch=sb.channel('games:'+name);
+  for(const [evt,fn] of Object.entries(handlers)){
+    ch=ch.on('broadcast',{event:evt},p=>fn(p.payload));
+  }
+  ch.subscribe();
+  gameChannel=ch;
+  return ch;
+}
+function broadcast(evt,payload){
+  if(gameChannel) gameChannel.send({type:'broadcast',event:evt,payload:{sender:currentSender,...payload}});
+}
+
+/* ════ SCORE ════ */
+function addScore(result){
+  if(result==='win') globalScore.wins++;
+  else if(result==='loss') globalScore.losses++;
+  else globalScore.draws++;
+  updateScoreBar();
+}
+function updateScoreBar(){
+  document.getElementById('score-wins').textContent=globalScore.wins;
+  document.getElementById('score-losses').textContent=globalScore.losses;
+  document.getElementById('score-draws').textContent=globalScore.draws;
+}
+
+/* ════ GAME ROUTER ════ */
+function openGame(id){
+  document.getElementById('game-hub').style.display='none';
+  const gs=document.getElementById('game-screen');
+  gs.style.display='flex';
+  gs.style.flexDirection='column';
+  const gc=document.getElementById('game-content');
+  gc.innerHTML='';
+  GAMES[id].init(gc);
+}
+function closeGame(){
+  killChannel();
+  document.getElementById('game-hub').style.display='grid';
+  document.getElementById('game-screen').style.display='none';
+  document.getElementById('game-content').innerHTML='';
+}
+
+/* ════ TOAST ════ */
+function toast(msg,dur=3200){
+  const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),dur);
+}
+
+/* ════════════════════════════════════════════════════
+   GAME DEFINITIONS
+   Each has: init(container)
+   Uses broadcast channels — zero extra Supabase tables
+════════════════════════════════════════════════════ */
+const GAMES={
+
+/* ────────────────────────────────
+   1. ROCK PAPER SCISSORS
+──────────────────────────────── */
+rps:{
+  myMove:null, theirMove:null, waiting:false,
+  score:{me:0,them:0,draws:0},
+  EMOJI:{rock:'✊',paper:'📄',scissors:'✂️'},
+  BEATS:{rock:'scissors',scissors:'paper',paper:'rock'},
+  myName(){ return currentSender==='husband'?'Arsene':'Majorine'; },
+  partnerName(){ return currentSender==='husband'?'Majorine':'Arsene'; },
+  init(c){
+    const g=this;
+    g.myMove=null; g.theirMove=null; g.waiting=false;
+    c.innerHTML=`
+      <div class="gs-title">Rock Paper Scissors ✊📄✂️</div>
+      <div class="gs-sub">Pick your move — results reveal when both choose</div>
+      <div class="mirror-card">
+        <div class="rps-arena">
+          <div class="rps-side">
+            <div class="rps-lbl" id="rps-me-lbl">${g.myName()}</div>
+            <div class="rps-choice" id="rps-me-c">❓</div>
+          </div>
+          <div class="rps-vs">VS</div>
+          <div class="rps-side">
+            <div class="rps-lbl" id="rps-her-lbl">${g.partnerName()}</div>
+            <div class="rps-choice" id="rps-her-c">❓</div>
+          </div>
+        </div>
+        <div class="status-line" id="rps-status">Pick your move!</div>
+        <div class="rps-moves" id="rps-moves">
+          <button class="rps-btn" onclick="GAMES.rps.pick('rock')"><span class="em">✊</span><span class="lb">Rock</span></button>
+          <button class="rps-btn" onclick="GAMES.rps.pick('paper')"><span class="em">📄</span><span class="lb">Paper</span></button>
+          <button class="rps-btn" onclick="GAMES.rps.pick('scissors')"><span class="em">✂️</span><span class="lb">Scissors</span></button>
+        </div>
+        <div id="rps-result" style="display:none" class="rps-result">
+          <div class="rps-result-text" id="rps-res-text"></div>
+          <button class="btn-primary" style="margin-top:.5rem" onclick="GAMES.rps.reset()">Play Again 🔄</button>
+        </div>
+        <div class="rps-score" id="rps-score"></div>
+      </div>`;
+    g.updateScore();
+    makeChannel('rps',{
+      rps_move: p=>{ if(p.sender!==currentSender){ g.theirMove=p.move; document.getElementById('rps-her-c').textContent='✅'; document.getElementById('rps-her-c').classList.add('picked'); document.getElementById('rps-status').textContent=g.partnerName()+' has chosen!'; if(g.myMove) g.reveal(); } },
+      rps_reset: ()=>g.reset(true)
+    });
+  },
+  pick(move){
+    if(this.myMove) return;
+    this.myMove=move;
+    document.getElementById('rps-me-c').textContent=this.EMOJI[move];
+    document.getElementById('rps-me-c').classList.add('picked');
+    document.querySelectorAll('.rps-btn').forEach(b=>b.disabled=true);
+    broadcast('rps_move',{move});
+    if(this.theirMove) this.reveal();
+    else document.getElementById('rps-status').textContent='Waiting for '+this.partnerName()+'… 💌';
+  },
+  reveal(){
+    const me=this.myMove, them=this.theirMove;
+    document.getElementById('rps-her-c').textContent=this.EMOJI[them];
+    document.getElementById('rps-her-c').classList.add('picked');
+    let txt,result;
+    if(me===them){txt='🤝 Draw!';result='draws';}
+    else if(this.BEATS[me]===them){txt='🏆 You Win!';result='me'; addScore('win');}
+    else{txt='💔 They Win!';result='them'; addScore('loss');}
+    this.score[result]=(this.score[result]||0)+1;
+    if(result==='draws') addScore('draw');
+    document.getElementById('rps-res-text').textContent=txt;
+    document.getElementById('rps-result').style.display='block';
+    document.getElementById('rps-moves').style.display='none';
+    document.getElementById('rps-status').textContent='';
+    this.updateScore();
+  },
+  reset(fromPartner=false){
+    this.myMove=null; this.theirMove=null;
+    ['rps-me-c','rps-her-c'].forEach(id=>{const el=document.getElementById(id);if(el){el.textContent='❓';el.classList.remove('picked');}});
+    const res=document.getElementById('rps-result'); if(res) res.style.display='none';
+    const mv=document.getElementById('rps-moves'); if(mv) mv.style.display='flex';
+    document.querySelectorAll('.rps-btn').forEach(b=>b.disabled=false);
+    const st=document.getElementById('rps-status'); if(st) st.textContent='Pick your move!';
+    this.updateScore();
+    if(!fromPartner) broadcast('rps_reset',{});
+  },
+  updateScore(){
+    const el=document.getElementById('rps-score');
+    if(el) el.textContent=this.myName()+': '+this.score.me+'  ·  '+this.partnerName()+': '+this.score.them+'  ·  Draws: '+this.score.draws;
+  }
+},
+
+/* ────────────────────────────────
+   2. TRUTH OR DARE
+──────────────────────────────── */
+td:{
+  mode:'truth',
+  TRUTH:[
+    "What was the exact moment you knew you loved me? 💘",
+    "What's your favourite memory of us? 🌹",
+    "What song makes you think of me? 🎶",
+    "What's one thing I do that always makes you smile? 😊",
+    "What do you love most about our relationship? 💑",
+    "Describe me in three honest words 🌺",
+    "What's the sweetest thing I've ever said to you? 💌",
+    "What future moment with me excites you most? ✨",
+    "What's a small habit of mine you secretly find adorable? 🥰",
+    "If you could relive one day with me, which day? 📅",
+    "What makes you feel most loved by me? ❤️",
+    "What's one thing you want us to do that we haven't yet? 🎯",
+    "What's the most romantic thing you've ever thought about doing for me? 💐",
+    "What's something you've never told me but want to? 🤫",
+    "If we could live anywhere together, where? 🌍",
+    "What was your first impression of me? 😏",
+    "What's your favourite thing I wear? 👗",
+    "What dream do you have that involves both of us? 🌟",
+    "What's the hardest thing about being apart from me? 💔",
+    "What's one word that perfectly describes us? 💕",
+  ],
+  DARE:[
+    "Send me a voice note right now saying 'I love you' in your silliest voice 😂",
+    "Take a selfie right now and send it — no filter! 📸",
+    "Write me a 3-line poem about us in the chat 📝",
+    "Tell me something that makes you blush when you think about me 😳",
+    "Send me your all-time favourite photo of us 💕",
+    "Describe our perfect date night in full detail 🌙",
+    "Name 5 things you love about me right now — no thinking! 💖",
+    "Send the song that best describes how you feel about me 🎵",
+    "Draw a little doodle of us and send it 🎨",
+    "Tell me one thing about me that genuinely takes your breath away 💨",
+    "Change your wallpaper to our favourite photo for the rest of today 🖼️",
+    "Say something sweet to me in a different language 🌐",
+    "List 3 places you want us to travel to and why 🗺️",
+    "Tell me the most romantic thing you want to do for me someday 🌹",
+    "Share a memory of me that makes you laugh every time 😂",
+    "Write our names in a heart shape using only emojis 💌",
+    "Send me a meme that reminds you of me 😎",
+    "Compliment me in the most poetic way you can 📜",
+    "Tell me something you admire about me that I might not know 🌸",
+    "Record yourself saying my name in the most loving way possible 🎤",
+  ],
+  init(c){
+    const g=this; g.mode='truth';
+    c.innerHTML=`
+      <div class="gs-title">Truth or Dare 🌹🔥</div>
+      <div class="gs-sub">Pick a mode, then spin — answer in chat or just for fun</div>
+      <div class="td-tabs">
+        <button class="td-tab active" id="td-tab-truth" onclick="GAMES.td.setMode('truth')">💬 Truth</button>
+        <button class="td-tab" id="td-tab-dare" onclick="GAMES.td.setMode('dare')">🔥 Dare</button>
+      </div>
+      <div class="mirror-card" style="margin-bottom:.9rem">
+        <div class="td-card-text" id="td-text">Tap spin to get your card!</div>
+      </div>
+      <button class="btn-primary" onclick="GAMES.td.spin()">✨ Spin Card</button>`;
+  },
+  setMode(m){
+    this.mode=m;
+    document.getElementById('td-tab-truth').classList.toggle('active',m==='truth');
+    document.getElementById('td-tab-dare').classList.toggle('active',m==='dare');
+    document.getElementById('td-text').textContent='Tap spin to get your '+m+' card!';
+  },
+  spin(){
+    const list=this.mode==='truth'?this.TRUTH:this.DARE;
+    const item=list[Math.floor(Math.random()*list.length)];
+    const el=document.getElementById('td-text');
+    el.style.opacity='0'; el.style.transform='scale(0.9)';
+    setTimeout(()=>{el.textContent=item;el.style.transition='opacity .28s,transform .28s';el.style.opacity='1';el.style.transform='scale(1)';},220);
+  }
+},
+
+/* ────────────────────────────────
+   3. WOULD YOU RATHER (live)
+──────────────────────────────── */
+wyr:{
+  idx:0, myChoice:null, theirChoice:null,
+  QUESTIONS:[
+    ["Kiss in the rain 🌧️","Kiss under the stars 🌟"],
+    ["Cook dinner together at home 🍳","Go out to a fancy restaurant 🍷"],
+    ["Travel to Paris together 🗼","Travel to Bali together 🌴"],
+    ["Receive a handwritten love letter 💌","Receive a surprise gift 🎁"],
+    ["Dance together at home 💃","Dance at a big party 🎉"],
+    ["Wake up to breakfast in bed 🍳","Wake up to a sweet good morning text 📱"],
+    ["Have a beach vacation 🏖️","Have a mountain cabin getaway 🏔️"],
+    ["Watch a romantic movie 🎬","Go on a spontaneous night drive 🚗"],
+    ["Know exactly what the other is thinking 💭","Always know how the other is feeling 💕"],
+    ["Grow old together in a cozy cottage 🏡","Grow old together in a city penthouse 🌆"],
+    ["Re-read all our texts from the start 📱","Relive our very first meeting 🥰"],
+    ["Have our song play at our wedding 🎵","Write vows that make everyone cry 📝"],
+    ["Be each other's first love","Be each other's last love ❤️"],
+    ["Surprise road trip tomorrow 🚗","Surprise getaway next weekend ✈️"],
+    ["Never fight but sometimes get bored","Fight sometimes but always make up passionately 💋"],
+  ],
+  myName(){return currentSender==='husband'?'Arsene':'Majorine';},
+  partnerName(){return currentSender==='husband'?'Majorine':'Arsene';},
+  init(c){
+    const g=this; g.idx=0; g.myChoice=null; g.theirChoice=null;
+    c.innerHTML=`
+      <div class="gs-title">Would You Rather 🤔</div>
+      <div class="gs-sub">Pick one — see what your partner chooses live</div>
+      <div id="wyr-body"></div>`;
+    g.render();
+    makeChannel('wyr',{
+      wyr_pick: p=>{ if(p.sender!==currentSender){ g.theirChoice=p.opt; g.renderResult(); } },
+      wyr_next: p=>{ g.idx=p.idx; g.myChoice=null; g.theirChoice=null; g.render(); }
+    });
+  },
+  render(){
+    const [a,b]=this.QUESTIONS[this.idx%this.QUESTIONS.length];
+    document.getElementById('wyr-body').innerHTML=`
+      <div class="mirror-card">
+        <div class="wyr-question">Would you rather…</div>
+        <div class="wyr-options">
+          <div class="wyr-opt" id="wyr-a" onclick="GAMES.wyr.pick('a')">${a}</div>
+          <div class="wyr-or">— OR —</div>
+          <div class="wyr-opt" id="wyr-b" onclick="GAMES.wyr.pick('b')">${b}</div>
+        </div>
+        <div class="status-line" id="wyr-status">Pick one!</div>
+        <div id="wyr-bars" style="display:none">
+          <div class="wyr-bar-wrap">
+            <span class="wyr-bar-lbl" id="wyr-pct-a">0%</span>
+            <div class="wyr-bar wyr-bar-a"><div class="wyr-bar-fill" id="wyr-fill-a" style="width:0%"></div></div>
+          </div>
+          <div class="wyr-bar-wrap">
+            <span class="wyr-bar-lbl" id="wyr-pct-b">0%</span>
+            <div class="wyr-bar wyr-bar-b"><div class="wyr-bar-fill" id="wyr-fill-b" style="width:0%"></div></div>
+          </div>
+          <button class="btn-secondary" style="margin-top:.8rem" onclick="GAMES.wyr.next()">Next Question ➜</button>
+        </div>
+      </div>`;
+  },
+  pick(opt){
+    if(this.myChoice) return;
+    this.myChoice=opt;
+    document.getElementById('wyr-'+opt).classList.add('chosen-'+opt);
+    document.getElementById('wyr-status').textContent='Waiting for '+this.partnerName()+'… 💌';
+    ['a','b'].forEach(x=>{ const el=document.getElementById('wyr-'+x); if(el&&x!==opt) el.style.pointerEvents='none'; });
+    broadcast('wyr_pick',{opt});
+    if(this.theirChoice) this.renderResult();
+  },
+  renderResult(){
+    if(!this.myChoice||!this.theirChoice) return;
+    const aVotes=[this.myChoice,this.theirChoice].filter(x=>x==='a').length;
+    const bVotes=2-aVotes;
+    const aPct=aVotes*50, bPct=bVotes*50;
+    document.getElementById('wyr-status').textContent='';
+    document.getElementById('wyr-bars').style.display='block';
+    setTimeout(()=>{
+      document.getElementById('wyr-fill-a').style.width=aPct+'%';
+      document.getElementById('wyr-fill-b').style.width=bPct+'%';
+      document.getElementById('wyr-pct-a').textContent=aPct+'%';
+      document.getElementById('wyr-pct-b').textContent=bPct+'%';
+    },100);
+  },
+  next(){
+    this.idx++; this.myChoice=null; this.theirChoice=null;
+    broadcast('wyr_next',{idx:this.idx});
+    this.render();
+  }
+},
+
+/* ────────────────────────────────
+   4. NEVER HAVE I EVER (live)
+──────────────────────────────── */
+nhie:{
+  idx:0, myAns:null, theirAns:null,
+  CARDS:[
+    "Never have I ever stayed up all night thinking about someone 🌙",
+    "Never have I ever cried at a romantic movie 🎬",
+    "Never have I ever sent a love letter or long text at 3am 💌",
+    "Never have I ever stalked someone's social media a little too much 📱",
+    "Never have I ever planned a surprise for someone special 🎁",
+    "Never have I ever danced alone thinking about someone 💃",
+    "Never have I ever memorised someone's schedule without them knowing 😏",
+    "Never have I ever had butterflies so bad I couldn't speak 🦋",
+    "Never have I ever kissed someone in the rain 🌧️",
+    "Never have I ever fallen asleep on a phone call 📞",
+    "Never have I ever driven somewhere just to see someone for 5 minutes 🚗",
+    "Never have I ever written someone's name in a heart ❤️",
+    "Never have I ever liked someone so much it scared me 😳",
+    "Never have I ever dreamt about someone and woken up smiling 😊",
+    "Never have I ever kept a photo of someone as my wallpaper for months 🖼️",
+    "Never have I ever skipped sleep just to keep talking to someone 💬",
+    "Never have I ever planned a future with someone in my head 🌟",
+    "Never have I ever been so happy I didn't know what to do with myself 🥹",
+  ],
+  myName(){return currentSender==='husband'?'Arsene':'Majorine';},
+  partnerName(){return currentSender==='husband'?'Majorine':'Arsene';},
+  init(c){
+    const g=this; g.idx=0; g.myAns=null; g.theirAns=null;
+    c.innerHTML=`
+      <div class="gs-title">Never Have I Ever 🙈</div>
+      <div class="gs-sub">Tap your response — see what your partner says</div>
+      <div id="nhie-body"></div>`;
+    g.render();
+    makeChannel('nhie',{
+      nhie_ans: p=>{ if(p.sender!==currentSender){ g.theirAns=p.ans; g.checkReveal(); } },
+      nhie_next: p=>{ g.idx=p.idx; g.myAns=null; g.theirAns=null; g.render(); }
+    });
+  },
+  render(){
+    const card=this.CARDS[this.idx%this.CARDS.length];
+    document.getElementById('nhie-body').innerHTML=`
+      <div class="mirror-card">
+        <div class="nhie-card-text" id="nhie-text">${card}</div>
+        <div class="nhie-actions" id="nhie-acts">
+          <button class="nhie-btn have" onclick="GAMES.nhie.answer('have')">🙋 I Have!</button>
+          <button class="nhie-btn never" onclick="GAMES.nhie.answer('never')">🙅 Never!</button>
+        </div>
+        <div class="nhie-resp" id="nhie-resp"></div>
+        <div id="nhie-next-wrap" style="display:none;margin-top:.6rem">
+          <button class="btn-secondary" onclick="GAMES.nhie.next()">Next Card ➜</button>
+        </div>
+      </div>`;
+  },
+  answer(ans){
+    if(this.myAns) return;
+    this.myAns=ans;
+    document.querySelectorAll('.nhie-btn').forEach(b=>b.disabled=true);
+    document.getElementById('nhie-resp').textContent='Waiting for '+this.partnerName()+'… 💌';
+    broadcast('nhie_ans',{ans});
+    this.checkReveal();
+  },
+  checkReveal(){
+    if(!this.myAns||!this.theirAns) return;
+    const me=this.myAns, them=this.theirAns;
+    const mn=this.myName(), pn=this.partnerName();
+    const meHave=me==='have', themHave=them==='have';
+    let resp='';
+    if(meHave&&themHave) resp='Both of you have! 🥳';
+    else if(!meHave&&!themHave) resp='Neither of you — true innocents 😇';
+    else if(meHave) resp=mn+' has! '+pn+' never has 😏';
+    else resp=pn+' has! '+mn+' never has 😏';
+    document.getElementById('nhie-resp').textContent=resp;
+    document.getElementById('nhie-next-wrap').style.display='block';
+  },
+  next(){
+    this.idx++; this.myAns=null; this.theirAns=null;
+    broadcast('nhie_next',{idx:this.idx});
+    this.render();
+  }
+},
+
+/* ────────────────────────────────
+   5. WORD CHAIN (live)
+──────────────────────────────── */
+wc:{
+  currentWord:'', myTurn:false, history:[],
+  STARTERS:['love','rose','heart','sweet','kiss','star','dream','moon','light','soul','warm','fire','soft','grace','bloom'],
+  myName(){return currentSender==='husband'?'Arsene':'Majorine';},
+  partnerName(){return currentSender==='husband'?'Majorine':'Arsene';},
+  init(c){
+    const g=this; g.history=[]; g.myTurn=currentSender==='husband';
+    const starter=g.STARTERS[Math.floor(Math.random()*g.STARTERS.length)];
+    g.currentWord=starter;
+    c.innerHTML=`
+      <div class="gs-title">Word Chain 💬🔗</div>
+      <div class="gs-sub">Each word must start with the last letter of the previous word</div>
+      <div class="mirror-card">
+        <div class="wc-word-display" id="wc-current">${starter}</div>
+        <div class="wc-hint" id="wc-hint">Next word must start with: <strong>${starter.slice(-1).toUpperCase()}</strong></div>
+        <div class="wc-history" id="wc-history"></div>
+        <div class="status-line" id="wc-status">${g.myTurn?'Your turn!':g.partnerName()+"'s turn…"}</div>
+        <div class="wc-input-row">
+          <input class="wc-input" id="wc-inp" placeholder="Type a word…" onkeydown="if(event.key==='Enter')GAMES.wc.submit()"/>
+          <button class="wc-send" onclick="GAMES.wc.submit()">Send</button>
+        </div>
+        <div class="wc-timer" id="wc-timer"></div>
+      </div>`;
+    g.refreshInput();
+    makeChannel('wc',{
+      wc_word: p=>{ if(p.sender!==currentSender){ g.receiveWord(p.word,p.sender); } },
+      wc_reset: p=>{ g.currentWord=p.starter; g.history=[]; g.myTurn=currentSender==='husband'; g.renderHistory(); g.setCurrentWord(p.starter,null); document.getElementById('wc-status').textContent=g.myTurn?'Your turn!':g.partnerName()+"'s turn…"; g.refreshInput(); }
+    });
+  },
+  submit(){
+    if(!this.myTurn){toast('Not your turn yet! 😅');return;}
+    const inp=document.getElementById('wc-inp');
+    const word=inp.value.trim().toLowerCase().replace(/[^a-z]/g,'');
+    if(!word){toast('Type a word!');return;}
+    if(word[0]!==this.currentWord.slice(-1)){toast('Must start with "'+this.currentWord.slice(-1).toUpperCase()+'"!');return;}
+    if(this.history.find(h=>h.word===word)){toast('Already used that word!');return;}
+    inp.value='';
+    this.history.push({word,sender:currentSender});
+    this.setCurrentWord(word,currentSender);
+    this.myTurn=false;
+    document.getElementById('wc-status').textContent='Waiting for '+this.partnerName()+'… 💌';
+    this.refreshInput();
+    broadcast('wc_word',{word});
+    this.renderHistory();
+  },
+  receiveWord(word,sender){
+    this.history.push({word,sender});
+    this.setCurrentWord(word,sender);
+    this.myTurn=true;
+    document.getElementById('wc-status').textContent='Your turn!';
+    this.refreshInput();
+    this.renderHistory();
+  },
+  setCurrentWord(w,sender){
+    this.currentWord=w;
+    const el=document.getElementById('wc-current'); if(el) el.textContent=w;
+    const hint=document.getElementById('wc-hint'); if(hint) hint.innerHTML='Next word must start with: <strong>'+w.slice(-1).toUpperCase()+'</strong>';
+  },
+  refreshInput(){
+    const inp=document.getElementById('wc-inp'); if(!inp) return;
+    inp.disabled=!this.myTurn;
+    inp.placeholder=this.myTurn?'Type a word…':'Waiting for '+this.partnerName()+'…';
+  },
+  renderHistory(){
+    const h=document.getElementById('wc-history'); if(!h) return;
+    h.innerHTML=this.history.slice().reverse().map(({word,sender})=>
+      `<span class="wc-chip ${sender===currentSender?'me-word':'her-word'}">${word}</span>`
+    ).join('');
+  }
+},
+
+/* ────────────────────────────────
+   6. EMOJI PUZZLE (solo)
+──────────────────────────────── */
+ep:{
+  idx:0, hintsLeft:3, score:0, revealed:false,
+  PUZZLES:[
+    {emojis:'🌹❤️💍',answer:'Will You Marry Me',hint:'A proposal!'},
+    {emojis:'🌙⭐💫',answer:'Goodnight My Star',hint:'A loving farewell'},
+    {emojis:'💋😍🔥',answer:'You Drive Me Crazy',hint:'Strong feelings'},
+    {emojis:'🤝💕🌍',answer:'Together Forever',hint:'A promise'},
+    {emojis:'🦋💃🎶',answer:'Dancing With You',hint:'Moving together'},
+    {emojis:'🌅☕😊',answer:'Good Morning Beautiful',hint:'A greeting'},
+    {emojis:'🏠❤️👫',answer:'Home Is With You',hint:'Where love lives'},
+    {emojis:'💌✍️🌙',answer:'Love Letter At Midnight',hint:'Written feelings'},
+    {emojis:'🎂🕯️🥰',answer:'Happy Birthday My Love',hint:'A celebration'},
+    {emojis:'🚗🌌🎶',answer:'Midnight Drive Together',hint:'A romantic ride'},
+    {emojis:'💐👗👠',answer:'Dressed Up For You',hint:'Getting ready'},
+    {emojis:'🌊🏖️🌅',answer:'Sunset On The Beach',hint:'Beautiful scenery'},
+    {emojis:'🎵💓🎤',answer:'Our Song',hint:'Short and sweet'},
+    {emojis:'😴💭❤️',answer:'Dreaming Of You',hint:'Thoughts in sleep'},
+    {emojis:'🍷🕯️🌹',answer:'Romantic Dinner',hint:'A special evening'},
+    {emojis:'📸😊🖼️',answer:'Our Favourite Photo',hint:'A captured memory'},
+    {emojis:'✈️🌍👫',answer:'Travel The World Together',hint:'Adventure awaits'},
+    {emojis:'🤗💕🫂',answer:'You Are My Comfort',hint:'Safety in love'},
+  ],
+  init(c){
+    const g=this; g.idx=0; g.score=0; g.hintsLeft=3; g.revealed=false;
+    c.innerHTML=`
+      <div class="gs-title">Emoji Puzzle 🤩🔍</div>
+      <div class="gs-sub">Guess the romantic phrase from the emojis</div>
+      <div id="ep-body"></div>`;
+    g.render();
+  },
+  render(){
+    const p=this.PUZZLES[this.idx%this.PUZZLES.length];
+    this.revealed=false;
+    document.getElementById('ep-body').innerHTML=`
+      <div class="mirror-card">
+        <div class="ep-category">Puzzle ${(this.idx%this.PUZZLES.length)+1} of ${this.PUZZLES.length}</div>
+        <div class="ep-puzzle">${p.emojis}</div>
+        <div class="ep-input-row">
+          <input class="ep-input" id="ep-inp" placeholder="Type your guess…" onkeydown="if(event.key==='Enter')GAMES.ep.guess()"/>
+          <button class="ep-hint-btn" onclick="GAMES.ep.hint()">💡 Hint (${this.hintsLeft})</button>
+        </div>
+        <button class="btn-primary" style="margin-top:.6rem" onclick="GAMES.ep.guess()">Guess ➜</button>
+        <div class="ep-answer" id="ep-answer"></div>
+        <div id="ep-next" style="display:none;margin-top:.5rem">
+          <button class="btn-secondary" onclick="GAMES.ep.next()">Next Puzzle ➜</button>
+        </div>
+        <div class="ep-score" id="ep-score">Score: ${this.score}</div>
+      </div>`;
+  },
+  guess(){
+    const inp=document.getElementById('ep-inp');
+    const val=inp.value.trim().toLowerCase();
+    const ans=this.PUZZLES[this.idx%this.PUZZLES.length].answer.toLowerCase();
+    const el=document.getElementById('ep-answer');
+    if(!val){toast('Type a guess!');return;}
+    if(val===ans||ans.includes(val)||val.includes(ans.split(' ')[0])){
+      el.textContent='🎉 Correct! "'+this.PUZZLES[this.idx%this.PUZZLES.length].answer+'"';
+      el.style.color='var(--teal)';
+      this.score++; if(!this.revealed) addScore('win');
+      document.getElementById('ep-score').textContent='Score: '+this.score;
+      document.getElementById('ep-next').style.display='block';
+      inp.disabled=true;
+    } else {
+      el.textContent='Not quite — try again 💭';
+      el.style.color='var(--rose)';
+    }
+  },
+  hint(){
+    if(this.hintsLeft<=0){toast('No hints left!');return;}
+    this.hintsLeft--;
+    const p=this.PUZZLES[this.idx%this.PUZZLES.length];
+    toast('Hint: '+p.hint+' 💡');
+    const btn=document.querySelector('.ep-hint-btn');
+    if(btn) btn.textContent='💡 Hint ('+this.hintsLeft+')';
+    this.revealed=true;
+  },
+  next(){
+    this.idx++;
+    this.render();
+  }
+},
+
+/* ────────────────────────────────
+   7. LOVE LETTERS (live)
+──────────────────────────────── */
+ll:{
+  letters:[],
+  myName(){return currentSender==='husband'?'Arsene':'Majorine';},
+  partnerName(){return currentSender==='husband'?'Majorine':'Arsene';},
+  init(c){
+    const g=this; g.letters=[];
+    c.innerHTML=`
+      <div class="gs-title">Love Letters 💌✍️</div>
+      <div class="gs-sub">Write a secret note — it appears instantly on their screen</div>
+      <div class="mirror-card ll-compose">
+        <textarea class="ll-textarea" id="ll-text" placeholder="My dearest ${g.partnerName()}, …" rows="5"></textarea>
+        <button class="btn-primary" onclick="GAMES.ll.send()">Send Letter 💌</button>
+      </div>
+      <div class="ll-inbox" id="ll-inbox"><div class="ll-empty">No letters yet… be the first 🌹</div></div>`;
+    makeChannel('ll',{
+      ll_letter: p=>{ if(p.sender!==currentSender){ g.addLetter(p.sender,p.text,p.time); } }
+    });
+  },
+  send(){
+    const ta=document.getElementById('ll-text');
+    const txt=ta.value.trim();
+    if(!txt){toast('Write something first! 🌹');return;}
+    const time=new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+    broadcast('ll_letter',{text:txt,time});
+    ta.value='';
+    toast('Letter sent! 💌');
+  },
+  addLetter(sender,text,time){
+    const name=sender==='husband'?'Arsene':'Majorine';
+    const inbox=document.getElementById('ll-inbox');
+    if(!inbox) return;
+    const empty=inbox.querySelector('.ll-empty');
+    if(empty) empty.remove();
+    const div=document.createElement('div');
+    div.className='ll-letter';
+    div.innerHTML=`<div class="ll-letter-from">From ${name} 🌹</div><div class="ll-letter-text">${text}</div><div class="ll-letter-time">${time}</div>`;
+    inbox.insertBefore(div,inbox.firstChild);
+    this.letters.push({sender,text,time});
+  }
+},
+
+/* ────────────────────────────────
+   8. COUPLES QUIZ (solo)
+──────────────────────────────── */
+cq:{
+  idx:0, score:0, answered:false,
+  QUESTIONS:[
+    {q:"Who said 'I love you' first?",opts:['Arsene','Majorine','Both at once','Not yet said'],correct:0},
+    {q:"What is Majorine's favourite colour?",opts:['Pink','Purple','Red','Blue'],correct:0},
+    {q:"Where did you first meet?",opts:['Online','School','Work','Through friends'],correct:0},
+    {q:"Who is more romantic?",opts:['Arsene','Majorine','Both equally','Neither'],correct:1},
+    {q:"What is Arsene's love language?",opts:['Words of affirmation','Physical touch','Acts of service','Quality time'],correct:3},
+    {q:"Who takes longer to get ready?",opts:['Arsene','Majorine','Same time','Depends on the occasion'],correct:1},
+    {q:"What is your couple song?",opts:['We have one','We\'re still looking','We disagree','Songs are overrated'],correct:0},
+    {q:"Who is more likely to plan a surprise?",opts:['Arsene','Majorine','Both','Neither'],correct:0},
+    {q:"Who apologises first after an argument?",opts:['Arsene','Majorine','Whoever was wrong','We work it out together'],correct:3},
+    {q:"Where is your dream holiday together?",opts:['Paris','Maldives','Tokyo','Cape Town'],correct:0},
+  ],
+  init(c){
+    const g=this; g.idx=0; g.score=0; g.answered=false;
+    c.innerHTML=`
+      <div class="gs-title">Couples Quiz 💑🧠</div>
+      <div class="gs-sub">Test how well you know each other — choose honestly!</div>
+      <div class="cq-progress" id="cq-progress"></div>
+      <div id="cq-body"></div>`;
+    g.renderPips();
+    g.render();
+  },
+  renderPips(){
+    const el=document.getElementById('cq-progress'); if(!el) return;
+    el.innerHTML=this.QUESTIONS.map((_,i)=>`<div class="cq-pip${i===this.idx?' current':''}" id="cq-pip-${i}"></div>`).join('');
+  },
+  render(){
+    const q=this.QUESTIONS[this.idx]; this.answered=false;
+    document.getElementById('cq-body').innerHTML=`
+      <div class="mirror-card">
+        <div class="cq-question">${q.q}</div>
+        <div class="cq-opts" id="cq-opts">
+          ${q.opts.map((o,i)=>`<button class="cq-opt" onclick="GAMES.cq.pick(${i})">${o}</button>`).join('')}
+        </div>
+        <div class="status-line" id="cq-status"></div>
+        <div id="cq-next-wrap" style="display:none;margin-top:.4rem">
+          <button class="btn-secondary" onclick="GAMES.cq.next()">${this.idx<this.QUESTIONS.length-1?'Next Question ➜':'See Results 🎉'}</button>
+        </div>
+      </div>`;
+  },
+  pick(i){
+    if(this.answered) return;
+    this.answered=true;
+    const q=this.QUESTIONS[this.idx];
+    const btns=document.querySelectorAll('.cq-opt');
+    btns.forEach(b=>b.disabled=true);
+    btns[i].classList.add(i===q.correct?'correct':'wrong');
+    if(i===q.correct){btns[i].classList.add('correct');this.score++;document.getElementById('cq-status').textContent='✅ Correct!';addScore('win');}
+    else{btns[q.correct].classList.add('correct');document.getElementById('cq-status').textContent='❌ The answer was: '+q.opts[q.correct];}
+    const pip=document.getElementById('cq-pip-'+this.idx);
+    if(pip){pip.classList.remove('current');pip.classList.add(i===q.correct?'done-correct':'done-wrong');}
+    document.getElementById('cq-next-wrap').style.display='block';
+  },
+  next(){
+    this.idx++;
+    if(this.idx>=this.QUESTIONS.length){
+      document.getElementById('cq-body').innerHTML=`
+        <div class="mirror-card" style="text-align:center">
+          <div style="font-size:2.5rem;margin-bottom:.6rem">🏆</div>
+          <div class="gs-title">Quiz Complete!</div>
+          <div style="font-size:1rem;color:var(--text-dim);margin:.5rem 0">You scored <strong style="color:var(--teal)">${this.score}/${this.QUESTIONS.length}</strong></div>
+          <div style="font-size:.85rem;color:var(--text-mute);margin-bottom:1rem">${this.score>=8?'You know each other so well! ❤️':this.score>=5?'Pretty good! Keep learning 💕':'Keep talking — love grows! 🌱'}</div>
+          <button class="btn-primary" onclick="GAMES.cq.init(document.getElementById('game-content'))">Play Again 🔄</button>
+        </div>`;
+      return;
+    }
+    const pip=document.getElementById('cq-pip-'+(this.idx-1));
+    if(pip) pip.classList.remove('current');
+    const npip=document.getElementById('cq-pip-'+this.idx);
+    if(npip) npip.classList.add('current');
+    this.render();
+  }
+},
+
+/* ────────────────────────────────
+   9. SPIN THE WHEEL (solo)
+──────────────────────────────── */
+stw:{
+  spinning:false,
+  SEGMENTS:[
+    {label:'Forehead kiss',color:'#b5445a'},
+    {label:'Say I love you',color:'#8a5ac8'},
+    {label:'Send a meme',color:'#c49a3c'},
+    {label:'Write a compliment',color:'#3dbfa0'},
+    {label:'Hug for 10 sec',color:'#b5445a'},
+    {label:'Voice note',color:'#8a5ac8'},
+    {label:'Share a memory',color:'#c49a3c'},
+    {label:'Say something romantic',color:'#3dbfa0'},
+    {label:'Plan next date',color:'#b5445a'},
+    {label:'Sing a lyric',color:'#8a5ac8'},
+    {label:'Tell a secret',color:'#c49a3c'},
+    {label:'Name 3 things you love',color:'#3dbfa0'},
+  ],
+  angle:0,
+  init(c){
+    const g=this; g.spinning=false; g.angle=0;
+    c.innerHTML=`
+      <div class="gs-title">Spin the Wheel 🎡✨</div>
+      <div class="gs-sub">Tap the wheel or the button — do whatever it lands on!</div>
+      <div class="stw-wheel-wrap" id="stw-wrap">
+        <canvas id="stw-canvas" width="280" height="280" onclick="GAMES.stw.spin()"></canvas>
+        <div class="stw-pointer"></div>
+      </div>
+      <div class="stw-result" id="stw-result">Tap the wheel to spin! 🌹</div>
+      <button class="btn-primary" onclick="GAMES.stw.spin()">✨ Spin!</button>`;
+    g.draw(0);
+  },
+  draw(rot){
+    const canvas=document.getElementById('stw-canvas'); if(!canvas) return;
+    const ctx=canvas.getContext('2d');
+    const cx=140,cy=140,r=130;
+    const segs=this.SEGMENTS, n=segs.length, arc=(2*Math.PI)/n;
+    ctx.clearRect(0,0,280,280);
+    for(let i=0;i<n;i++){
+      const a=rot+i*arc;
+      ctx.beginPath(); ctx.moveTo(cx,cy);
+      ctx.arc(cx,cy,r,a,a+arc);
+      ctx.closePath();
+      ctx.fillStyle=segs[i].color+'cc'; ctx.fill();
+      ctx.strokeStyle='rgba(255,255,255,0.12)'; ctx.lineWidth=1.5; ctx.stroke();
+      ctx.save(); ctx.translate(cx,cy); ctx.rotate(a+arc/2);
+      ctx.textAlign='right'; ctx.fillStyle='rgba(255,255,255,0.9)';
+      ctx.font='bold 11px Nunito,sans-serif';
+      ctx.fillText(segs[i].label,r-8,4);
+      ctx.restore();
+    }
+    // centre circle
+    ctx.beginPath(); ctx.arc(cx,cy,18,0,2*Math.PI);
+    ctx.fillStyle='rgba(18,14,28,0.9)'; ctx.fill();
+    ctx.strokeStyle='rgba(255,255,255,0.15)'; ctx.lineWidth=2; ctx.stroke();
+    ctx.fillStyle='rgba(240,236,248,0.7)'; ctx.font='14px serif'; ctx.textAlign='center'; ctx.textBaseline='middle';
+    ctx.fillText('🌹',cx,cy);
+  },
+  spin(){
+    if(this.spinning) return;
+    this.spinning=true;
+    const extra=Math.PI*2*(4+Math.random()*4)+Math.random()*Math.PI*2;
+    const total=this.angle+extra;
+    const start=performance.now(), dur=3500;
+    const g=this;
+    function step(now){
+      const t=Math.min((now-start)/dur,1);
+      const ease=1-Math.pow(1-t,3);
+      const cur=g.angle+extra*ease;
+      g.draw(cur);
+      if(t<1){requestAnimationFrame(step);}
+      else{
+        g.angle=total%(Math.PI*2);
+        g.spinning=false;
+        // figure out which segment is at top (pointer at top = angle 3pi/2 from start)
+        const n=g.SEGMENTS.length, arc=(2*Math.PI)/n;
+        const norm=(((-g.angle+Math.PI*1.5)%(Math.PI*2))+Math.PI*2)%(Math.PI*2);
+        const idx=Math.floor(norm/arc)%n;
+        document.getElementById('stw-result').textContent='✨ '+g.SEGMENTS[idx].label+'!';
+      }
+    }
+    requestAnimationFrame(step);
+  }
+},
+
+/* ────────────────────────────────
+   10. MOST LIKELY TO (live)
+──────────────────────────────── */
+mlt:{
+  idx:0, myVote:null, theirVote:null,
+  CARDS:[
+    "Most likely to cry at a happy ending 🎬",
+    "Most likely to plan a surprise date 🎁",
+    "Most likely to fall asleep during a movie 😴",
+    "Most likely to get lost without GPS 🗺️",
+    "Most likely to say 'I love you' first in the morning ☀️",
+    "Most likely to eat the other person's food 🍕",
+    "Most likely to take 100 photos on a date 📸",
+    "Most likely to sing in the shower 🎤",
+    "Most likely to stay up worrying about the other 🌙",
+    "Most likely to apologise first 🙏",
+    "Most likely to cry happy tears at the wedding 💒",
+    "Most likely to spoil the kids rotten one day 👶",
+    "Most likely to be late to everything ⏰",
+    "Most likely to keep loving the other forever ❤️",
+    "Most likely to quote a movie in a serious conversation 🎬",
+    "Most likely to get jealous 😏",
+    "Most likely to cook a terrible meal and still be proud 🍳",
+    "Most likely to embarrass the other in public 😂",
+  ],
+  myName(){return currentSender==='husband'?'Arsene':'Majorine';},
+  partnerName(){return currentSender==='husband'?'Majorine':'Arsene';},
+  init(c){
+    const g=this; g.idx=0; g.myVote=null; g.theirVote=null;
+    c.innerHTML=`
+      <div class="gs-title">Most Likely To 🏆😂</div>
+      <div class="gs-sub">Both vote secretly — see if you agree!</div>
+      <div id="mlt-body"></div>`;
+    g.render();
+    makeChannel('mlt',{
+      mlt_vote: p=>{ if(p.sender!==currentSender){ g.theirVote=p.vote; g.checkReveal(); } },
+      mlt_next: p=>{ g.idx=p.idx; g.myVote=null; g.theirVote=null; g.render(); }
+    });
+  },
+  render(){
+    const card=this.CARDS[this.idx%this.CARDS.length];
+    document.getElementById('mlt-body').innerHTML=`
+      <div class="mirror-card">
+        <div class="mlt-card-text" id="mlt-text">${card}</div>
+        <div class="mlt-vote-row" id="mlt-votes">
+          <button class="mlt-vote-btn" onclick="GAMES.mlt.vote('${this.myName()}')">${this.myName()} 🙋</button>
+          <button class="mlt-vote-btn" onclick="GAMES.mlt.vote('${this.partnerName()}')">${this.partnerName()} 🙋</button>
+          <button class="mlt-vote-btn" onclick="GAMES.mlt.vote('Both')">Both 🥰</button>
+        </div>
+        <div class="mlt-tally" id="mlt-tally"></div>
+        <div id="mlt-next" style="display:none;margin-top:.6rem">
+          <button class="btn-secondary" onclick="GAMES.mlt.next()">Next Card ➜</button>
+        </div>
+      </div>`;
+  },
+  vote(who){
+    if(this.myVote) return;
+    this.myVote=who;
+    document.querySelectorAll('.mlt-vote-btn').forEach(b=>{b.disabled=true;if(b.textContent.startsWith(who))b.classList.add('voted');});
+    document.getElementById('mlt-tally').textContent='Waiting for '+this.partnerName()+'… 💌';
+    broadcast('mlt_vote',{vote:who});
+    this.checkReveal();
+  },
+  checkReveal(){
+    if(!this.myVote||!this.theirVote) return;
+    const match=this.myVote===this.theirVote;
+    const mn=this.myName(), pn=this.partnerName();
+    let msg=mn+' said: '+this.myVote+' · '+pn+' said: '+this.theirVote;
+    if(match) msg+=' — You agree! 🎉';
+    else msg+=' — You disagree 😄';
+    document.getElementById('mlt-tally').textContent=msg;
+    document.getElementById('mlt-next').style.display='block';
+    if(match) addScore('win');
+  },
+  next(){
+    this.idx++; this.myVote=null; this.theirVote=null;
+    broadcast('mlt_next',{idx:this.idx});
+    this.render();
+  }
+}
+
+}; // end GAMES
+
+</script>
+</body>
+</html>
