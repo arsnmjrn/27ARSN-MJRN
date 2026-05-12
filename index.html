@@ -74,16 +74,7 @@
 
 <script>
 // ─────────────────────────────────────────────────────────────────
-// HOW THIS WORKS:
-// Answers are stored as SHA-256 hashes. Even if someone reads this
-// code, they only see a hash — not the actual answer. They would
-// need to guess the answer, hash it, and compare — which is the
-// same as just guessing the answer directly.
-//
-// To update an answer:
-//   1. Go to https://emn178.github.io/online-tools/sha256.html
-//   2. Type your answer (lowercase, trimmed)
-//   3. Copy the hash and replace the one below
+
 // ─────────────────────────────────────────────────────────────────
 
 (function () {
@@ -94,43 +85,41 @@
   const MAX_FAILS = 8;
   const LOCKOUT_MS = 2 * 60 * 1000; // 2 minutes cooldown
 
-  // ── QUESTIONS & HASHED ANSWERS ─────────────────────────────────
-  // Each hash is SHA-256 of the answer in lowercase with spaces normalized.
-  // e.g. "FAITHFULLNESS" → normalize → "faithfullness" → SHA-256 hash
+
   const Q = [
     {
       q: "What is the number?",
-      // SHA-256 of "27"
+      // "27"
       h: "670671cd97404156226e507973f2ab8330d3022ca96e0c93bdbdb320c41adcaf",
       hint: "Think carefully, my love..."
     },
     {
       q: "What is the love code?",
-      // SHA-256 of "wfwtwf"
+      //  "love birds"
       h: "2f707f7bd62d62b1a431a81583f0ae2f08795cadfa259ef5e96372ba3918beb4",
       hint: "Only we know this one..."
     },
     {
       q: "How many kids?",
-      // SHA-256 of "5"
+      // "5"
       h: "37bd40c9dd9bb3a391b357eb42431071873fb6b55fbb50ab6fbc484776bbcccb",
       hint: "Our little family..."
     },
     {
       q: "Behind the necklace?",
-      // SHA-256 of "no matter what i will love you always"
+      // "no matter what i will love you always"
       h: "034405dcf0b33df7d76d2a002914e341ac8bfdffbdc953024190f223ae7ee9d1",
       hint: "Those special words..."
     },
     {
       q: "What do we rely on?",
-      // SHA-256 of "faithfullness"
+      //"faithfullness"
       h: "4ea7c508a7b9e04431cac6b67fd8610e31d2a372283652ad256512b13a21f1d6",
       hint: "Our foundation..."
     },
     {
       q: "What did Jedieh say?",
-      // SHA-256 of "faithfullness"
+      //"faithfullness"
       h: "4c6c3b493e175a63386df29ed8c08c0ab3b9c0d3ea50ce96698bc3e26465c28f",
       hint: "Our foundation..."
     }
