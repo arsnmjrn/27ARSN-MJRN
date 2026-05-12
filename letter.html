@@ -796,12 +796,21 @@ function leaveChat(){
 }
 
 /* ── HISTORY ── */
-async function loadHistory(){
-  const {data,error}=await supabaseClient
-    .from('messages').select('*')
-    .order('created_at',{ascending:true}).limit(300);
-  if(error){console.error('History:',error);toast('⚠️ Could not load messages: '+error.message);return;}
-  messages=data||[];
+async function loadHistory() {
+  const { data, error } = await supabaseClient
+    .from('messages')
+    .select('*')
+    .order('created_at', { ascending: true });
+
+  if (error) {
+    console.error('LOAD HISTORY ERROR:', error);
+    alert('History error: ' + error.message);
+    return;
+  }
+
+  console.log('Loaded messages:', data);
+
+  messages = data || [];
   renderAll();
   await markAllRead();
 }
